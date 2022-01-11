@@ -3,7 +3,9 @@ package qiwi.model;
 import qiwi.model.input.ClientInput;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "clients")
@@ -14,6 +16,9 @@ public class Client extends AbstractEntity {
     private String phone;
     private String mail;
     private String passport;
+
+    @ManyToMany(mappedBy = "clients")
+    private List<Bank> banks;
 
     public Client() {
     }
@@ -48,6 +53,10 @@ public class Client extends AbstractEntity {
         }
     }
 
+    public void addBank(Bank bank) {
+        banks.add(bank);
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -70,6 +79,10 @@ public class Client extends AbstractEntity {
 
     public String getPassport() {
         return passport;
+    }
+
+    public List<Bank> getBanks() {
+        return banks;
     }
 
     public void setFirstName(String firstName) {

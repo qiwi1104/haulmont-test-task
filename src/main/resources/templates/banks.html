@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Banks</title>
+    <link th:replace="fragments/css :: css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<br/>
+<div>
+    <form action="#" th:action="@{/banks/add}" th:object="${bankInput}" method="post">
+        <table th:fragment="add" class="hiddenPanel" id="add">
+            <div th:replace="fragments/commonAttributes :: commonAttributesBanks"></div>
+            <tr>
+                <td>
+                    <input type="submit" value="add bank">
+                    <div th:replace="fragments/errorMessages :: alreadyExistsBank"></div>
+                    <div th:replace="fragments/errorMessages :: emptyFieldsBank"></div>
+                    <div th:replace="fragments/errorMessages :: invalidFieldsBank"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <form action="#" th:action="@{'/banks/addClient'}" th:object="${clientInput}" method="post">
+        <table th:fragment="addClient" class="hiddenPanel" hidden id="addClient">
+            <div th:replace="fragments/commonAttributes :: commonAttributesClients"></div>
+            <tr>
+                <td>
+                    <label>Bank</label>
+                    <input type="text" field="*{bank}" name="bank">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="add client">
+                    <script th:src="@{/js/src/actionsHandler.js}"></script>
+                    <div th:if="${alreadyExistsMessage}" th:object="${alreadyExistsMessage}" hidden>
+                        <script>
+                            actionsHandler("addClient");
+                            table = document.body.getElementsByClassName("hiddenPanel").addClient;
+                            table.children[0].children[2].firstElementChild.append("This client already exists.");
+                        </script>
+                    </div>
+                    <div th:if="${emptyFieldsMessage}" th:object="${emptyFieldsMessage}" hidden>
+                        <script>
+                            actionsHandler("addClient");
+                            let table = document.body.getElementsByClassName("hiddenPanel").addClient;
+                            table.children[0].children[2].firstElementChild.append("Please fill the empty fields.");
+                        </script>
+                    </div>
+                    <div th:if="${invalidFieldsMessage}" th:object="${invalidFieldsMessage}" hidden>
+                        <script>
+                            actionsHandler("addClient");
+                            let table = document.body.getElementsByClassName("hiddenPanel").addClient;
+                            table.children[0].children[2].firstElementChild.append("Some fields have illegal characters.");
+                        </script>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <form action="#" th:action="@{'/banks/edit/{id}'}" th:object="${bankInput}"
+          method="post">
+        <table th:fragment="edit" class="hiddenPanel" hidden id="edit">
+            <tr>
+                <td>
+                    <label>#</label>
+                    <input type="text" field="*{id}" name="id">
+                </td>
+            </tr>
+            <div th:replace="fragments/commonAttributes :: commonAttributesBanks"></div>
+            <tr>
+                <td>
+                    <input type="submit" value="edit bank">
+                    <div th:replace="fragments/errorMessages :: nonExistentEditBank"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<br/>
+<div>
+    <table align="center" border="1">
+        <tr bgcolor="#cccccc">
+            <td><a th:href="@{'/banks/sort/{property}' (property = 'id')}">#</a></td>
+            <td><a th:href="@{'/banks/sort/{property}' (property = 'name')}">Name</a></td>
+            <td>Clients</td>
+        </tr>
+
+        <tr th:each="bank : ${banks}" class="list">
+            <td th:text="${bank.id}"></td>
+            <td th:text="${bank.name}"></td>
+
+            <td>
+                <table th:unless="${#lists.isEmpty(bank.clients)}" align="center" border="1">
+                    <tr bgcolor="#cccccc">
+                        <td>Name</td>
+                        <td>Passport</td>
+                    </tr>
+
+                    <tr th:each="client : ${bank.clients}">
+                        <td>
+                            <span th:text="${client.firstName}"></span>
+                            <span th:text="${client.middleName}"></span>
+                            <span th:text="${client.lastName}"></span>
+                        </td>
+                        <td><span th:text="${client.passport}"></span></td>
+                        <td><a th:href="@{'/banks/deleteClient/{id}'(id=${client.id})}">delete</a></td>
+                    </tr>
+                </table>
+            </td>
+
+            <td>
+                <a th:href="@{'/banks/delete/{id}'(id=${bank.id})}">delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div th:replace="fragments/scripts :: scripts"></div>
+</body>
+</html>

@@ -10,7 +10,7 @@
 <br/>
 <div>
     <form action="#" th:action="@{/clients/add}" th:object="${clientInput}" method="post">
-        <table th:fragment="add" border="1px" class="hiddenPanel" id="add">
+        <table th:fragment="add" class="hiddenPanel" id="add">
             <div th:replace="fragments/commonAttributes :: commonAttributesClients"></div>
             <tr>
                 <td>
@@ -25,7 +25,7 @@
 
     <form action="#" th:action="@{'/clients/edit/{id}'}" th:object="${clientInput}"
           method="post">
-        <table th:fragment="edit" border="1px" class="hiddenPanel" hidden id="edit">
+        <table th:fragment="edit" class="hiddenPanel" hidden id="edit">
             <tr>
                 <td>
                     <label>#</label>
@@ -73,5 +73,6 @@
 </div>
 
 <div th:replace="fragments/scripts :: scripts"></div>
+<script th:src="@{/js/src/hideAction.js}"></script>
 </body>
 </html>

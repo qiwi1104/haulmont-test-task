@@ -7,6 +7,7 @@
         <script>
         table = document.body.getElementsByClassName("hiddenPanel").add;
         table.children[0].children[2].firstElementChild.append("This client already exists.");
+
         </script>
     </div>
 </div>
@@ -15,6 +16,7 @@
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
             table.children[0].children[2].firstElementChild.append("Please fill the empty fields.");
+
         </script>
     </div>
 </div>
@@ -23,6 +25,7 @@
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
             table.children[0].children[2].firstElementChild.append("Some fields have illegal characters.");
+
         </script>
     </div>
 </div>
@@ -33,6 +36,45 @@
         actionsHandler("edit");
         table = document.body.getElementsByClassName("hiddenPanel").edit;
         table.children[0].children[2].firstElementChild.append("This client doesn't exist.");
+        </script>
+    </div>
+</div>
+
+<!--Banks-->
+<div th:fragment="alreadyExistsBank" th:object="${alreadyExistsBankMessage}" hidden>
+    <div th:if="${alreadyExistsBankMessage}">
+        <script>
+        table = document.body.getElementsByClassName("hiddenPanel").add;
+        table.children[0].children[1].firstElementChild.append("This client already exists.");
+
+        </script>
+    </div>
+</div>
+<div th:fragment="emptyFieldsBank" th:object="${emptyFieldsBankMessage}" hidden>
+    <div th:if="${emptyFieldsBankMessage}">
+        <script>
+            let table = document.body.getElementsByClassName("hiddenPanel").add;
+            table.children[0].children[1].firstElementChild.append("Please fill the empty fields.");
+
+        </script>
+    </div>
+</div>
+<div th:fragment="invalidFieldsBank" th:object="${invalidFieldsBankMessage}" hidden>
+    <div th:if="${invalidFieldsBankMessage}">
+        <script>
+            let table = document.body.getElementsByClassName("hiddenPanel").add;
+            table.children[0].children[1].firstElementChild.append("Some fields have illegal characters.");
+
+        </script>
+    </div>
+</div>
+<div th:fragment="nonExistentEditBank" th:object="${nonExistentBankMessageEdit}" hidden>
+    <div th:if="${nonExistentBankMessageEdit}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script>
+        actionsHandler("edit");
+        table = document.body.getElementsByClassName("hiddenPanel").edit;
+        table.children[0].children[2].firstElementChild.append("This bank doesn't exist.");
         </script>
     </div>
 </div>

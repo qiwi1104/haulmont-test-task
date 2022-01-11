@@ -44,6 +44,10 @@ public class ClientDAO {
         return getClientByPassport(client.getPassport()) != null;
     }
 
+    public boolean existsByPassport(String passport) {
+        return getClientByPassport(passport) != null;
+    }
+
     public List<Client> findAll() {
         return repository.findAll();
     }

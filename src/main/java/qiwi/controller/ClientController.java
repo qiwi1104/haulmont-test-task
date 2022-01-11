@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import qiwi.dao.impl.BankDAO;
 import qiwi.dao.impl.ClientDAO;
 import qiwi.model.Client;
 import qiwi.model.input.ClientInput;
@@ -17,6 +18,8 @@ import java.util.UUID;
 public class ClientController {
     @Autowired
     private ClientDAO clientDAO;
+    @Autowired
+    private BankDAO bankDAO;
 
     private void setUpView(Model model) {
         model.addAttribute("clients", clientDAO.findAll());
@@ -86,6 +89,7 @@ public class ClientController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable UUID id) {
+        bankDAO.deleteClientById(id);
         clientDAO.delete(id);
         return "redirect:/clients/";
     }
