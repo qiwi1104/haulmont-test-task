@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link th:replace="fragments/css :: css">
+</head>
+<body>
+<div th:fragment="header">
+    <div class="panel">
+        <span onclick="actionsHandler(this.id)" id="add" class="underlineSelected">add</span>
+        <span onclick="actionsHandler(this.id)" id="edit" class="underline">edit</span>
+    </div>
+
+    <div class="panel">
+        Entities:
+        <a th:href="@{/clients/}" id="clients" class="underline">Clients</a>
+        <a th:href="@{/banks/}" id="banks" class="underline">Banks</a>
+        <a th:href="@{/credits/}" id="credits" class="underline">Credits</a>
+        <a th:href="@{/credit-offers/}" id="creditOffers" class="underline">Credit Offers</a>
+    </div>
+
+    <script th:src="@{/js/src/select.js}"></script>
+</div>
+</body>
+</html>

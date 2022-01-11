@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="commonAttributesClients">
+    <tr>
+        <td>
+            <label>First Name</label>
+            <input type="text" field="*{firstName}" name="firstName">
+        </td>
+        <td>
+            <label>Middle Name</label>
+            <input type="text" field="*{middleName}" name="middleName">
+        </td>
+        <td>
+            <label>Last Name</label>
+            <input type="text" field="*{lastName}" name="lastName">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Phone</label>
+            <input type="text" field="*{phone}" name="phone">
+        </td>
+        <td>
+            <label>Mail</label>
+            <input type="text" field="*{mail}" name="mail">
+        </td>
+        <td>
+            <label>Passport</label>
+            <input type="text" field="*{passport}" name="passport">
+        </td>
+    </tr>
+</div>
+</body>
+</html>

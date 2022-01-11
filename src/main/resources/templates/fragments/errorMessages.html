@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<!--Clients-->
+<div th:fragment="alreadyExists" th:object="${alreadyExistsMessage}" hidden>
+    <div th:if="${alreadyExistsMessage}">
+        <script>
+        table = document.body.getElementsByClassName("hiddenPanel").add;
+        table.children[0].children[2].firstElementChild.append("This client already exists.");
+        </script>
+    </div>
+</div>
+<div th:fragment="emptyFields" th:object="${emptyFieldsMessage}" hidden>
+    <div th:if="${emptyFieldsMessage}">
+        <script>
+            let table = document.body.getElementsByClassName("hiddenPanel").add;
+            table.children[0].children[2].firstElementChild.append("Please fill the empty fields.");
+        </script>
+    </div>
+</div>
+<div th:fragment="invalidFields" th:object="${invalidFieldsMessage}" hidden>
+    <div th:if="${invalidFieldsMessage}">
+        <script>
+            let table = document.body.getElementsByClassName("hiddenPanel").add;
+            table.children[0].children[2].firstElementChild.append("Some fields have illegal characters.");
+        </script>
+    </div>
+</div>
+<div th:fragment="nonExistentEdit" th:object="${nonExistentMessageEdit}" hidden>
+    <div th:if="${nonExistentMessageEdit}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script>
+        actionsHandler("edit");
+        table = document.body.getElementsByClassName("hiddenPanel").edit;
+        table.children[0].children[2].firstElementChild.append("This client doesn't exist.");
+        </script>
+    </div>
+</div>
+</body>
+</html>

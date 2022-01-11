@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Clients</title>
+    <link th:replace="fragments/css :: css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<br/>
+<div>
+    <form action="#" th:action="@{/clients/add}" th:object="${clientInput}" method="post">
+        <table th:fragment="add" border="1px" class="hiddenPanel" id="add">
+            <div th:replace="fragments/commonAttributes :: commonAttributesClients"></div>
+            <tr>
+                <td>
+                    <input type="submit" value="add client">
+                    <div th:replace="fragments/errorMessages :: alreadyExists"></div>
+                    <div th:replace="fragments/errorMessages :: emptyFields"></div>
+                    <div th:replace="fragments/errorMessages :: invalidFields"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <form action="#" th:action="@{'/clients/edit/{id}'}" th:object="${clientInput}"
+          method="post">
+        <table th:fragment="edit" border="1px" class="hiddenPanel" hidden id="edit">
+            <tr>
+                <td>
+                    <label>#</label>
+                    <input type="text" field="*{id}" name="id">
+                </td>
+            </tr>
+            <div th:replace="fragments/commonAttributes :: commonAttributesClients"></div>
+            <tr>
+                <td>
+                    <input type="submit" value="edit client">
+                    <div th:replace="fragments/errorMessages :: nonExistentEdit"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<br/>
+<div>
+    <table align="center" border="1">
+        <tr bgcolor="#cccccc">
+            <td><a th:href="@{'/clients/sort/{property}' (property = 'id')}">#</a></td>
+            <td>Name</td>
+            <td><a th:href="@{'/clients/sort/{property}' (property = 'phone')}">Phone</a></td>
+            <td>Mail</td>
+            <td>Passport</td>
+        </tr>
+
+        <tr th:each="client : ${clients}" class="list">
+            <td th:text="${client.id}"></td>
+            <td>
+                <span th:text="${client.firstName}"></span>
+                <span th:text="${client.middleName}"></span>
+                <span th:text="${client.lastName}"></span>
+            </td>
+            <td th:text=" ${client.phone}">
+            </td>
+            <td th:text="${client.mail}"></td>
+            <td th:text="${client.passport}"></td>
+
+            <td>
+                <a th:href="@{'/clients/delete/{id}'(id=${client.id})}">delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div th:replace="fragments/scripts :: scripts"></div>
+</body>
+</html>
