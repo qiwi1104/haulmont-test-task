@@ -1,26 +1,26 @@
 package qiwi.model.input;
 
 public class BankInput {
-    private String id;
-    private String name;
+    private String name = "";
+    private String newName = "";
 
     public boolean hasEmptyFields() {
         return name.isEmpty();
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getNewName() {
+        return newName;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setNewName(String newName) {
+        this.newName = newName;
     }
 }

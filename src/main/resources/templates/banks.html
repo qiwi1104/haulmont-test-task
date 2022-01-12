@@ -11,7 +11,12 @@
 <div>
     <form action="#" th:action="@{/banks/add}" th:object="${bankInput}" method="post">
         <table th:fragment="add" class="hiddenPanel" id="add">
-            <div th:replace="fragments/commonAttributes :: commonAttributesBanks"></div>
+            <tr>
+                <td>
+                    <label>Name</label>
+                    <input type="text" field="*{name}" name="name" th:value="${bankInput.name}">
+                </td>
+            </tr>
             <tr>
                 <td>
                     <input type="submit" value="add bank">
@@ -25,11 +30,38 @@
 
     <form action="#" th:action="@{'/banks/addClient'}" th:object="${clientInput}" method="post">
         <table th:fragment="addClient" class="hiddenPanel" hidden id="addClient">
-            <div th:replace="fragments/commonAttributes :: commonAttributesClients"></div>
+            <tr>
+                <td>
+                    <label>First Name</label>
+                    <input type="text" field="*{firstName}" name="firstName" th:value="${clientInput.firstName}">
+                </td>
+                <td>
+                    <label>Middle Name</label>
+                    <input type="text" field="*{middleName}" name="middleName" th:value="${clientInput.middleName}">
+                </td>
+                <td>
+                    <label>Last Name</label>
+                    <input type="text" field="*{lastName}" name="lastName" th:value="${clientInput.lastName}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Phone</label>
+                    <input type="text" field="*{phone}" name="phone" th:value="${clientInput.phone}">
+                </td>
+                <td>
+                    <label>Mail</label>
+                    <input type="text" field="*{mail}" name="mail" th:value="${clientInput.mail}">
+                </td>
+                <td>
+                    <label>Passport</label>
+                    <input type="text" field="*{passport}" name="passport" th:value="${clientInput.passport}">
+                </td>
+            </tr>
             <tr>
                 <td>
                     <label>Bank</label>
-                    <input type="text" field="*{bank}" name="bank">
+                    <input type="text" field="*{bank}" name="bank" th:value="${clientInput.bank}">
                 </td>
             </tr>
             <tr>
@@ -62,20 +94,26 @@
         </table>
     </form>
 
-    <form action="#" th:action="@{'/banks/edit/{id}'}" th:object="${bankInput}"
+    <form action="#" th:action="@{'/banks/edit/{name}'}" th:object="${bankInput}"
           method="post">
         <table th:fragment="edit" class="hiddenPanel" hidden id="edit">
             <tr>
                 <td>
-                    <label>#</label>
-                    <input type="text" field="*{id}" name="id">
+                    <label>Name</label>
+                    <input type="text" field="*{name}" name="name" th:value="${bankInput.name}">
                 </td>
             </tr>
-            <div th:replace="fragments/commonAttributes :: commonAttributesBanks"></div>
+            <tr>
+                <td>
+                    <label>New Name</label>
+                    <input type="text" field="*{newName}" name="newName" th:value="${bankInput.newName}">
+                </td>
+            </tr>
             <tr>
                 <td>
                     <input type="submit" value="edit bank">
                     <div th:replace="fragments/errorMessages :: nonExistentEditBank"></div>
+                    <div th:replace="fragments/errorMessages :: alreadyExistsBankName"></div>
                 </td>
             </tr>
         </table>
@@ -91,7 +129,6 @@
         </tr>
 
         <tr th:each="bank : ${banks}" class="list">
-            <td th:text="${bank.id}"></td>
             <td th:text="${bank.name}"></td>
 
             <td>

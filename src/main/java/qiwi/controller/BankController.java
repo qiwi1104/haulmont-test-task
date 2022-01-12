@@ -23,25 +23,48 @@ public class BankController {
     @Autowired
     private ClientDAO clientDAO;
 
-    private void setUpView(Model model) {
+    private void setUpView(Model model, ClientInput clientInput, BankInput bankInput) {
         model.addAttribute("banks", bankDAO.findAll());
+        model.addAttribute("clientInput", clientInput);
+        model.addAttribute("bankInput", bankInput);
     }
 
     @PostMapping("/add")
     public String add(@ModelAttribute BankInput input, Model model) {
         if (input.hasEmptyFields()) {
+            setUpView(model, new ClientInput(), input);
             model.addAttribute("emptyFieldsMessage", "");
-            setUpView(model);
             return "banks";
         }
 
         Bank bank = new Bank(input);
         if (bankDAO.exists(bank)) {
+            setUpView(model, new ClientInput(), input);
             model.addAttribute("alreadyExistsMessage", "");
-            setUpView(model);
             return "banks";
         }
 
+        bankDAO.add(bank);
+
+        return "redirect:/banks/";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String edit(@ModelAttribute BankInput input, Model model) {
+        if (input.hasEmptyFields()) {
+            setUpView(model, new ClientInput(), input);
+            model.addAttribute("emptyFieldsBankMessage", "");
+            return "banks";
+        }
+
+        Bank bank = bankDAO.getBankByName(input.getName());
+        if (bankDAO.getBankByName(input.getNewName()) != null) {
+            setUpView(model, new ClientInput(), input);
+            model.addAttribute("alreadyExistsBankNameMessage", "");
+            return "banks";
+        }
+
+        bank.setName(input.getNewName());
         bankDAO.add(bank);
 
         return "redirect:/banks/";
@@ -56,7 +79,7 @@ public class BankController {
                 if (!input.getPassport().isEmpty()) {
                     if (bankDAO.exists(input.getBank(), client)) {
                         model.addAttribute("alreadyExistsMessage", "");
-                        setUpView(model);
+                        setUpView(model, input, new BankInput());
                         return "banks";
                     } else {
                         client = clientDAO.getClientByPassport(client.getPassport());
@@ -70,12 +93,12 @@ public class BankController {
             }
 
             model.addAttribute("emptyFieldsMessage", "");
-            setUpView(model);
+            setUpView(model, input, new BankInput());
             return "banks";
         }
 
         if (!Validator.isValid(input)) {
-            setUpView(model);
+            setUpView(model, input, new BankInput());
             model.addAttribute("invalidFieldsMessage", "");
             return "banks";
         }
@@ -83,7 +106,7 @@ public class BankController {
         Client client = new Client(input);
         if (bankDAO.exists(input.getBank(), client)) {
             model.addAttribute("alreadyExistsMessage", "");
-            setUpView(model);
+            setUpView(model, input, new BankInput());
             return "banks";
         }
 
@@ -125,7 +148,7 @@ public class BankController {
 
     @GetMapping("/")
     public String showAllBanks(Model model) {
-        setUpView(model);
+        setUpView(model, new ClientInput(), new BankInput());
         return "banks";
     }
 }

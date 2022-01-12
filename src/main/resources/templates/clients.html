@@ -11,7 +11,34 @@
 <div>
     <form action="#" th:action="@{/clients/add}" th:object="${clientInput}" method="post">
         <table th:fragment="add" class="hiddenPanel" id="add">
-            <div th:replace="fragments/commonAttributes :: commonAttributesClients"></div>
+            <tr>
+                <td>
+                    <label>First Name</label>
+                    <input type="text" field="*{firstName}" name="firstName" th:value="${clientInput.firstName}">
+                </td>
+                <td>
+                    <label>Middle Name</label>
+                    <input type="text" field="*{middleName}" name="middleName" th:value="${clientInput.middleName}">
+                </td>
+                <td>
+                    <label>Last Name</label>
+                    <input type="text" field="*{lastName}" name="lastName" th:value="${clientInput.lastName}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Phone</label>
+                    <input type="text" field="*{phone}" name="phone" th:value="${clientInput.phone}">
+                </td>
+                <td>
+                    <label>Mail</label>
+                    <input type="text" field="*{mail}" name="mail" th:value="${clientInput.mail}">
+                </td>
+                <td>
+                    <label>Passport</label>
+                    <input type="text" field="*{passport}" name="passport" th:value="${clientInput.passport}">
+                </td>
+            </tr>
             <tr>
                 <td>
                     <input type="submit" value="add client">
@@ -23,16 +50,43 @@
         </table>
     </form>
 
-    <form action="#" th:action="@{'/clients/edit/{id}'}" th:object="${clientInput}"
+    <form action="#" th:action="@{'/clients/edit/{passport}'}" th:object="${clientInput}"
           method="post">
         <table th:fragment="edit" class="hiddenPanel" hidden id="edit">
             <tr>
                 <td>
-                    <label>#</label>
-                    <input type="text" field="*{id}" name="id">
+                    <label>Passport</label>
+                    <input type="text" field="*{passport}" name="passport" th:value="${clientInput.passport}">
                 </td>
             </tr>
-            <div th:replace="fragments/commonAttributes :: commonAttributesClients"></div>
+            <tr>
+                <td>
+                    <label>First Name</label>
+                    <input type="text" field="*{firstName}" name="firstName" th:value="${clientInput.firstName}">
+                </td>
+                <td>
+                    <label>Middle Name</label>
+                    <input type="text" field="*{middleName}" name="middleName" th:value="${clientInput.middleName}">
+                </td>
+                <td>
+                    <label>Last Name</label>
+                    <input type="text" field="*{lastName}" name="lastName" th:value="${clientInput.lastName}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Phone</label>
+                    <input type="text" field="*{phone}" name="phone" th:value="${clientInput.phone}">
+                </td>
+                <td>
+                    <label>Mail</label>
+                    <input type="text" field="*{mail}" name="mail" th:value="${clientInput.mail}">
+                </td>
+                <td>
+                    <label>Passport</label>
+                    <input type="text" field="*{newPassport}" name="newPassport" th:value="${clientInput.newPassport}">
+                </td>
+            </tr>
             <tr>
                 <td>
                     <input type="submit" value="edit client">
@@ -46,7 +100,6 @@
 <div>
     <table align="center" border="1">
         <tr bgcolor="#cccccc">
-            <td><a th:href="@{'/clients/sort/{property}' (property = 'id')}">#</a></td>
             <td>Name</td>
             <td><a th:href="@{'/clients/sort/{property}' (property = 'phone')}">Phone</a></td>
             <td>Mail</td>
@@ -54,7 +107,6 @@
         </tr>
 
         <tr th:each="client : ${clients}" class="list">
-            <td th:text="${client.id}"></td>
             <td>
                 <span th:text="${client.firstName}"></span>
                 <span th:text="${client.middleName}"></span>

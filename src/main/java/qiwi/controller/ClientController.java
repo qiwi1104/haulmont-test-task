@@ -3,7 +3,6 @@ package qiwi.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import qiwi.dao.impl.BankDAO;
 import qiwi.dao.impl.ClientDAO;
@@ -21,11 +20,12 @@ public class ClientController {
     @Autowired
     private BankDAO bankDAO;
 
-    private void setUpView(Model model) {
+    private void setUpView(Model model, ClientInput input) {
         model.addAttribute("clients", clientDAO.findAll());
+        model.addAttribute("clientInput", input);
     }
 
-    private void updateClient(Client client, ClientInput input) {
+    private boolean updateClient(Client client, ClientInput input) {
         if (input.getFirstName() != null && !input.getFirstName().equals("")) {
             client.setFirstName(input.getFirstName());
         }
@@ -41,29 +41,35 @@ public class ClientController {
         if (input.getMail() != null && !input.getMail().equals("")) {
             client.setMail(input.getMail());
         }
-        if (input.getPassport() != null && !input.getPassport().equals("")) {
-            client.setPassport(input.getPassport());
+        if (input.getNewPassport() != null && !input.getNewPassport().equals("")) {
+            if (!clientDAO.existsByPassport(input.getNewPassport())) {
+                client.setPassport(input.getNewPassport());
+            } else {
+                return false;
+            }
         }
+
+        return true;
     }
 
     @PostMapping("/add")
     public String add(@ModelAttribute("clientInput") ClientInput input, Model model) {
         if (input.hasEmptyFields()) {
+            setUpView(model, input);
             model.addAttribute("emptyFieldsMessage", "");
-            setUpView(model);
             return "clients";
         }
 
         if (!Validator.isValid(input)) {
-            setUpView(model);
+            setUpView(model, input);
             model.addAttribute("invalidFieldsMessage", "");
             return "clients";
         }
 
         Client client = new Client(input);
         if (clientDAO.exists(client)) {
+            setUpView(model, input);
             model.addAttribute("alreadyExistsMessage", "");
-            setUpView(model);
             return "clients";
         }
 
@@ -72,17 +78,28 @@ public class ClientController {
         return "redirect:/clients/";
     }
 
-    @PostMapping("/edit/{id}")
-    public String edit(@ModelAttribute("clientInput") ClientInput input, BindingResult result, Model model) {
-        if (!Validator.isValid(input)) {
-            setUpView(model);
+    @PostMapping("/edit/{passport}")
+    public String edit(@ModelAttribute("clientInput") ClientInput input, Model model) {
+        if (input.getPassport().isEmpty()) {
+            setUpView(model, input);
+            model.addAttribute("emptyPassportMessage", "");
+            return "clients";
+        }
+
+        if (!Validator.isValidEdit(input)) {
+            setUpView(model, input);
             model.addAttribute("invalidFieldsMessage", "");
             return "clients";
         }
 
-        Client client = clientDAO.getClientById(input.getId());
-        updateClient(client, input);
-        clientDAO.add(client);
+        Client client = clientDAO.getClientByPassport(input.getPassport());
+        if (updateClient(client, input)) {
+            clientDAO.add(client);
+        } else {
+            setUpView(model, input);
+            model.addAttribute("alreadyExists", "");
+            return "clients";
+        }
 
         return "redirect:/clients/";
     }
@@ -96,7 +113,7 @@ public class ClientController {
 
     @GetMapping("/")
     public String showAllClients(Model model) {
-        setUpView(model);
+        setUpView(model, new ClientInput());
         return "clients";
     }
 }

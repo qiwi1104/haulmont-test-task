@@ -5,6 +5,8 @@ function setUnderline() {
 		document.getElementById("banks").className = "underlineSelected";
 	} else if (document.URL.includes("credits")) {
 		document.getElementById("credits").className = "underlineSelected";
+	} else if (document.URL.includes("credit-offers")) {
+	    document.getElementById("creditOffers").className = "underlineSelected";
 	}
 }
 

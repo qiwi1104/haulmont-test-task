@@ -1,22 +1,22 @@
 package qiwi.model.input;
 
 public class ClientInput {
-    private String id;
-    private String firstName;
-    private String middleName;
-    private String lastName;
-    private String phone;
-    private String mail;
-    private String passport;
-    private String bank;
+    private String passport = "";
+    private String firstName = "";
+    private String middleName = "";
+    private String lastName = "";
+    private String phone = "";
+    private String mail = "";
+    private String newPassport = "";
+    private String bank = "";
 
     public boolean hasEmptyFields() {
         return firstName.equals("") || lastName.equals("")
                 || phone.equals("") || mail.equals("") || passport.equals("");
     }
 
-    public String getId() {
-        return id;
+    public String getPassport() {
+        return passport;
     }
 
     public String getFirstName() {
@@ -39,16 +39,16 @@ public class ClientInput {
         return mail;
     }
 
-    public String getPassport() {
-        return passport;
+    public String getNewPassport() {
+        return newPassport;
     }
 
     public String getBank() {
         return bank;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPassport(String passport) {
+        this.passport = passport;
     }
 
     public void setFirstName(String firstName) {
@@ -71,8 +71,8 @@ public class ClientInput {
         this.mail = mail;
     }
 
-    public void setPassport(String passport) {
-        this.passport = passport;
+    public void setNewPassport(String newPassport) {
+        this.newPassport = newPassport;
     }
 
     public void setBank(String bank) {

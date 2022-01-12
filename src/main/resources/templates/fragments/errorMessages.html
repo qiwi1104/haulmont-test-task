@@ -35,12 +35,32 @@
         <script>
         actionsHandler("edit");
         table = document.body.getElementsByClassName("hiddenPanel").edit;
-        table.children[0].children[2].firstElementChild.append("This client doesn't exist.");
+        table.children[0].children[3].firstElementChild.append("This client doesn't exist.");
+        </script>
+    </div>
+</div>
+<div th:fragment="emptyPassport" th:object="${emptyPassportMessage}" hidden>
+    <div th:if="${emptyPassportMessage}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script>
+        actionsHandler("edit");
+        table = document.body.getElementsByClassName("hiddenPanel").edit;
+        table.children[0].children[3].firstElementChild.append("Please, fill in the passport field.");
         </script>
     </div>
 </div>
 
 <!--Banks-->
+<div th:fragment="alreadyExistsBankName" th:object="${alreadyExistsBankNameMessage}" hidden>
+    <div th:if="${alreadyExistsBankNameMessage}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script>
+            actionsHandler("edit");
+            table = document.body.getElementsByClassName("hiddenPanel").edit;
+            table.children[0].children[1].firstElementChild.append("This bank already exists.");
+        </script>
+    </div>
+</div>
 <div th:fragment="alreadyExistsBank" th:object="${alreadyExistsBankMessage}" hidden>
     <div th:if="${alreadyExistsBankMessage}">
         <script>
@@ -74,7 +94,7 @@
         <script>
         actionsHandler("edit");
         table = document.body.getElementsByClassName("hiddenPanel").edit;
-        table.children[0].children[2].firstElementChild.append("This bank doesn't exist.");
+        table.children[0].children[1].firstElementChild.append("This bank doesn't exist.");
         </script>
     </div>
 </div>
