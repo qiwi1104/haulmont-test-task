@@ -19,15 +19,14 @@ public class ClientDAO {
 
     public void delete(UUID id) {
         if (repository.existsById(id)) {
-            repository.deleteById(id);
+            if (repository.getOne(id).getCredits().isEmpty()) {
+                repository.deleteById(id);
+            }
         }
     }
 
-    public Client getClientById(String id) {
-        UUID uuid = UUID.fromString(id);
-        return repository.existsById(uuid)
-                ? repository.getOne(uuid)
-                : null;
+    public boolean hasCredit(UUID id) {
+        return !repository.getOne(id).getCredits().isEmpty();
     }
 
     public Client getClientByPassport(String passport) {

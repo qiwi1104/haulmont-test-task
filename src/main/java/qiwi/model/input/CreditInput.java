@@ -4,10 +4,14 @@ public class CreditInput {
     private String id;
     private String limit;
     private String interest;
+    private String bank;
+    private String passport;
 
     public boolean hasEmptyFields() {
         return limit == null || limit.isEmpty()
-                || interest == null || interest.isEmpty();
+                || interest == null || interest.isEmpty()
+                || bank == null || bank.isEmpty()
+                || passport == null || passport.isEmpty();
     }
 
     public String getId() {
@@ -22,6 +26,14 @@ public class CreditInput {
         return interest;
     }
 
+    public String getBank() {
+        return bank;
+    }
+
+    public String getPassport() {
+        return passport;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -32,5 +44,13 @@ public class CreditInput {
 
     public void setInterest(String interest) {
         this.interest = interest;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
+    }
+
+    public void setPassport(String passport) {
+        this.passport = passport;
     }
 }

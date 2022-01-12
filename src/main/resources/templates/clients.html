@@ -45,6 +45,7 @@
                     <div th:replace="fragments/errorMessages :: alreadyExists"></div>
                     <div th:replace="fragments/errorMessages :: emptyFields"></div>
                     <div th:replace="fragments/errorMessages :: invalidFields"></div>
+                    <div th:replace="fragments/errorMessages :: hasCredit"></div>
                 </td>
             </tr>
         </table>
@@ -104,6 +105,7 @@
             <td><a th:href="@{'/clients/sort/{property}' (property = 'phone')}">Phone</a></td>
             <td>Mail</td>
             <td>Passport</td>
+            <td>Credits</td>
             <td></td>
         </tr>
 
@@ -116,6 +118,24 @@
             <td th:text=" ${client.phone}"></td>
             <td th:text="${client.mail}"></td>
             <td th:text="${client.passport}"></td>
+
+            <td>
+                <table th:unless="${#lists.isEmpty(client.credits)}" align="center" border="1">
+                    <tr bgcolor="#cccccc">
+                        <td>Bank</td>
+                        <td>Limit</td>
+                        <td>Interest</td>
+                        <td></td>
+                    </tr>
+
+                    <tr th:each="credit : ${client.credits}">
+                        <td><span th:text="${credit.bank.name}"></span></td>
+                        <td><span th:text="${credit.limit}"></span></td>
+                        <td><span th:text="${credit.interest}"></span></td>
+                        <td><a th:href="@{'/clients/deleteCredit/{id}'(id=${credit.id})}">pay off</a></td>
+                    </tr>
+                </table>
+            </td>
 
             <td>
                 <a th:href="@{'/clients/delete/{id}'(id=${client.id})}">delete</a>

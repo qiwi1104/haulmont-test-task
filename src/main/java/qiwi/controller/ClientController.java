@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import qiwi.dao.impl.BankDAO;
 import qiwi.dao.impl.ClientDAO;
+import qiwi.dao.impl.CreditDAO;
 import qiwi.model.Client;
 import qiwi.model.input.ClientInput;
 import qiwi.util.Validator;
@@ -19,6 +20,8 @@ public class ClientController {
     private ClientDAO clientDAO;
     @Autowired
     private BankDAO bankDAO;
+    @Autowired
+    private CreditDAO creditDAO;
 
     private void setUpView(Model model, ClientInput input) {
         model.addAttribute("clients", clientDAO.findAll());
@@ -60,7 +63,7 @@ public class ClientController {
             return "clients";
         }
 
-        if (!Validator.isValid(input)) {
+        if (!Validator.Client.isValid(input)) {
             setUpView(model, input);
             model.addAttribute("invalidFieldsMessage", "");
             return "clients";
@@ -86,7 +89,7 @@ public class ClientController {
             return "clients";
         }
 
-        if (!Validator.isValidEdit(input)) {
+        if (!Validator.Client.isValidEdit(input)) {
             setUpView(model, input);
             model.addAttribute("invalidFieldsMessage", "");
             return "clients";
@@ -105,9 +108,21 @@ public class ClientController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable UUID id) {
+    public String delete(@PathVariable UUID id, Model model) {
+        if (clientDAO.hasCredit(id)) {
+            setUpView(model, new ClientInput());
+            model.addAttribute("hasCreditMessage", "");
+            return "clients";
+        }
+
         bankDAO.deleteClientById(id);
         clientDAO.delete(id);
+        return "redirect:/clients/";
+    }
+
+    @GetMapping("/deleteCredit/{id}")
+    public String deleteCredit(@PathVariable UUID id) {
+        creditDAO.delete(id);
         return "redirect:/clients/";
     }
 

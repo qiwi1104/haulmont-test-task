@@ -39,6 +39,17 @@ public class CreditDAO {
         return null;
     }
 
+    public Credit getCreditByPassportAndBank(String passport, String bank) {
+        for (Credit credit : repository.findAll()) {
+            if (credit.getClient().getPassport().equals(passport)
+                    && credit.getBank().getName().equals(bank)) {
+                return credit;
+            }
+        }
+
+        return null;
+    }
+
     public List<Credit> findAll() {
         return repository.findAll();
     }

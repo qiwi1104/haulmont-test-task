@@ -13,6 +13,16 @@
         <table th:fragment="add" class="hiddenPanel" id="add">
             <tr>
                 <td>
+                    <label>Bank</label>
+                    <input type="text" field="*{bank}" name="bank" th:value="${creditInput.bank}">
+                </td>
+                <td>
+                    <label>Passport</label>
+                    <input type="text" field="*{passport}" name="passport" th:value="${creditInput.passport}">
+                </td>
+            </tr>
+            <tr>
+                <td>
                     <label>Limit</label>
                     <input type="text" field="*{limit}" name="limit" th:value="${creditInput.limit}">
                 </td>
@@ -27,6 +37,7 @@
                     <div th:replace="fragments/errorMessages :: alreadyExistsCredit"></div>
                     <div th:replace="fragments/errorMessages :: emptyFieldsCredit"></div>
                     <div th:replace="fragments/errorMessages :: invalidFieldsCredit"></div>
+                    <div th:replace="fragments/errorMessages :: nonExistentClient"></div>
                 </td>
             </tr>
         </table>
@@ -37,8 +48,12 @@
         <table th:fragment="edit" class="hiddenPanel" hidden id="edit">
             <tr>
                 <td>
-                    <label>Id</label>
-                    <input type="text" field="*{id}" name="id" th:value="${creditInput.id}">
+                    <label>Passport</label>
+                    <input type="text" field="*{passport}" name="passport" th:value="${creditInput.passport}">
+                </td>
+                <td>
+                    <label>Bank</label>
+                    <input type="text" field="*{bank}" name="bank" th:value="${creditInput.bank}">
                 </td>
             </tr>
             <tr>
@@ -65,14 +80,22 @@
 <div>
     <table align="center" border="1">
         <tr bgcolor="#cccccc">
-            <td><a th:href="@{'/credits/sort/{property}' (property = 'id')}">#</a></td>
+            <td><a th:href="@{'/credits/sort/{property}' (property = 'bank.name')}">Bank</a></td>
+            <td><a th:href="@{'/credits/sort/{property}' (property = 'client.name')}">Name</a></td>
+            <td><a th:href="@{'/credits/sort/{property}' (property = 'client.passport')}">Passport</a></td>
             <td><a th:href="@{'/credits/sort/{property}' (property = 'limit')}">Limit</a></td>
             <td><a th:href="@{'/credits/sort/{property}' (property = 'interest')}">Interest</a></td>
             <td></td>
         </tr>
 
         <tr th:each="credit : ${credits}" class="list">
-            <td th:text="${credit.id}"></td>
+            <td th:text="${credit.bank.name}"></td>
+            <td>
+                <span th:text="${credit.client.firstName}"></span>
+                <span th:text="${credit.client.middleName}"></span>
+                <span th:text="${credit.client.lastName}"></span>
+            </td>
+            <td th:text="${credit.client.passport}"></td>
             <td th:text="${credit.limit}"></td>
             <td th:text="${credit.interest}"></td>
 

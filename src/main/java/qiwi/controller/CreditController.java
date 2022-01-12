@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import qiwi.dao.impl.BankDAO;
 import qiwi.dao.impl.CreditDAO;
+import qiwi.model.Bank;
+import qiwi.model.Client;
 import qiwi.model.Credit;
 import qiwi.model.input.CreditInput;
 import qiwi.util.Validator;
@@ -16,6 +19,8 @@ import java.util.UUID;
 public class CreditController {
     @Autowired
     private CreditDAO creditDAO;
+    @Autowired
+    private BankDAO bankDAO;
 
     private void setUpView(Model model, CreditInput input) {
         model.addAttribute("credits", creditDAO.findAll());
@@ -27,10 +32,14 @@ public class CreditController {
 
         if (input.getLimit() != null && !input.getLimit().isEmpty()) {
             updatedCredit.setLimit(Double.parseDouble(input.getLimit()));
+        } else {
+            updatedCredit.setLimit(credit.getLimit());
         }
 
         if (input.getInterest() != null && !input.getInterest().isEmpty()) {
             updatedCredit.setInterest(Double.parseDouble(input.getInterest()));
+        } else {
+            updatedCredit.setInterest(credit.getInterest());
         }
 
         if (!creditDAO.exists(updatedCredit)) {
@@ -50,20 +59,30 @@ public class CreditController {
             return "credits";
         }
 
-        if (!Validator.isValid(input)) {
+        if (!Validator.Credit.isValid(input)) {
             setUpView(model, input);
             model.addAttribute("invalidFieldsCreditMessage", "");
             return "credits";
         }
 
-        Credit credit = new Credit(input);
+        Bank bank = bankDAO.getBankByName(input.getBank());
+        Client client = bankDAO.getClientByPassport(input.getPassport());
+
+        Credit credit = new Credit(input, bank, client);
         if (creditDAO.exists(credit)) {
             setUpView(model, input);
             model.addAttribute("alreadyExistsCreditMessage", "");
             return "credits";
         }
 
+        if (!bankDAO.exists(bank.getName(), client)) {
+            setUpView(model, input);
+            model.addAttribute("nonExistentClientMessage", "");
+            return "credits";
+        }
+
         creditDAO.add(credit);
+        bankDAO.addCredit(bankDAO.getBankByName(input.getBank()), credit);
 
         return "redirect:/credits/";
     }
@@ -76,18 +95,18 @@ public class CreditController {
             return "credits";
         }
 
-        if (!Validator.isValidEdit(input)) {
+        if (!Validator.Credit.isValidEdit(input)) {
             setUpView(model, input);
             model.addAttribute("invalidFieldsCreditMessage", "");
             return "credits";
         }
 
-        Credit credit = creditDAO.getCreditById(UUID.fromString(input.getId()));
+        Credit credit = creditDAO.getCreditByPassportAndBank(input.getPassport(), input.getBank());
         if (updateCredit(credit, input)) {
             creditDAO.add(credit);
         } else {
             setUpView(model, input);
-            model.addAttribute("alreadyExistsCreditMessage", "");
+            model.addAttribute("alreadyExistsCreditEditMessage", "");
             return "credits";
         }
 

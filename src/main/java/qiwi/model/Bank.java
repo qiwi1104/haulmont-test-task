@@ -11,7 +11,9 @@ import java.util.List;
 public class Bank extends AbstractEntity {
     private String name;
 
-    //    private List<Credit> creditList;
+    @OneToMany(mappedBy = "bank")
+    private List<Credit> credits;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "clients_banks",
             joinColumns = @JoinColumn(name = "client_id"),
@@ -44,13 +46,21 @@ public class Bank extends AbstractEntity {
         clients.remove(client);
     }
 
+    public void addCredit(Credit credit) {
+        credits.add(credit);
+    }
+
+    public void deleteCredit(Credit credit) {
+        credits.remove(credit);
+    }
+
     public String getName() {
         return name;
     }
 
-//    public List<Credit> getCreditList() {
-//        return creditList;
-//    }
+    public List<Credit> getCredits() {
+        return credits;
+    }
 
     public List<Client> getClients() {
         return clients;
