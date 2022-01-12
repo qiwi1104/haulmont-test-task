@@ -98,5 +98,54 @@
         </script>
     </div>
 </div>
+
+<!--Credits-->
+<div th:fragment="alreadyExistsCredit" th:object="${alreadyExistsCreditMessage}" hidden>
+    <div th:if="${alreadyExistsCreditMessage}">
+        <script>
+        table = document.body.getElementsByClassName("hiddenPanel").add;
+        table.children[0].children[1].firstElementChild.append("This credit already exists.");
+
+        </script>
+    </div>
+</div>
+<div th:fragment="emptyFieldsCredit" th:object="${emptyFieldsCreditMessage}" hidden>
+    <div th:if="${emptyFieldsCreditMessage}">
+        <script>
+            let table = document.body.getElementsByClassName("hiddenPanel").add;
+            table.children[0].children[1].firstElementChild.append("Please fill the empty fields.");
+
+        </script>
+    </div>
+</div>
+<div th:fragment="invalidFieldsCredit" th:object="${invalidFieldsCreditMessage}" hidden>
+    <div th:if="${invalidFieldsCreditMessage}">
+        <script>
+            let table = document.body.getElementsByClassName("hiddenPanel").add;
+            table.children[0].children[1].firstElementChild.append("Some fields have illegal characters.");
+
+        </script>
+    </div>
+</div>
+<div th:fragment="nonExistentEditCredit" th:object="${nonExistentCreditMessageEdit}" hidden>
+    <div th:if="${nonExistentCreditMessageEdit}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script>
+        actionsHandler("edit");
+        table = document.body.getElementsByClassName("hiddenPanel").edit;
+        table.children[0].children[1].firstElementChild.append("This credit doesn't exist.");
+        </script>
+    </div>
+</div>
+<div th:fragment="emptyIdCredit" th:object="${emptyIdCreditMessage}" hidden>
+    <div th:if="${emptyIdCreditMessage}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script>
+        actionsHandler("edit");
+        table = document.body.getElementsByClassName("hiddenPanel").edit;
+        table.children[0].children[1].firstElementChild.append("Please, fill in the id field.");
+        </script>
+    </div>
+</div>
 </body>
 </html>

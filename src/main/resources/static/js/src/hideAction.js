@@ -1,5 +1,7 @@
-function hideAction() {
-	document.getElementById("addClient").remove();
+function hideAction(id) {
+    document.getElementById(id).remove();
 }
 
-document.onload = hideAction();
+function perform(id) {
+    document.onload = hideAction(id);
+}
