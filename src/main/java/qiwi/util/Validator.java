@@ -1,6 +1,7 @@
 package qiwi.util;
 
 import qiwi.model.input.ClientInput;
+import qiwi.model.input.CreditInput;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,7 +50,7 @@ public class Validator {
         pattern = Pattern.compile("^\\d{10}");
         matcher = pattern.matcher(input.getNewPassport());
         if (!input.getNewPassport().isEmpty()) {
-            if (!matcher.matches()){
+            if (!matcher.matches()) {
                 return false;
             }
         }
@@ -92,6 +93,36 @@ public class Validator {
 
         pattern = Pattern.compile("^\\d{10}");
         matcher = pattern.matcher(input.getPassport());
+        return matcher.matches();
+    }
+
+    public static boolean isValidEdit(CreditInput input) {
+        Pattern pattern = Pattern.compile("[0-9]+(\\.[0-9]+)|[0-9]+");
+
+        Matcher matcher = pattern.matcher(input.getLimit());
+        if (!input.getLimit().isEmpty()) {
+            if (!matcher.matches()) {
+                return false;
+            }
+        }
+
+        if (!input.getInterest().isEmpty()) {
+            matcher = pattern.matcher(input.getInterest());
+            return matcher.matches();
+        }
+
+        return true;
+    }
+
+    public static boolean isValid(CreditInput input) {
+        Pattern pattern = Pattern.compile("[0-9]+(\\.[0-9]+)|[0-9]+");
+
+        Matcher matcher = pattern.matcher(input.getLimit());
+        if (!matcher.matches()) {
+            return false;
+        }
+
+        matcher = pattern.matcher(input.getInterest());
         return matcher.matches();
     }
 }

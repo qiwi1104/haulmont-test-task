@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Credit</title>
+    <link th:replace="fragments/css :: css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<br/>
+<div>
+    <form action="#" th:action="@{/credits/add}" th:object="${creditInput}" method="post">
+        <table th:fragment="add" class="hiddenPanel" id="add">
+            <tr>
+                <td>
+                    <label>Limit</label>
+                    <input type="text" field="*{limit}" name="limit" th:value="${creditInput.limit}">
+                </td>
+                <td>
+                    <label>Interest</label>
+                    <input type="text" field="*{interest}" name="interest" th:value="${creditInput.interest}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="add credit">
+                    <div th:replace="fragments/errorMessages :: alreadyExistsCredit"></div>
+                    <div th:replace="fragments/errorMessages :: emptyFieldsCredit"></div>
+                    <div th:replace="fragments/errorMessages :: invalidFieldsCredit"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <form action="#" th:action="@{'/credits/edit/{id}'}" th:object="${creditInput}"
+          method="post">
+        <table th:fragment="edit" class="hiddenPanel" hidden id="edit">
+            <tr>
+                <td>
+                    <label>Id</label>
+                    <input type="text" field="*{id}" name="id" th:value="${creditInput.id}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Limit</label>
+                    <input type="text" field="*{limit}" name="limit" th:value="${creditInput.limit}">
+                </td>
+                <td>
+                    <label>Interest</label>
+                    <input type="text" field="*{interest}" name="interest" th:value="${creditInput.interest}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="edit credit">
+                    <div th:replace="fragments/errorMessages :: nonExistentEditCredit"></div>
+                    <div th:replace="fragments/errorMessages :: alreadyExistsCredit"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<br/>
+<div>
+    <table align="center" border="1">
+        <tr bgcolor="#cccccc">
+            <td><a th:href="@{'/credits/sort/{property}' (property = 'id')}">#</a></td>
+            <td><a th:href="@{'/credits/sort/{property}' (property = 'limit')}">Limit</a></td>
+            <td><a th:href="@{'/credits/sort/{property}' (property = 'interest')}">Interest</a></td>
+            <td></td>
+        </tr>
+
+        <tr th:each="credit : ${credits}" class="list">
+            <td th:text="${credit.id}"></td>
+            <td th:text="${credit.limit}"></td>
+            <td th:text="${credit.interest}"></td>
+
+            <td>
+                <a th:href="@{'/credits/delete/{id}'(id=${credit.id})}">delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div th:replace="fragments/scripts :: scripts"></div>
+<script>perform("addClient");</script>
+</body>
+</html>

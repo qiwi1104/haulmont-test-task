@@ -16,3 +16,8 @@ CREATE TABLE clients_banks (
     CONSTRAINT client_id_constraint FOREIGN KEY (client_id) REFERENCES clients (id)
     CONSTRAINT bank_id_constraint FOREIGN KEY (bank_id) REFERENCES banks (id)
 );
+CREATE TABLE credits (
+    id UUID NOT NULL,
+    limit DOUBLE,
+    interest DOUBLE
+);
