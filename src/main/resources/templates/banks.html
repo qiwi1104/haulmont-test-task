@@ -123,9 +123,9 @@
 <div>
     <table align="center" border="1">
         <tr bgcolor="#cccccc">
-            <td><a th:href="@{'/banks/sort/{property}' (property = 'id')}">#</a></td>
             <td><a th:href="@{'/banks/sort/{property}' (property = 'name')}">Name</a></td>
             <td>Clients</td>
+            <td></td>
         </tr>
 
         <tr th:each="bank : ${banks}" class="list">
@@ -136,6 +136,7 @@
                     <tr bgcolor="#cccccc">
                         <td>Name</td>
                         <td>Passport</td>
+                        <td></td>
                     </tr>
 
                     <tr th:each="client : ${bank.clients}">

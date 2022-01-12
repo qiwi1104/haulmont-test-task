@@ -104,6 +104,7 @@
             <td><a th:href="@{'/clients/sort/{property}' (property = 'phone')}">Phone</a></td>
             <td>Mail</td>
             <td>Passport</td>
+            <td></td>
         </tr>
 
         <tr th:each="client : ${clients}" class="list">
@@ -112,8 +113,7 @@
                 <span th:text="${client.middleName}"></span>
                 <span th:text="${client.lastName}"></span>
             </td>
-            <td th:text=" ${client.phone}">
-            </td>
+            <td th:text=" ${client.phone}"></td>
             <td th:text="${client.mail}"></td>
             <td th:text="${client.passport}"></td>
 
