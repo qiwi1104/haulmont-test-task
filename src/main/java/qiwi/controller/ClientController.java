@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import qiwi.dao.impl.BankDAO;
 import qiwi.dao.impl.ClientDAO;
 import qiwi.dao.impl.CreditDAO;
 import qiwi.model.Client;
@@ -19,8 +18,6 @@ public class ClientController {
     @Autowired
     private ClientDAO clientDAO;
     @Autowired
-    private BankDAO bankDAO;
-    @Autowired
     private CreditDAO creditDAO;
 
     private void setUpView(Model model, ClientInput input) {
@@ -28,7 +25,7 @@ public class ClientController {
         model.addAttribute("clientInput", input);
     }
 
-    private boolean updateClient(Client client, ClientInput input) {
+    private void updateClient(Client client, ClientInput input) {
         if (input.getFirstName() != null && !input.getFirstName().equals("")) {
             client.setFirstName(input.getFirstName());
         }
@@ -45,14 +42,8 @@ public class ClientController {
             client.setMail(input.getMail());
         }
         if (input.getNewPassport() != null && !input.getNewPassport().equals("")) {
-            if (!clientDAO.existsByPassport(input.getNewPassport())) {
-                client.setPassport(input.getNewPassport());
-            } else {
-                return false;
-            }
+            client.setPassport(input.getNewPassport());
         }
-
-        return true;
     }
 
     @PostMapping("/add")
@@ -69,14 +60,30 @@ public class ClientController {
             return "clients";
         }
 
-        Client client = new Client(input);
-        if (clientDAO.exists(client)) {
+        if (clientDAO.existsByPassport(input.getPassport())) {
             setUpView(model, input);
             model.addAttribute("alreadyExistsMessage", "");
             return "clients";
         }
 
-        clientDAO.add(client);
+        for (Client client : clientDAO.findAll()) {
+            if (client.equalsPhone(input.getPhone())
+                    || client.getMail().equals(input.getMail())
+                    || client.getPassport().equals(input.getPassport())) {
+
+                setUpView(model, input);
+                if (client.equalsPhone(input.getPhone())) {
+                    model.addAttribute("occupiedPhoneMessage", "");
+                }
+                if (client.getMail().equals(input.getMail())) {
+                    model.addAttribute("occupiedMailMessage", "");
+                }
+
+                return "clients";
+            }
+        }
+
+        clientDAO.add(new Client(input));
 
         return "redirect:/clients/";
     }
@@ -95,14 +102,34 @@ public class ClientController {
             return "clients";
         }
 
-        Client client = clientDAO.getClientByPassport(input.getPassport());
-        if (updateClient(client, input)) {
-            clientDAO.add(client);
-        } else {
-            setUpView(model, input);
-            model.addAttribute("alreadyExists", "");
-            return "clients";
+        if (!input.getNewPassport().isEmpty()) {
+            if (clientDAO.existsByPassport(input.getNewPassport())) {
+                setUpView(model, input);
+                model.addAttribute("alreadyExistsMessageEdit", "");
+                return "clients";
+            }
         }
+
+        for (Client client : clientDAO.findAll()) {
+            if (client.equalsPhone(input.getPhone())
+                    || client.getMail().equals(input.getMail())
+                    || client.getPassport().equals(input.getPassport())) {
+
+                setUpView(model, input);
+                if (client.equalsPhone(input.getPhone())) {
+                    model.addAttribute("occupiedPhoneMessageEdit", "");
+                }
+                if (client.getMail().equals(input.getMail())) {
+                    model.addAttribute("occupiedMailMessageEdit", "");
+                }
+
+                return "clients";
+            }
+        }
+
+        Client client = clientDAO.getClientByPassport(input.getPassport());
+        updateClient(client, input);
+        clientDAO.add(client);
 
         return "redirect:/clients/";
     }

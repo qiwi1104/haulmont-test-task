@@ -11,6 +11,24 @@
         </script>
     </div>
 </div>
+<div th:fragment="occupiedPhone" th:object="${occupiedPhoneMessage}" hidden>
+    <div th:if="${occupiedPhoneMessage}">
+        <script>
+        table = document.body.getElementsByClassName("hiddenPanel").add;
+        table.children[0].children[2].firstElementChild.append("This phone is occupied.");
+
+        </script>
+    </div>
+</div>
+<div th:fragment="occupiedMail" th:object="${occupiedMailMessage}" hidden>
+    <div th:if="${occupiedMailMessage}">
+        <script>
+        table = document.body.getElementsByClassName("hiddenPanel").add;
+        table.children[0].children[2].firstElementChild.append("This mail is occupied.");
+
+        </script>
+    </div>
+</div>
 <div th:fragment="emptyFields" th:object="${emptyFieldsMessage}" hidden>
     <div th:if="${emptyFieldsMessage}">
         <script>
@@ -40,6 +58,15 @@
     </div>
 </div>
 <!--Edit-->
+<div th:fragment="alreadyExistsEdit" th:object="${alreadyExistsMessageEdit}" hidden>
+    <div th:if="${alreadyExistsMessageEdit}">
+        <script>
+        table = document.body.getElementsByClassName("hiddenPanel").edit;
+        table.children[0].children[3].firstElementChild.append("This client already exists.");
+
+        </script>
+    </div>
+</div>
 <div th:fragment="nonExistentEdit" th:object="${nonExistentMessageEdit}" hidden>
     <div th:if="${nonExistentMessageEdit}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
@@ -57,6 +84,24 @@
         actionsHandler("edit");
         table = document.body.getElementsByClassName("hiddenPanel").edit;
         table.children[0].children[3].firstElementChild.append("Please, fill in the passport field.");
+        </script>
+    </div>
+</div>
+<div th:fragment="occupiedPhoneEdit" th:object="${occupiedPhoneMessageEdit}" hidden>
+    <div th:if="${occupiedPhoneMessageEdit}">
+        <script>
+        table = document.body.getElementsByClassName("hiddenPanel").edit;
+        table.children[0].children[3].firstElementChild.append("This phone is occupied.");
+
+        </script>
+    </div>
+</div>
+<div th:fragment="occupiedMailEdit" th:object="${occupiedMailMessageEdit}" hidden>
+    <div th:if="${occupiedMailMessageEdit}">
+        <script>
+        table = document.body.getElementsByClassName("hiddenPanel").edit;
+        table.children[0].children[3].firstElementChild.append("This mail is occupied.");
+
         </script>
     </div>
 </div>

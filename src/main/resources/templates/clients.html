@@ -43,8 +43,15 @@
                 <td>
                     <input type="submit" value="add client">
                     <div th:replace="fragments/errorMessages :: alreadyExists"></div>
+                    <br/>
+                    <div th:replace="fragments/errorMessages :: occupiedMail"></div>
+                    <br/>
+                    <div th:replace="fragments/errorMessages :: occupiedPhone"></div>
+                    <br/>
                     <div th:replace="fragments/errorMessages :: emptyFields"></div>
+                    <br/>
                     <div th:replace="fragments/errorMessages :: invalidFields"></div>
+                    <br/>
                     <div th:replace="fragments/errorMessages :: hasCredit"></div>
                 </td>
             </tr>
@@ -91,7 +98,15 @@
             <tr>
                 <td>
                     <input type="submit" value="edit client">
+                    <div th:replace="fragments/errorMessages :: alreadyExistsEdit"></div>
+                    <br/>
                     <div th:replace="fragments/errorMessages :: nonExistentEdit"></div>
+                    <br/>
+                    <div th:replace="fragments/errorMessages :: emptyPassport"></div>
+                    <br/>
+                    <div th:replace="fragments/errorMessages :: occupiedMailEdit"></div>
+                    <br/>
+                    <div th:replace="fragments/errorMessages :: occupiedPhoneEdit"></div>
                 </td>
             </tr>
         </table>
