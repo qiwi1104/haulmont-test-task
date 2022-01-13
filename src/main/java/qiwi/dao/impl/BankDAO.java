@@ -44,7 +44,7 @@ public class BankDAO {
                     if (client.getCredits().isEmpty()) {
                         bank.deleteClient(client);
                         repository.save(bank);
-                        break;
+                        return;
                     }
                 }
             }
