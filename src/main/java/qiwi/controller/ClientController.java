@@ -142,19 +142,19 @@ public class ClientController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable UUID id, Model model) {
-        if (clientDAO.hasCredit(id)) {
+        if (clientDAO.hasCreditById(id)) {
             setUpView(model, new ClientInput());
             model.addAttribute("hasCreditMessage", "");
             return "clients";
         }
 
-        clientDAO.delete(id);
+        clientDAO.deleteById(id);
         return "redirect:/clients/";
     }
 
     @GetMapping("/deleteCredit/{id}")
     public String deleteCredit(@PathVariable UUID id) {
-        creditDAO.delete(id);
+        creditDAO.deleteById(id);
         return "redirect:/clients/";
     }
 

@@ -128,7 +128,10 @@ public class Client extends AbstractEntity {
 
     public boolean equalsPhone(String phone) {
         String thisReversedPhone = new StringBuilder(this.phone).reverse().substring(0, 10);
-        String reversedPhone = new StringBuilder(phone).reverse().substring(0, 10);
+        String reversedPhone = "";
+        if (!phone.isEmpty()) {
+            reversedPhone = new StringBuilder(phone).reverse().substring(0, 10);
+        }
         return thisReversedPhone.equals(reversedPhone);
     }
 

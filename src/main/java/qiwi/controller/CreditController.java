@@ -76,7 +76,7 @@ public class CreditController {
                 return "credits";
             }
 
-            if (!bankDAO.exists(bank.getName(), client)) {
+            if (!bankDAO.existsClientByBankName(bank.getName(), client)) {
                 setUpView(model, input);
                 model.addAttribute("nonExistentClientMessage", "");
                 return "credits";
@@ -121,7 +121,7 @@ public class CreditController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable UUID id) {
-        creditDAO.delete(id);
+        creditDAO.deleteById(id);
         return "redirect:/credits/";
     }
 

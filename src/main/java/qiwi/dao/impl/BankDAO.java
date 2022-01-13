@@ -19,20 +19,20 @@ public class BankDAO {
         repository.save(bank);
     }
 
-    public void delete(UUID id) {
+    public void deleteById(UUID id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
         }
     }
 
     public void addClient(Bank bank, Client client) {
-        if (!exists(bank.getName(), client)) {
+        if (!existsClientByBankName(bank.getName(), client)) {
             repository.getOne(bank.getId()).addClient(client);
         }
     }
 
     public void addCredit(Bank bank, Credit credit) {
-        if (!exists(bank.getName(), credit)) {
+        if (!existsCreditByBankName(bank.getName(), credit)) {
             repository.getOne(bank.getId()).addCredit(credit);
         }
     }
@@ -52,13 +52,7 @@ public class BankDAO {
     }
 
     public Bank getBankByName(String name) {
-        for (Bank bank : repository.findAll()) {
-            if (bank.getName().equals(name)) {
-                return bank;
-            }
-        }
-
-        return null;
+        return repository.getBankByName(name);
     }
 
     public Client getClientByPassport(String passport) {
@@ -73,15 +67,15 @@ public class BankDAO {
         return null;
     }
 
-    public boolean exists(Bank bank) {
-        return getBankByName(bank.getName()) != null;
+    public boolean existsByName(String name) {
+        return repository.existsByName(name);
     }
 
-    public boolean exists(String bankName, Client client) {
+    public boolean existsClientByBankName(String bankName, Client client) {
         return getBankByName(bankName).getClients().contains(client);
     }
 
-    public boolean exists(String bankName, Credit credit) {
+    public boolean existsCreditByBankName(String bankName, Credit credit) {
         return getBankByName(bankName).getCredits().contains(credit);
     }
 

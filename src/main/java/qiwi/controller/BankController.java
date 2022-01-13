@@ -43,7 +43,7 @@ public class BankController {
         }
 
         Bank bank = new Bank(input);
-        if (bankDAO.exists(bank)) {
+        if (bankDAO.existsByName(bank.getName())) {
             setUpView(model, new ClientInput(), new CreditInput(), input);
             model.addAttribute("alreadyExistsBankMessage", "");
             return "banks";
@@ -89,7 +89,7 @@ public class BankController {
                 Client client = new Client(input);
 
                 if (clientDAO.existsByPassport(client.getPassport())) {
-                    if (bankDAO.exists(input.getBank(), client)) {
+                    if (bankDAO.existsClientByBankName(input.getBank(), client)) {
                         setUpView(model, input, new CreditInput(), new BankInput());
                         model.addAttribute("alreadyExistsClientMessage", "");
                         return "banks";
@@ -120,7 +120,7 @@ public class BankController {
         }
 
         Client client = new Client(input);
-        if (bankDAO.exists(input.getBank(), client)) {
+        if (bankDAO.existsClientByBankName(input.getBank(), client)) {
             setUpView(model, input, new CreditInput(), new BankInput());
             model.addAttribute("alreadyExistsClientMessage", "");
             return "banks";
@@ -142,9 +142,9 @@ public class BankController {
         if (input.hasEmptyFields()) {
             Credit credit = new Credit(input);
 
-            if (creditDAO.exists(credit.getId())) {
+            if (creditDAO.existsById(credit.getId())) {
                 if (!input.getId().isEmpty()) {
-                    if (bankDAO.exists(input.getBank(), credit)) {
+                    if (bankDAO.existsCreditByBankName(input.getBank(), credit)) {
                         model.addAttribute("alreadyExistsMessage", "");
                         setUpView(model, new ClientInput(), input, new BankInput());
                         return "banks";
@@ -171,7 +171,7 @@ public class BankController {
         }
 
         Credit credit = new Credit(input);
-        if (bankDAO.exists(input.getBank(), credit)) {
+        if (bankDAO.existsCreditByBankName(input.getBank(), credit)) {
             model.addAttribute("alreadyExistsMessage", "");
             setUpView(model, new ClientInput(), input, new BankInput());
             return "banks";
@@ -181,7 +181,7 @@ public class BankController {
         bank.addCredit(credit);
         bankDAO.add(bank);
 
-        if (!creditDAO.exists(credit.getId())) {
+        if (!creditDAO.existsById(credit.getId())) {
             creditDAO.add(credit);
         }
 
@@ -190,13 +190,13 @@ public class BankController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable UUID id) {
-        bankDAO.delete(id);
+        bankDAO.deleteById(id);
         return "redirect:/banks/";
     }
 
     @GetMapping("/deleteClient/{id}")
     public String deleteClient(@PathVariable UUID id, Model model) {
-        if (clientDAO.hasCredit(id)) {
+        if (clientDAO.hasCreditById(id)) {
             setUpView(model, new ClientInput(), new CreditInput(), new BankInput());
             model.addAttribute("hasCreditBankMessage", "");
             return "banks";
@@ -208,7 +208,7 @@ public class BankController {
 
     @GetMapping("/deleteCredit/{id}")
     public String deleteCredit(@PathVariable UUID id) {
-        creditDAO.delete(id);
+        creditDAO.deleteById(id);
         return "redirect:/banks/";
     }
 

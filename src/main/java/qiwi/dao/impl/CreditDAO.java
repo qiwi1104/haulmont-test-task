@@ -17,13 +17,13 @@ public class CreditDAO {
         repository.save(credit);
     }
 
-    public void delete(UUID id) {
+    public void deleteById(UUID id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
         }
     }
 
-    public boolean exists(UUID id) {
+    public boolean existsById(UUID id) {
         return repository.existsById(id);
     }
 

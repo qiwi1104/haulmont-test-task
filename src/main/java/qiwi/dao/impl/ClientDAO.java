@@ -19,7 +19,7 @@ public class ClientDAO {
         repository.save(client);
     }
 
-    public void delete(UUID id) {
+    public void deleteById(UUID id) {
         if (repository.existsById(id)) {
             if (repository.getOne(id).getCredits().isEmpty()) {
                 Iterator<Bank> iterator = repository.getOne(id).getBanks().iterator();
@@ -33,26 +33,16 @@ public class ClientDAO {
         }
     }
 
-    public boolean hasCredit(UUID id) {
+    public boolean hasCreditById(UUID id) {
         return !repository.getOne(id).getCredits().isEmpty();
     }
 
     public Client getClientByPassport(String passport) {
-        for (Client client : repository.findAll()) {
-            if (client.getPassport().equals(passport)) {
-                return client;
-            }
-        }
-
-        return null;
-    }
-
-    public boolean exists(Client client) {
-        return getClientByPassport(client.getPassport()) != null;
+        return repository.getClientByPassport(passport);
     }
 
     public boolean existsByPassport(String passport) {
-        return getClientByPassport(passport) != null;
+        return repository.existsByPassport(passport);
     }
 
     public List<Client> findAll() {
