@@ -29,6 +29,17 @@
         </script>
     </div>
 </div>
+<div th:fragment="hasCredit" th:object="${hasCreditMessage}" hidden>
+    <div th:if="${hasCreditMessage}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script>
+        actionsHandler("add");
+        table = document.body.getElementsByClassName("hiddenPanel").add;
+        table.children[0].children[2].firstElementChild.append("Cannot delete a client who has credits.");
+        </script>
+    </div>
+</div>
+<!--Edit-->
 <div th:fragment="nonExistentEdit" th:object="${nonExistentMessageEdit}" hidden>
     <div th:if="${nonExistentMessageEdit}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
@@ -49,25 +60,16 @@
         </script>
     </div>
 </div>
-<div th:fragment="hasCredit" th:object="${hasCreditMessage}" hidden>
-    <div th:if="${hasCreditMessage}">
-        <script th:src="@{/js/src/actionsHandler.js}"></script>
-        <script>
-        actionsHandler("add");
-        table = document.body.getElementsByClassName("hiddenPanel").add;
-        table.children[0].children[2].firstElementChild.append("Cannot delete a client who has credits.");
-        </script>
-    </div>
-</div>
 
 <!--Banks-->
-<div th:fragment="alreadyExistsBankName" th:object="${alreadyExistsBankNameMessage}" hidden>
-    <div th:if="${alreadyExistsBankNameMessage}">
+<div th:fragment="alreadyExistsClient" th:object="${alreadyExistsClientMessage}" hidden>
+    <div th:if="${alreadyExistsClientMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
         <script>
-            actionsHandler("edit");
-            table = document.body.getElementsByClassName("hiddenPanel").edit;
-            table.children[0].children[1].firstElementChild.append("This bank already exists.");
+        actionsHandler("addClient");
+        table = document.body.getElementsByClassName("hiddenPanel").addClient;
+        table.children[0].children[3].firstElementChild.append("This client already exists.");
+
         </script>
     </div>
 </div>
@@ -98,16 +100,6 @@
         </script>
     </div>
 </div>
-<div th:fragment="nonExistentEditBank" th:object="${nonExistentBankMessageEdit}" hidden>
-    <div th:if="${nonExistentBankMessageEdit}">
-        <script th:src="@{/js/src/actionsHandler.js}"></script>
-        <script>
-        actionsHandler("edit");
-        table = document.body.getElementsByClassName("hiddenPanel").edit;
-        table.children[0].children[1].firstElementChild.append("This bank doesn't exist.");
-        </script>
-    </div>
-</div>
 <div th:fragment="hasCreditBank" th:object="${hasCreditBankMessage}" hidden>
     <div th:if="${hasCreditBankMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
@@ -118,21 +110,33 @@
         </script>
     </div>
 </div>
+<!--Edit-->
+<div th:fragment="nonExistentEditBank" th:object="${nonExistentBankMessageEdit}" hidden>
+    <div th:if="${nonExistentBankMessageEdit}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script>
+        actionsHandler("edit");
+        table = document.body.getElementsByClassName("hiddenPanel").edit;
+        table.children[0].children[2].firstElementChild.append("This bank doesn't exist.");
+        </script>
+    </div>
+</div>
+<div th:fragment="alreadyExistsBankName" th:object="${alreadyExistsBankNameMessage}" hidden>
+    <div th:if="${alreadyExistsBankNameMessage}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script>
+            actionsHandler("edit");
+            table = document.body.getElementsByClassName("hiddenPanel").edit;
+            table.children[0].children[2].firstElementChild.append("This bank already exists.");
+        </script>
+    </div>
+</div>
 
 <!--Credits-->
 <div th:fragment="alreadyExistsCredit" th:object="${alreadyExistsCreditMessage}" hidden>
     <div th:if="${alreadyExistsCreditMessage}">
         <script>
         table = document.body.getElementsByClassName("hiddenPanel").add;
-        table.children[0].children[1].firstElementChild.append("This credit already exists.");
-
-        </script>
-    </div>
-</div>
-<div th:fragment="alreadyExistsCreditEdit" th:object="${alreadyExistsCreditEditMessage}" hidden>
-    <div th:if="${alreadyExistsCreditEditMessage}">
-        <script>
-        table = document.body.getElementsByClassName("hiddenPanel").edit;
         table.children[0].children[1].firstElementChild.append("This credit already exists.");
 
         </script>
@@ -156,23 +160,13 @@
         </script>
     </div>
 </div>
-<div th:fragment="nonExistentEditCredit" th:object="${nonExistentCreditMessageEdit}" hidden>
-    <div th:if="${nonExistentCreditMessageEdit}">
+<div th:fragment="nonExistentBank" th:object="${nonExistentBankMessage}" hidden>
+    <div th:if="${nonExistentBankMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
         <script>
-        actionsHandler("edit");
-        table = document.body.getElementsByClassName("hiddenPanel").edit;
-        table.children[0].children[1].firstElementChild.append("This credit doesn't exist.");
-        </script>
-    </div>
-</div>
-<div th:fragment="emptyIdCredit" th:object="${emptyIdCreditMessage}" hidden>
-    <div th:if="${emptyIdCreditMessage}">
-        <script th:src="@{/js/src/actionsHandler.js}"></script>
-        <script>
-        actionsHandler("edit");
-        table = document.body.getElementsByClassName("hiddenPanel").edit;
-        table.children[0].children[1].firstElementChild.append("Please, fill in the id field.");
+        actionsHandler("add");
+        table = document.body.getElementsByClassName("hiddenPanel").add
+        table.children[0].children[2].firstElementChild.append("This bank doesn't exist.");
         </script>
     </div>
 </div>
@@ -180,8 +174,28 @@
     <div th:if="${nonExistentClientMessage}">
         <script>
         table = document.body.getElementsByClassName("hiddenPanel").add;
-        table.children[0].children[1].firstElementChild.append("This person is not a client of this bank.");
+        table.children[0].children[2].firstElementChild.append("This person is not a client of this bank.");
 
+        </script>
+    </div>
+</div>
+<!--Edit-->
+<div th:fragment="alreadyExistsCreditEdit" th:object="${alreadyExistsCreditEditMessage}" hidden>
+    <div th:if="${alreadyExistsCreditEditMessage}">
+        <script>
+        table = document.body.getElementsByClassName("hiddenPanel").edit;
+        table.children[0].children[1].firstElementChild.append("This credit already exists.");
+
+        </script>
+    </div>
+</div>
+<div th:fragment="nonExistentEditCredit" th:object="${nonExistentCreditMessageEdit}" hidden>
+    <div th:if="${nonExistentCreditMessageEdit}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script>
+        actionsHandler("edit");
+        table = document.body.getElementsByClassName("hiddenPanel").edit;
+        table.children[0].children[1].firstElementChild.append("This credit doesn't exist.");
         </script>
     </div>
 </div>

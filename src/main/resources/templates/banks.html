@@ -69,19 +69,12 @@
                 <td>
                     <input type="submit" value="add client">
                     <script th:src="@{/js/src/actionsHandler.js}"></script>
-                    <div th:if="${alreadyExistsMessage}" th:object="${alreadyExistsMessage}" hidden>
-                        <script>
-                            actionsHandler("addClient");
-                            table = document.body.getElementsByClassName("hiddenPanel").addClient;
-                            table.children[0].children[2].firstElementChild.append("This client already exists.");
-
-                        </script>
-                    </div>
+                    <div th:replace="fragments/errorMessages :: alreadyExistsClient"></div>
                     <div th:if="${emptyFieldsMessage}" th:object="${emptyFieldsMessage}" hidden>
                         <script>
                             actionsHandler("addClient");
                             let table = document.body.getElementsByClassName("hiddenPanel").addClient;
-                            table.children[0].children[2].firstElementChild.append("Please fill the empty fields.");
+                            table.children[0].children[3].firstElementChild.append("Please fill the empty fields.");
 
                         </script>
                     </div>
@@ -89,7 +82,7 @@
                         <script>
                             actionsHandler("addClient");
                             let table = document.body.getElementsByClassName("hiddenPanel").addClient;
-                            table.children[0].children[2].firstElementChild.append("Some fields have illegal characters.");
+                            table.children[0].children[3].firstElementChild.append("Some fields have illegal characters.");
 
                         </script>
                     </div>

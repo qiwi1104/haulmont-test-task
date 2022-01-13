@@ -63,6 +63,13 @@ public class BankController {
         }
 
         Bank bank = bankDAO.getBankByName(input.getName());
+
+        if (bank == null) {
+            setUpView(model, new ClientInput(), new CreditInput(), input);
+            model.addAttribute("nonExistentBankMessageEdit", "");
+            return "banks";
+        }
+
         if (bankDAO.getBankByName(input.getNewName()) != null) {
             setUpView(model, new ClientInput(), new CreditInput(), input);
             model.addAttribute("alreadyExistsBankNameMessage", "");
@@ -83,8 +90,8 @@ public class BankController {
             if (clientDAO.existsByPassport(client.getPassport())) {
                 if (!input.getPassport().isEmpty()) {
                     if (bankDAO.exists(input.getBank(), client)) {
-                        model.addAttribute("alreadyExistsMessage", "");
                         setUpView(model, input, new CreditInput(), new BankInput());
+                        model.addAttribute("alreadyExistsClientMessage", "");
                         return "banks";
                     } else {
                         client = clientDAO.getClientByPassport(client.getPassport());
@@ -110,8 +117,8 @@ public class BankController {
 
         Client client = new Client(input);
         if (bankDAO.exists(input.getBank(), client)) {
-            model.addAttribute("alreadyExistsMessage", "");
             setUpView(model, input, new CreditInput(), new BankInput());
+            model.addAttribute("alreadyExistsClientMessage", "");
             return "banks";
         }
 

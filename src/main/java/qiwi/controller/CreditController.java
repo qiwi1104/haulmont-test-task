@@ -67,22 +67,28 @@ public class CreditController {
 
         Bank bank = bankDAO.getBankByName(input.getBank());
         Client client = bankDAO.getClientByPassport(input.getPassport());
-
         Credit credit = new Credit(input, bank, client);
-        if (creditDAO.exists(credit)) {
+
+        if (bank != null) {
+            if (creditDAO.exists(credit)) {
+                setUpView(model, input);
+                model.addAttribute("alreadyExistsCreditMessage", "");
+                return "credits";
+            }
+
+            if (!bankDAO.exists(bank.getName(), client)) {
+                setUpView(model, input);
+                model.addAttribute("nonExistentClientMessage", "");
+                return "credits";
+            }
+
+            creditDAO.add(credit);
+            bankDAO.addCredit(bankDAO.getBankByName(input.getBank()), credit);
+        } else {
             setUpView(model, input);
-            model.addAttribute("alreadyExistsCreditMessage", "");
+            model.addAttribute("nonExistentBankMessage", "");
             return "credits";
         }
-
-        if (!bankDAO.exists(bank.getName(), client)) {
-            setUpView(model, input);
-            model.addAttribute("nonExistentClientMessage", "");
-            return "credits";
-        }
-
-        creditDAO.add(credit);
-        bankDAO.addCredit(bankDAO.getBankByName(input.getBank()), credit);
 
         return "redirect:/credits/";
     }

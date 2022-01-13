@@ -2,10 +2,7 @@ package qiwi.model;
 
 import qiwi.model.input.ClientInput;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -21,7 +18,7 @@ public class Client extends AbstractEntity {
     @ManyToMany(mappedBy = "clients")
     private List<Bank> banks;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Credit> credits;
 
     public Client() {

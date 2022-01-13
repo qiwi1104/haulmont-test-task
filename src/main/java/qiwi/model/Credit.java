@@ -37,6 +37,13 @@ public class Credit extends AbstractEntity {
         this.client = client;
     }
 
+    public Credit(double limit, double interest, Client client) {
+        this.limit = limit;
+        this.interest = interest;
+
+        this.client = client;
+    }
+
     public Credit(CreditInput input) {
         this.limit = Double.parseDouble(input.getLimit());
         this.interest = Double.parseDouble(input.getInterest());

@@ -11,13 +11,13 @@ import java.util.List;
 public class Bank extends AbstractEntity {
     private String name;
 
-    @OneToMany(mappedBy = "bank")
+    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Credit> credits;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "clients_banks",
-            joinColumns = @JoinColumn(name = "client_id"),
-            inverseJoinColumns = {@JoinColumn(name = "bank_id")})
+            joinColumns = @JoinColumn(name = "bank_id"),
+            inverseJoinColumns = {@JoinColumn(name = "client_id")})
     private List<Client> clients;
 
     public Bank() {
