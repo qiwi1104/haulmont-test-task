@@ -60,7 +60,9 @@
 <!--Edit-->
 <div th:fragment="alreadyExistsEdit" th:object="${alreadyExistsMessageEdit}" hidden>
     <div th:if="${alreadyExistsMessageEdit}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
         <script>
+        actionsHandler("edit");
         table = document.body.getElementsByClassName("hiddenPanel").edit;
         table.children[0].children[3].firstElementChild.append("This client already exists.");
 
@@ -89,7 +91,9 @@
 </div>
 <div th:fragment="occupiedPhoneEdit" th:object="${occupiedPhoneMessageEdit}" hidden>
     <div th:if="${occupiedPhoneMessageEdit}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
         <script>
+        actionsHandler("edit");
         table = document.body.getElementsByClassName("hiddenPanel").edit;
         table.children[0].children[3].firstElementChild.append("This phone is occupied.");
 
@@ -98,9 +102,22 @@
 </div>
 <div th:fragment="occupiedMailEdit" th:object="${occupiedMailMessageEdit}" hidden>
     <div th:if="${occupiedMailMessageEdit}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
         <script>
+        actionsHandler("edit");
         table = document.body.getElementsByClassName("hiddenPanel").edit;
         table.children[0].children[3].firstElementChild.append("This mail is occupied.");
+
+        </script>
+    </div>
+</div>
+<div th:fragment="invalidFieldsEdit" th:object="${invalidFieldsMessageEdit}" hidden>
+    <div th:if="${invalidFieldsMessageEdit}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script>
+            actionsHandler("edit");
+            let table = document.body.getElementsByClassName("hiddenPanel").edit;
+            table.children[0].children[3].firstElementChild.append("Some fields have illegal characters.");
 
         </script>
     </div>
@@ -133,6 +150,16 @@
             let table = document.body.getElementsByClassName("hiddenPanel").add;
             table.children[0].children[1].firstElementChild.append("Please fill the empty fields.");
 
+        </script>
+    </div>
+</div>
+<div th:fragment="emptyPassportBank" th:object="${emptyPassportBankMessage}" hidden>
+    <div th:if="${emptyPassportBankMessage}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script>
+        actionsHandler("addClient");
+        table = document.body.getElementsByClassName("hiddenPanel").addClient;
+        table.children[0].children[3].firstElementChild.append("Please, fill in the passport field.");
         </script>
     </div>
 </div>
