@@ -3,8 +3,8 @@ package qiwi.model;
 import qiwi.model.input.BankInput;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "banks")
@@ -12,13 +12,13 @@ public class Bank extends AbstractEntity {
     private String name;
 
     @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Credit> credits;
+    private Set<Credit> credits;
 
     @ManyToMany
     @JoinTable(name = "clients_banks",
             joinColumns = @JoinColumn(name = "bank_id"),
             inverseJoinColumns = {@JoinColumn(name = "client_id")})
-    private List<Client> clients;
+    private Set<Client> clients;
 
     public Bank() {
     }
@@ -33,8 +33,8 @@ public class Bank extends AbstractEntity {
         }
     }
 
-    public Bank(List<Client> clients) {
-        this.clients = new ArrayList<>();
+    public Bank(Set<Client> clients) {
+        this.clients = new HashSet<>();
         this.clients.addAll(clients);
     }
 
@@ -58,11 +58,11 @@ public class Bank extends AbstractEntity {
         return name;
     }
 
-    public List<Credit> getCredits() {
+    public Set<Credit> getCredits() {
         return credits;
     }
 
-    public List<Client> getClients() {
+    public Set<Client> getClients() {
         return clients;
     }
 

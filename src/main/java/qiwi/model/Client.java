@@ -3,7 +3,7 @@ package qiwi.model;
 import qiwi.model.input.ClientInput;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "clients")
@@ -16,10 +16,10 @@ public class Client extends AbstractEntity {
     private String passport;
 
     @ManyToMany(mappedBy = "clients")
-    private List<Bank> banks;
+    private Set<Bank> banks;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Credit> credits;
+    private Set<Credit> credits;
 
     public Client() {
     }
@@ -94,11 +94,11 @@ public class Client extends AbstractEntity {
         return passport;
     }
 
-    public List<Bank> getBanks() {
+    public Set<Bank> getBanks() {
         return banks;
     }
 
-    public List<Credit> getCredits() {
+    public Set<Credit> getCredits() {
         return credits;
     }
 

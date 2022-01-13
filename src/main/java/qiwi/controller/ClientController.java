@@ -115,7 +115,6 @@ public class ClientController {
             return "clients";
         }
 
-        bankDAO.deleteClientById(id);
         clientDAO.delete(id);
         return "redirect:/clients/";
     }
