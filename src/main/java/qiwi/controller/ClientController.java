@@ -98,16 +98,8 @@ public class ClientController {
 
         if (!Validator.Client.isValidEdit(input)) {
             setUpView(model, input);
-            model.addAttribute("invalidFieldsMessage", "");
+            model.addAttribute("invalidFieldsMessageEdit", "");
             return "clients";
-        }
-
-        if (!input.getNewPassport().isEmpty()) {
-            if (clientDAO.existsByPassport(input.getNewPassport())) {
-                setUpView(model, input);
-                model.addAttribute("alreadyExistsMessageEdit", "");
-                return "clients";
-            }
         }
 
         for (Client client : clientDAO.findAll()) {
@@ -125,6 +117,20 @@ public class ClientController {
 
                 return "clients";
             }
+        }
+
+        if (!input.getNewPassport().isEmpty()) {
+            if (clientDAO.existsByPassport(input.getNewPassport())) {
+                setUpView(model, input);
+                model.addAttribute("alreadyExistsMessageEdit", "");
+                return "clients";
+            }
+        }
+
+        if (!clientDAO.existsByPassport(input.getPassport())) {
+            setUpView(model, input);
+            model.addAttribute("nonExistentMessageEdit", "");
+            return "clients";
         }
 
         Client client = clientDAO.getClientByPassport(input.getPassport());

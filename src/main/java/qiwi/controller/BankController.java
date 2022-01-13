@@ -85,10 +85,10 @@ public class BankController {
     @PostMapping("/addClient")
     public String addClient(@ModelAttribute ClientInput input, Model model) {
         if (input.hasEmptyFields()) {
-            Client client = new Client(input);
+            if (!input.getPassport().isEmpty()) {
+                Client client = new Client(input);
 
-            if (clientDAO.existsByPassport(client.getPassport())) {
-                if (!input.getPassport().isEmpty()) {
+                if (clientDAO.existsByPassport(client.getPassport())) {
                     if (bankDAO.exists(input.getBank(), client)) {
                         setUpView(model, input, new CreditInput(), new BankInput());
                         model.addAttribute("alreadyExistsClientMessage", "");
@@ -102,10 +102,14 @@ public class BankController {
                         return "redirect:/banks/";
                     }
                 }
+            } else {
+                setUpView(model, input, new CreditInput(), new BankInput());
+                model.addAttribute("emptyPassportBankMessage", "");
+                return "banks";
             }
 
-            model.addAttribute("emptyFieldsMessage", "");
             setUpView(model, input, new CreditInput(), new BankInput());
+            model.addAttribute("emptyFieldsMessage", "");
             return "banks";
         }
 
@@ -122,13 +126,13 @@ public class BankController {
             return "banks";
         }
 
-        Bank bank = bankDAO.getBankByName(input.getBank());
-        bank.addClient(client);
-        bankDAO.add(bank);
-
         if (!clientDAO.existsByPassport(client.getPassport())) {
             clientDAO.add(client);
         }
+
+        Bank bank = bankDAO.getBankByName(input.getBank());
+        bank.addClient(client);
+        bankDAO.add(bank);
 
         return "redirect:/banks/";
     }
