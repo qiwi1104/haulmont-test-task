@@ -21,6 +21,9 @@ public class Client extends AbstractEntity {
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Credit> credits;
 
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CreditOffer> creditOffers;
+
     public Client() {
     }
 
@@ -100,6 +103,10 @@ public class Client extends AbstractEntity {
 
     public Set<Credit> getCredits() {
         return credits;
+    }
+
+    public Set<CreditOffer> getCreditOffers() {
+        return creditOffers;
     }
 
     public void setFirstName(String firstName) {

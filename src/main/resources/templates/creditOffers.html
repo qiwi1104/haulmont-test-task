@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Credit Offer</title>
+    <link th:replace="fragments/css :: css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<br/>
+<div>
+    <form action="#" th:action="@{/credit-offers/add}" th:object="${creditOfferInput}" method="post">
+        <table th:fragment="add" class="hiddenPanel" id="add">
+            <tr>
+                <td>
+                    <label>Bank</label>
+                    <input type="text" field="*{bank}" name="bank" th:value="${creditOfferInput.bank}">
+                </td>
+                <td>
+                    <label>Passport</label>
+                    <input type="text" field="*{passport}" name="passport" th:value="${creditOfferInput.passport}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="add credit offer">
+                    <!--                    ERRORS HERE-->
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<br/>
+<div>
+    <table align="center" border="1">
+        <tr bgcolor="#cccccc">
+            <td>Client</td>
+            <td>Credit</td>
+            <td>Credit Sum</td>
+            <td>Payment Schedule</td>
+            <td></td>
+        </tr>
+
+        <tr th:each="offer : ${creditOffers}" class="list">
+            <td>
+                <table>
+                    <tr bgcolor="#cccccc">
+                        <td>Name</td>
+                        <td>Passport</td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <span th:text="${offer.client.firstName}"></span>
+                            <span th:text="${offer.client.middleName}"></span>
+                            <span th:text="${offer.client.lastName}"></span>
+                        </td>
+                        <td th:text="${offer.client.passport}"></td>
+                    </tr>
+                </table>
+            </td>
+
+            <td>
+                <table>
+                    <tr bgcolor="#cccccc">
+                        <td>Limit</td>
+                        <td>Interest</td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td th:text="${offer.credit.limit}"></td>
+                        <td th:text="${offer.credit.interest}"></td>
+                    </tr>
+                </table>
+            </td>
+
+            <td th:text="offer.sum"></td>
+
+            <td>
+                <table>
+                    <tr bgcolor="#cccccc">
+                        <td>Date</td>
+                        <td>Sum</td>
+                        <td>Credit Body Sum</td>
+                        <td>Interest Sum</td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td th:text="${offer.schedule.date}"></td>
+                        <td th:text="${offer.schedule.installmentSum}"></td>
+                        <td th:text="${offer.schedule.creditSum}"></td>
+                        <td th:text="${offer.schedule.interestSum}"></td>
+                    </tr>
+                </table>
+            </td>
+
+            <td>
+                <a th:href="@{'/credit-offers/delete/{id}'(id=${offer.id})}">delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div th:replace="fragments/scripts :: scripts"></div>
+<script>perform("addClient");</script>
+</body>
+</html>

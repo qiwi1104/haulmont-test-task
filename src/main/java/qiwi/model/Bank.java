@@ -20,6 +20,9 @@ public class Bank extends AbstractEntity {
             inverseJoinColumns = {@JoinColumn(name = "client_id")})
     private Set<Client> clients;
 
+    @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CreditOffer> creditOffers;
+
     public Bank() {
     }
 
@@ -64,6 +67,10 @@ public class Bank extends AbstractEntity {
 
     public Set<Client> getClients() {
         return clients;
+    }
+
+    public Set<CreditOffer> getCreditOffers() {
+        return creditOffers;
     }
 
     public void setName(String name) {
