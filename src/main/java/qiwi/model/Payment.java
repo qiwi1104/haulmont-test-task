@@ -25,9 +25,9 @@ public class Payment extends AbstractEntity implements Comparable<Payment> {
 
     public Payment(LocalDate date, BigDecimal paymentSum, BigDecimal creditSum, BigDecimal interestSum) {
         this.date = date;
-        this.paymentSum = paymentSum.setScale(2, RoundingMode.HALF_UP);
-        this.creditSum = creditSum.setScale(2, RoundingMode.HALF_UP);
-        this.interestSum = interestSum.setScale(2, RoundingMode.HALF_UP);
+        this.paymentSum = paymentSum.setScale(10, RoundingMode.HALF_UP);
+        this.creditSum = creditSum.setScale(10, RoundingMode.HALF_UP);
+        this.interestSum = interestSum.setScale(10, RoundingMode.HALF_UP);
     }
 
     public LocalDate getDate() {
@@ -89,9 +89,9 @@ public class Payment extends AbstractEntity implements Comparable<Payment> {
         Payment payment = (Payment) o;
 
         if (!date.equals(payment.date)) return false;
-        if (!paymentSum.equals(payment.paymentSum)) return false;
-        if (!creditSum.equals(payment.creditSum)) return false;
-        if (!interestSum.equals(payment.interestSum)) return false;
+        if (paymentSum.compareTo(payment.paymentSum) != 0) return false;
+        if (creditSum.compareTo(payment.creditSum) != 0) return false;
+        if (interestSum.compareTo(payment.interestSum) != 0) return false;
         return creditOffer.equals(payment.creditOffer);
     }
 

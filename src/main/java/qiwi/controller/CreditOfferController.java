@@ -35,10 +35,6 @@ public class CreditOfferController {
         model.addAttribute("creditOffers", creditOfferDAO.findAll());
     }
 
-    private BigDecimal round(BigDecimal value) {
-        return value.setScale(2, RoundingMode.HALF_UP);
-    }
-
     @PostMapping("/add")
     public String add(@ModelAttribute("creditOfferInput") CreditOfferInput input, Model model) {
         if (input.hasEmptyFields()) {
@@ -60,20 +56,21 @@ public class CreditOfferController {
 
         BigDecimal interest = BigDecimal
                 .valueOf(Double.parseDouble(input.getInterest()))
-                .setScale(2, RoundingMode.HALF_UP);
+                .setScale(10, RoundingMode.HALF_UP);
 
         BigDecimal sum = BigDecimal
                 .valueOf(Double.parseDouble(input.getSum()))
-                .setScale(2, RoundingMode.HALF_UP);
+                .setScale(10, RoundingMode.HALF_UP);
 
         BigDecimal monthlyInterest = interest.divide(BigDecimal.valueOf(100 * 12), RoundingMode.HALF_UP);
+        BigDecimal temp = monthlyInterest
+                .divide(BigDecimal.ONE
+                        .subtract(monthlyInterest
+                                .add(BigDecimal.ONE)
+                                .pow(-months, new MathContext(10))), RoundingMode.HALF_UP);
         BigDecimal monthlyPaymentSum = sum
-                .multiply(monthlyInterest
-                        .divide(BigDecimal.ONE
-                                .subtract(monthlyInterest
-                                        .add(BigDecimal.ONE)
-                                        .pow(-months, new MathContext(2))), RoundingMode.HALF_UP));
-        BigDecimal remains = sum;
+                .multiply(temp).setScale(10, RoundingMode.HALF_UP);
+        BigDecimal remains = sum.setScale(10, RoundingMode.HALF_UP);
 
         creditOffer.setSum(sum);
 
@@ -97,9 +94,6 @@ public class CreditOfferController {
 
         clientDAO.addCreditOffer(input.getPassport(), creditOffer);
         creditOfferDAO.add(creditOffer);
-        creditDAO.getCredit(input.getBank(),
-                BigDecimal.valueOf(Double.parseDouble(input.getLimit())),
-                BigDecimal.valueOf(Double.parseDouble(input.getInterest()))).addCreditOffer(creditOffer);
 
         return "redirect:/credit-offers/";
     }

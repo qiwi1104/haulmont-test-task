@@ -13,15 +13,15 @@ public class CreditOffer extends AbstractEntity {
     @Column(name = "credit_sum")
     private BigDecimal sum;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "credit_id")
     private Credit credit;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "bank_id")
     private Bank bank;
 
@@ -58,7 +58,7 @@ public class CreditOffer extends AbstractEntity {
     }
 
     public void setSum(BigDecimal sum) {
-        this.sum = sum.setScale(2, RoundingMode.HALF_UP);
+        this.sum = sum.setScale(10, RoundingMode.HALF_UP);
     }
 
     public void setClient(Client client) {
