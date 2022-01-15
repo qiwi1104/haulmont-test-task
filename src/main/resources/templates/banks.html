@@ -23,7 +23,6 @@
                     <div th:replace="fragments/errorMessages :: alreadyExistsBank"></div>
                     <div th:replace="fragments/errorMessages :: emptyFieldsBank"></div>
                     <div th:replace="fragments/errorMessages :: invalidFieldsBank"></div>
-                    <div th:replace="fragments/errorMessages :: hasCreditBank"></div>
                 </td>
             </tr>
         </table>
@@ -153,18 +152,12 @@
             <td>
                 <table th:unless="${#lists.isEmpty(bank.credits)}" align="center" border="1">
                     <tr bgcolor="#cccccc">
-                        <td>Name</td>
                         <td>Limit</td>
                         <td>Interest</td>
                         <td></td>
                     </tr>
 
                     <tr th:each="credit : ${bank.credits}">
-                        <td>
-                            <span th:text="${credit.client.firstName}"></span>
-                            <span th:text="${credit.client.middleName}"></span>
-                            <span th:text="${credit.client.lastName}"></span>
-                        </td>
                         <td><span th:text="${credit.limit}"></span></td>
                         <td><span th:text="${credit.interest}"></span></td>
                         <td><a th:href="@{'/banks/deleteCredit/{id}'(id=${credit.id})}">delete</a></td>

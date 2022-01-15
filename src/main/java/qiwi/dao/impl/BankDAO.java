@@ -41,12 +41,11 @@ public class BankDAO {
         for (Bank bank : repository.findAll()) {
             for (Client client : bank.getClients()) {
                 if (client.getId().equals(id)) {
-                    if (client.getCredits().isEmpty()) {
-                        bank.deleteClient(client);
-                        repository.save(bank);
-                        return;
-                    }
+                    bank.deleteClient(client);
+                    repository.save(bank);
+                    return;
                 }
+
             }
         }
     }

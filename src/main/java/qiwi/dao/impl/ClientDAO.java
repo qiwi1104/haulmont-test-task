@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import qiwi.dao.ClientRepository;
 import qiwi.model.Bank;
 import qiwi.model.Client;
+import qiwi.model.CreditOffer;
 
 import java.util.Iterator;
 import java.util.List;
@@ -21,20 +22,18 @@ public class ClientDAO {
 
     public void deleteById(UUID id) {
         if (repository.existsById(id)) {
-            if (repository.getOne(id).getCredits().isEmpty()) {
-                Iterator<Bank> iterator = repository.getOne(id).getBanks().iterator();
-                while (iterator.hasNext()) {
-                    iterator.next().deleteClient(repository.getOne(id));
-                    iterator.remove();
-                }
-
-                repository.deleteById(id);
+            Iterator<Bank> iterator = repository.getOne(id).getBanks().iterator();
+            while (iterator.hasNext()) {
+                iterator.next().deleteClient(repository.getOne(id));
+                iterator.remove();
             }
+
+            repository.deleteById(id);
         }
     }
 
-    public boolean hasCreditById(UUID id) {
-        return !repository.getOne(id).getCredits().isEmpty();
+    public void addCreditOffer(String passport, CreditOffer creditOffer) {
+        getClientByPassport(passport).addCreditOffer(creditOffer);
     }
 
     public Client getClientByPassport(String passport) {

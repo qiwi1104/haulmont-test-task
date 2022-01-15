@@ -1,13 +1,17 @@
 package qiwi.model;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 @Entity
 @Table(name = "credit_offers")
 public class CreditOffer extends AbstractEntity {
     @Column(name = "credit_sum")
-    private double sum;
+    private BigDecimal sum;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
@@ -21,16 +25,19 @@ public class CreditOffer extends AbstractEntity {
     @JoinColumn(name = "bank_id")
     private Bank bank;
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "date", column = @Column(name = "schedule_date")),
-            @AttributeOverride(name = "installmentSum", column = @Column(name = "schedule_installment_sum")),
-            @AttributeOverride(name = "creditSum", column = @Column(name = "schedule_credit_sum")),
-            @AttributeOverride(name = "interestSum", column = @Column(name = "schedule_interest_sum"))
-    })
-    private Schedule schedule;
+    @OneToMany(mappedBy = "creditOffer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("date")
+    private SortedSet<Payment> payments;
 
-    public double getSum() {
+    public CreditOffer() {
+        this.payments = new TreeSet<>();
+    }
+
+    public void addPayment(Payment payment) {
+        this.payments.add(payment);
+    }
+
+    public BigDecimal getSum() {
         return sum;
     }
 
@@ -46,12 +53,12 @@ public class CreditOffer extends AbstractEntity {
         return bank;
     }
 
-    public Schedule getSchedule() {
-        return schedule;
+    public Set<Payment> getPayments() {
+        return payments;
     }
 
-    public void setSum(double sum) {
-        this.sum = sum;
+    public void setSum(BigDecimal sum) {
+        this.sum = sum.setScale(2, RoundingMode.HALF_UP);
     }
 
     public void setClient(Client client) {
@@ -64,39 +71,5 @@ public class CreditOffer extends AbstractEntity {
 
     public void setBank(Bank bank) {
         this.bank = bank;
-    }
-
-    @Embeddable
-    private static class Schedule {
-        private LocalDate date;
-        private double installmentSum;
-        private double creditSum;
-        private double interestSum;
-
-        public Schedule() {
-        }
-
-        public Schedule(LocalDate date, double installmentSum, double creditSum, double interestSum) {
-            this.date = date;
-            this.installmentSum = installmentSum;
-            this.creditSum = creditSum;
-            this.interestSum = interestSum;
-        }
-
-        public LocalDate getDate() {
-            return date;
-        }
-
-        public double getInstallmentSum() {
-            return installmentSum;
-        }
-
-        public double getCreditSum() {
-            return creditSum;
-        }
-
-        public double getInterestSum() {
-            return interestSum;
-        }
     }
 }

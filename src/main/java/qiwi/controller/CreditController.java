@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import qiwi.dao.impl.BankDAO;
 import qiwi.dao.impl.CreditDAO;
 import qiwi.model.Bank;
-import qiwi.model.Client;
 import qiwi.model.Credit;
 import qiwi.model.input.CreditInput;
 import qiwi.util.Validator;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Controller
@@ -31,13 +31,13 @@ public class CreditController {
         Credit updatedCredit = new Credit();
 
         if (input.getLimit() != null && !input.getLimit().isEmpty()) {
-            updatedCredit.setLimit(Double.parseDouble(input.getLimit()));
+            updatedCredit.setLimit(BigDecimal.valueOf(Double.parseDouble(input.getLimit())));
         } else {
             updatedCredit.setLimit(credit.getLimit());
         }
 
         if (input.getInterest() != null && !input.getInterest().isEmpty()) {
-            updatedCredit.setInterest(Double.parseDouble(input.getInterest()));
+            updatedCredit.setInterest(BigDecimal.valueOf(Double.parseDouble(input.getInterest())));
         } else {
             updatedCredit.setInterest(credit.getInterest());
         }
@@ -66,19 +66,12 @@ public class CreditController {
         }
 
         Bank bank = bankDAO.getBankByName(input.getBank());
-        Client client = bankDAO.getClientByPassport(input.getPassport());
-        Credit credit = new Credit(input, bank, client);
+        Credit credit = new Credit(input, bank);
 
         if (bank != null) {
             if (creditDAO.exists(credit)) {
                 setUpView(model, input);
                 model.addAttribute("alreadyExistsCreditMessage", "");
-                return "credits";
-            }
-
-            if (!bankDAO.existsClientByBankName(bank.getName(), client)) {
-                setUpView(model, input);
-                model.addAttribute("nonExistentClientMessage", "");
                 return "credits";
             }
 
@@ -107,7 +100,7 @@ public class CreditController {
             return "credits";
         }
 
-        Credit credit = creditDAO.getCreditByPassportAndBank(input.getPassport(), input.getBank());
+        Credit credit = creditDAO.getCreditById(UUID.fromString(input.getId()));
         if (updateCredit(credit, input)) {
             creditDAO.add(credit);
         } else {

@@ -3,8 +3,10 @@ package qiwi.dao.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import qiwi.dao.CreditRepository;
+import qiwi.model.Bank;
 import qiwi.model.Credit;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,10 +41,12 @@ public class CreditDAO {
         return null;
     }
 
-    public Credit getCreditByPassportAndBank(String passport, String bank) {
+    public Credit getCredit(String bankName, BigDecimal limit, BigDecimal interest) {
+        Bank bank = new Bank(bankName);
+        Credit creditToFind = new Credit(limit, interest, bank);
+
         for (Credit credit : repository.findAll()) {
-            if (credit.getClient().getPassport().equals(passport)
-                    && credit.getBank().getName().equals(bank)) {
+            if (credit.equals(creditToFind)) {
                 return credit;
             }
         }

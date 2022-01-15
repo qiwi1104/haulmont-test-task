@@ -2,6 +2,7 @@ package qiwi.util;
 
 import qiwi.model.input.ClientInput;
 import qiwi.model.input.CreditInput;
+import qiwi.model.input.CreditOfferInput;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -121,14 +122,10 @@ public class Validator {
             if (!input.getBank().isEmpty()) {
                 pattern = Pattern.compile("[a-zA-Z]+");
                 matcher = pattern.matcher(input.getBank());
-                if (!matcher.matches()) {
-                    return false;
-                }
+                return matcher.matches();
             }
 
-            pattern = Pattern.compile("^\\d{10}");
-            matcher = pattern.matcher(input.getPassport());
-            return matcher.matches();
+            return true;
         }
 
         public static boolean isValid(CreditInput input) {
@@ -154,6 +151,26 @@ public class Validator {
 
             pattern = Pattern.compile("[a-zA-Z]+");
             matcher = pattern.matcher(input.getBank());
+            return matcher.matches();
+        }
+    }
+
+    public static class CreditOffer {
+        public static boolean isValid(CreditOfferInput input) {
+            Pattern pattern = Pattern.compile("[0-9]+(\\.[0-9]+)|[0-9]+");
+
+            Matcher matcher = pattern.matcher(input.getMonths());
+            if (!matcher.matches()) {
+                return false;
+            }
+
+            matcher = pattern.matcher(input.getSum());
+            if (!matcher.matches()) {
+                return false;
+            }
+
+            pattern = Pattern.compile("[a-zA-Z]+");
+            matcher = pattern.matcher(input.getBank());
             if (!matcher.matches()) {
                 return false;
             }
@@ -163,5 +180,4 @@ public class Validator {
             return matcher.matches();
         }
     }
-
 }

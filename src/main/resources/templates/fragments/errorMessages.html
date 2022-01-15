@@ -47,16 +47,6 @@
         </script>
     </div>
 </div>
-<div th:fragment="hasCredit" th:object="${hasCreditMessage}" hidden>
-    <div th:if="${hasCreditMessage}">
-        <script th:src="@{/js/src/actionsHandler.js}"></script>
-        <script>
-        actionsHandler("add");
-        table = document.body.getElementsByClassName("hiddenPanel").add;
-        table.children[0].children[2].firstElementChild.append("Cannot delete a client who has credits.");
-        </script>
-    </div>
-</div>
 <!--Edit-->
 <div th:fragment="alreadyExistsEdit" th:object="${alreadyExistsMessageEdit}" hidden>
     <div th:if="${alreadyExistsMessageEdit}">
@@ -169,16 +159,6 @@
             let table = document.body.getElementsByClassName("hiddenPanel").add;
             table.children[0].children[1].firstElementChild.append("Some fields have illegal characters.");
 
-        </script>
-    </div>
-</div>
-<div th:fragment="hasCreditBank" th:object="${hasCreditBankMessage}" hidden>
-    <div th:if="${hasCreditBankMessage}">
-        <script th:src="@{/js/src/actionsHandler.js}"></script>
-        <script>
-        actionsHandler("add");
-        table = document.body.getElementsByClassName("hiddenPanel").add;
-        table.children[0].children[1].firstElementChild.append("Cannot delete a client who has credits.");
         </script>
     </div>
 </div>

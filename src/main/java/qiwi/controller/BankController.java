@@ -196,12 +196,6 @@ public class BankController {
 
     @GetMapping("/deleteClient/{id}")
     public String deleteClient(@PathVariable UUID id, Model model) {
-        if (clientDAO.hasCreditById(id)) {
-            setUpView(model, new ClientInput(), new CreditInput(), new BankInput());
-            model.addAttribute("hasCreditBankMessage", "");
-            return "banks";
-        }
-
         bankDAO.deleteClientById(id);
         return "redirect:/banks/";
     }

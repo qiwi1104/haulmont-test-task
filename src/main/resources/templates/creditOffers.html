@@ -23,6 +23,26 @@
             </tr>
             <tr>
                 <td>
+                    <label>Limit</label>
+                    <input type="text" field="*{limit}" name="limit" th:value="${creditOfferInput.limit}">
+                </td>
+                <td>
+                    <label>Interest</label>
+                    <input type="text" field="*{interest}" name="interest" th:value="${creditOfferInput.interest}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Months</label>
+                    <input type="text" field="*{months}" name="months" th:value="${creditOfferInput.months}">
+                </td>
+                <td>
+                    <label>Sum</label>
+                    <input type="text" field="*{sum}" name="sum" th:value="${creditOfferInput.sum}">
+                </td>
+            </tr>
+            <tr>
+                <td>
                     <input type="submit" value="add credit offer">
                     <!--                    ERRORS HERE-->
                 </td>
@@ -34,6 +54,7 @@
 <div>
     <table align="center" border="1">
         <tr bgcolor="#cccccc">
+            <td>Bank</td>
             <td>Client</td>
             <td>Credit</td>
             <td>Credit Sum</td>
@@ -42,12 +63,12 @@
         </tr>
 
         <tr th:each="offer : ${creditOffers}" class="list">
+            <td th:text="${offer.bank.name}"></td>
             <td>
-                <table>
+                <table border="1">
                     <tr bgcolor="#cccccc">
                         <td>Name</td>
                         <td>Passport</td>
-                        <td></td>
                     </tr>
 
                     <tr>
@@ -62,11 +83,10 @@
             </td>
 
             <td>
-                <table>
+                <table border="1">
                     <tr bgcolor="#cccccc">
                         <td>Limit</td>
                         <td>Interest</td>
-                        <td></td>
                     </tr>
 
                     <tr>
@@ -76,10 +96,10 @@
                 </table>
             </td>
 
-            <td th:text="offer.sum"></td>
+            <td th:text="${offer.sum}"></td>
 
             <td>
-                <table>
+                <table border="1" th:unless="${#lists.isEmpty(offer.payments)}">
                     <tr bgcolor="#cccccc">
                         <td>Date</td>
                         <td>Sum</td>
@@ -88,11 +108,11 @@
                         <td></td>
                     </tr>
 
-                    <tr>
-                        <td th:text="${offer.schedule.date}"></td>
-                        <td th:text="${offer.schedule.installmentSum}"></td>
-                        <td th:text="${offer.schedule.creditSum}"></td>
-                        <td th:text="${offer.schedule.interestSum}"></td>
+                    <tr th:each="payment : ${offer.payments}">
+                        <td th:text="${payment.date}"></td>
+                        <td th:text="${payment.paymentSum}"></td>
+                        <td th:text="${payment.creditSum}"></td>
+                        <td th:text="${payment.interestSum}"></td>
                     </tr>
                 </table>
             </td>
