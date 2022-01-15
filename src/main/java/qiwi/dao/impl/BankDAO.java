@@ -41,6 +41,7 @@ public class BankDAO {
         for (Bank bank : repository.findAll()) {
             for (Client client : bank.getClients()) {
                 if (client.getId().equals(id)) {
+                    bank.getCreditOffers().removeIf(creditOffer -> creditOffer.getClient().equals(client));
                     bank.deleteClient(client);
                     repository.save(bank);
                     return;

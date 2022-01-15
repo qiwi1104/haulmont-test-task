@@ -206,7 +206,7 @@ public class BankController {
     }
 
     @GetMapping("/deleteClient/{id}")
-    public String deleteClient(@PathVariable UUID id, Model model) {
+    public String deleteClient(@PathVariable UUID id) {
         bankDAO.deleteClientById(id);
         return "redirect:/banks/";
     }
