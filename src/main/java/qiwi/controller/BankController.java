@@ -85,29 +85,40 @@ public class BankController {
     @PostMapping("/addClient")
     public String addClient(@ModelAttribute ClientInput input, Model model) {
         if (input.hasEmptyFields()) {
-            if (!input.getPassport().isEmpty()) {
-                Client client = new Client(input);
+            if (!input.getBank().isEmpty()) {
+                if (!input.getPassport().isEmpty()) {
+                    if (bankDAO.existsByName(input.getBank())) {
+                        Client client = new Client(input);
 
-                if (clientDAO.existsByPassport(client.getPassport())) {
-                    if (bankDAO.existsClientByBankName(input.getBank(), client)) {
-                        setUpView(model, input, new CreditInput(), new BankInput());
-                        model.addAttribute("alreadyExistsClientMessage", "");
-                        return "banks";
+                        if (clientDAO.existsByPassport(client.getPassport())) {
+                            if (bankDAO.existsClientByBankName(input.getBank(), client)) {
+                                setUpView(model, input, new CreditInput(), new BankInput());
+                                model.addAttribute("alreadyExistsClientMessage", "");
+                                return "banks";
+                            } else {
+                                client = clientDAO.getClientByPassport(client.getPassport());
+                                Bank bank = bankDAO.getBankByName(input.getBank());
+                                bank.addClient(client);
+                                bankDAO.add(bank);
+
+                                return "redirect:/banks/";
+                            }
+                        }
                     } else {
-                        client = clientDAO.getClientByPassport(client.getPassport());
-                        Bank bank = bankDAO.getBankByName(input.getBank());
-                        bank.addClient(client);
-                        bankDAO.add(bank);
-
-                        return "redirect:/banks/";
+                        setUpView(model, input, new CreditInput(), new BankInput());
+                        model.addAttribute("nonExistentBankMessage", "");
+                        return "banks";
                     }
+                } else {
+                    setUpView(model, input, new CreditInput(), new BankInput());
+                    model.addAttribute("emptyPassportBankMessage", "");
+                    return "banks";
                 }
             } else {
                 setUpView(model, input, new CreditInput(), new BankInput());
-                model.addAttribute("emptyPassportBankMessage", "");
+                model.addAttribute("emptyFieldsMessage", "");
                 return "banks";
             }
-
             setUpView(model, input, new CreditInput(), new BankInput());
             model.addAttribute("emptyFieldsMessage", "");
             return "banks";

@@ -70,6 +70,7 @@
                     <script th:src="@{/js/src/actionsHandler.js}"></script>
                     <div th:replace="fragments/errorMessages :: alreadyExistsClient"></div>
                     <div th:replace="fragments/errorMessages :: emptyPassportBank"></div>
+                    <div th:replace="fragments/errorMessages :: nonExistentBank"></div>
                     <div th:if="${emptyFieldsMessage}" th:object="${emptyFieldsMessage}" hidden>
                         <script>
                             actionsHandler("addClient");

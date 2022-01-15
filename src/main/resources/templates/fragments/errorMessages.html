@@ -162,6 +162,15 @@
         </script>
     </div>
 </div>
+<div th:fragment="nonExistentBank" th:object="${nonExistentBankMessage}" hidden>
+    <div th:if="${nonExistentBankMessage}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script>
+        table = document.body.getElementsByClassName("hiddenPanel").add;
+        table.children[0].children[1].firstElementChild.append("This bank doesn't exist.");
+        </script>
+    </div>
+</div>
 <!--Edit-->
 <div th:fragment="nonExistentEditBank" th:object="${nonExistentBankMessageEdit}" hidden>
     <div th:if="${nonExistentBankMessageEdit}">
