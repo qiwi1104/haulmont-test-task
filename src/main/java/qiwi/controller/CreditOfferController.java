@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import qiwi.dao.impl.*;
+import qiwi.dao.impl.BankDAO;
+import qiwi.dao.impl.ClientDAO;
+import qiwi.dao.impl.CreditDAO;
+import qiwi.dao.impl.CreditOfferDAO;
 import qiwi.model.CreditOffer;
 import qiwi.model.Payment;
 import qiwi.model.input.CreditOfferInput;
@@ -27,30 +30,18 @@ public class CreditOfferController {
     private CreditDAO creditDAO;
     @Autowired
     private BankDAO bankDAO;
-    @Autowired
-    private PaymentDAO paymentDAO;
 
     private void setUpView(Model model, CreditOfferInput input) {
         model.addAttribute("creditOfferInput", input);
         model.addAttribute("creditOffers", creditOfferDAO.findAll());
     }
 
-    @PostMapping("/add")
-    public String add(@ModelAttribute("creditOfferInput") CreditOfferInput input, Model model) {
-        if (input.hasEmptyFields()) {
-            setUpView(model, input);
-            model.addAttribute("", "");
-            return "creditOffers";
-        }
+    private void setUpViewAndAddAttribute(String attribute, Model model, CreditOfferInput input) {
+        setUpView(model, input);
+        model.addAttribute(attribute, "");
+    }
 
-        if (!Validator.CreditOffer.isValid(input)) {
-            setUpView(model, input);
-            model.addAttribute("", "");
-            return "creditOffers";
-        }
-
-        CreditOffer creditOffer = new CreditOffer();
-
+    private void calculatePayments(CreditOfferInput input, CreditOffer creditOffer) {
         LocalDate date = LocalDate.now();
         int months = Integer.parseInt(input.getMonths());
 
@@ -70,12 +61,12 @@ public class CreditOfferController {
                                 .pow(-months, new MathContext(10))), RoundingMode.HALF_UP);
         BigDecimal monthlyPaymentSum = sum
                 .multiply(temp).setScale(10, RoundingMode.HALF_UP);
-        BigDecimal remains = sum.setScale(10, RoundingMode.HALF_UP);
+        BigDecimal remainsCreditSum = sum.setScale(10, RoundingMode.HALF_UP);
 
         creditOffer.setSum(sum);
 
         for (int i = 1; i < months; i++) {
-            BigDecimal interestSum = remains.multiply(monthlyInterest);
+            BigDecimal interestSum = remainsCreditSum.multiply(monthlyInterest);
             BigDecimal creditSum = monthlyPaymentSum.subtract(interestSum);
 
             Payment payment = new Payment(date, monthlyPaymentSum, creditSum, interestSum);
@@ -83,16 +74,82 @@ public class CreditOfferController {
             payment.setCreditOffer(creditOffer);
 
             date = date.plusMonths(1);
-            remains = remains.subtract(monthlyPaymentSum);
+            remainsCreditSum = remainsCreditSum.subtract(creditSum);
+        }
+    }
+
+    @PostMapping("/add")
+    public String add(@ModelAttribute("creditOfferInput") CreditOfferInput input, Model model) {
+        String bank = input.getBank();
+        String passport = input.getPassport();
+
+        if (input.hasEmptyFields()) {
+            setUpView(model, input);
+            model.addAttribute("emptyFieldsCreditOfferMessage", "");
+            return "creditOffers";
         }
 
-        creditOffer.setClient(clientDAO.getClientByPassport(input.getPassport()));
-        creditOffer.setCredit(creditDAO.getCredit(input.getBank(),
-                BigDecimal.valueOf(Double.parseDouble(input.getLimit())),
-                BigDecimal.valueOf(Double.parseDouble(input.getInterest()))));
-        creditOffer.setBank(bankDAO.getBankByName(input.getBank()));
+        BigDecimal months = BigDecimal.valueOf(Long.parseLong(input.getMonths()));
+        BigDecimal limit = BigDecimal.valueOf(Long.parseLong(input.getLimit()));
+        BigDecimal interest = BigDecimal.valueOf(Long.parseLong(input.getInterest()));
+        BigDecimal sum = BigDecimal.valueOf(Long.parseLong(input.getSum()));
 
-        clientDAO.addCreditOffer(input.getPassport(), creditOffer);
+        if (!Validator.CreditOffer.isValid(input)) {
+            setUpView(model, input);
+            model.addAttribute("invalidFieldsCreditOfferMessage", "");
+            return "creditOffers";
+        }
+
+        if (!Validator.CreditOffer.isValidCreditDetail(input)) {
+            setUpView(model, input);
+            model.addAttribute("invalidCreditDetailsMessage", "");
+            return "creditOffers";
+        }
+
+        if (!bankDAO.existsByName(bank)) {
+            setUpView(model, input);
+            model.addAttribute("nonExistentBankInCreditOfferMessage", "");
+            return "creditOffers";
+        }
+
+        if (!bankDAO.existsClientByPassport(bank, passport)) {
+            setUpView(model, input);
+            model.addAttribute("nonExistentClientInCreditOfferMessage", "");
+            return "creditOffers";
+        }
+
+        if (months.compareTo(BigDecimal.ZERO) != 1) {
+            setUpView(model, input);
+            model.addAttribute("monthsErrorMessage", "");
+            return "creditOffers";
+        }
+
+        if (limit.compareTo(BigDecimal.ZERO) != 1) {
+            setUpView(model, input);
+            model.addAttribute("limitErrorMessage", "");
+            return "creditOffers";
+        }
+
+        if (sum.compareTo(BigDecimal.ZERO) != 1 || sum.compareTo(limit) == 1) {
+            setUpView(model, input);
+            model.addAttribute("sumErrorMessage", "");
+            return "creditOffers";
+        }
+
+        if (creditDAO.getCredit(bank, limit, interest) == null) {
+            setUpView(model, input);
+            model.addAttribute("nonExistentCreditMessage", "");
+            return "creditOffers";
+        }
+
+        CreditOffer creditOffer = new CreditOffer();
+        calculatePayments(input, creditOffer);
+
+        creditOffer.setClient(clientDAO.getClientByPassport(passport));
+        creditOffer.setCredit(creditDAO.getCredit(bank, limit, interest));
+        creditOffer.setBank(bankDAO.getBankByName(bank));
+
+        clientDAO.addCreditOffer(passport, creditOffer);
         creditOfferDAO.add(creditOffer);
 
         return "redirect:/credit-offers/";

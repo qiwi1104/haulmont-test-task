@@ -260,5 +260,76 @@
         </script>
     </div>
 </div>
+
+<!--Credit Offers-->
+<div th:fragment="emptyFieldsCreditOffer" th:object="${emptyFieldsCreditOfferMessage}" hidden>
+    <div th:if="${emptyFieldsCreditOfferMessage}">
+        <script>
+            let table = document.body.getElementsByClassName("hiddenPanel").add;
+            table.children[0].children[3].firstElementChild.append("Please fill the empty fields.");
+
+        </script>
+    </div>
+</div>
+<div th:fragment="invalidFieldsCreditOffer" th:object="${invalidFieldsCreditOfferMessage}" hidden>
+    <div th:if="${invalidFieldsCreditOfferMessage}">
+        <script>
+            let table = document.body.getElementsByClassName("hiddenPanel").add;
+            table.children[0].children[3].firstElementChild.append("Some fields have illegal characters.");
+
+        </script>
+    </div>
+</div>
+<div th:fragment="nonExistentCredit" th:object="${nonExistentCreditMessage}" hidden>
+    <div th:if="${nonExistentCreditMessage}">
+        <script>
+            let table = document.body.getElementsByClassName("hiddenPanel").add;
+            table.children[0].children[3].firstElementChild.append("This credit doesn't exists.");
+
+        </script>
+    </div>
+</div>
+<div th:fragment="nonExistentBankInCreditOffer" th:object="${nonExistentBankInCreditOfferMessage}" hidden>
+    <div th:if="${nonExistentBankInCreditOfferMessage}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script>
+        table = document.body.getElementsByClassName("hiddenPanel").add;
+        table.children[0].children[3].firstElementChild.append("This bank doesn't exist.");
+        </script>
+    </div>
+</div>
+<div th:fragment="nonExistentClientInCreditOffer" th:object="${nonExistentClientInCreditOfferMessage}" hidden>
+    <div th:if="${nonExistentClientInCreditOfferMessage}">
+        <script>
+        table = document.body.getElementsByClassName("hiddenPanel").add;
+        table.children[0].children[3].firstElementChild.append("This person is not a client of this bank.");
+
+        </script>
+    </div>
+</div>
+<div th:fragment="monthsError" th:object="${monthsErrorMessage}" hidden>
+    <div th:if="${monthsErrorMessage}">
+        <script>
+            let table = document.body.getElementsByClassName("hiddenPanel").add;
+            table.children[0].children[3].firstElementChild.append("Number of months must be above 0.");
+        </script>
+    </div>
+</div>
+<div th:fragment="limitError" th:object="${limitErrorMessage}" hidden>
+    <div th:if="${limitErrorMessage}">
+        <script>
+            let table = document.body.getElementsByClassName("hiddenPanel").add;
+            table.children[0].children[3].firstElementChild.append("Credit limit must be above 0.");
+        </script>
+    </div>
+</div>
+<div th:fragment="sumError" th:object="${sumErrorMessage}" hidden>
+    <div th:if="${sumErrorMessage}">
+        <script>
+            let table = document.body.getElementsByClassName("hiddenPanel").add;
+            table.children[0].children[3].firstElementChild.append("Credit sum must be between 0 and credit limit.");
+        </script>
+    </div>
+</div>
 </body>
 </html>

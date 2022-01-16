@@ -55,16 +55,14 @@ public class BankDAO {
         return repository.getBankByName(name);
     }
 
-    public Client getClientByPassport(String passport) {
-        for (Bank bank : repository.findAll()) {
-            for (Client client : bank.getClients()) {
-                if (client.getPassport().equals(passport)) {
-                    return client;
-                }
+    public boolean existsClientByPassport(String bankName, String passport) {
+        for (Client client : getBankByName(bankName).getClients()) {
+            if (client.getPassport().equals(passport)) {
+                return true;
             }
         }
 
-        return null;
+        return false;
     }
 
     public boolean existsByName(String name) {
