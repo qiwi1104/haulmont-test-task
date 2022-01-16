@@ -65,7 +65,7 @@ public class CreditOfferController {
 
         creditOffer.setSum(sum);
 
-        for (int i = 1; i < months; i++) {
+        for (int i = 1; i <= months; i++) {
             BigDecimal interestSum = remainsCreditSum.multiply(monthlyInterest);
             BigDecimal creditSum = monthlyPaymentSum.subtract(interestSum);
 
