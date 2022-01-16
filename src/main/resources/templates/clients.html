@@ -110,8 +110,7 @@
             <td>Name</td>
             <td><a th:href="@{'/clients/sort/{property}' (property = 'phone')}">Phone</a></td>
             <td>Mail</td>
-            <td>Passport</td>
-            <td>Credit Offer</td>
+            <td><a th:href="@{'/clients/sort/{property}' (property = 'passport')}">Passport</a></td>
             <td></td>
         </tr>
 
@@ -124,45 +123,6 @@
             <td th:text=" ${client.phone}"></td>
             <td th:text="${client.mail}"></td>
             <td th:text="${client.passport}"></td>
-
-            <td>
-                <table th:unless="${client.getCreditOffers().isEmpty()}" border="1">
-                    <tr bgcolor="#cccccc">
-                        <td>Bank</td>
-                        <td>Limit</td>
-                        <td>Interest</td>
-                        <td>Credit Sum</td>
-                        <td>Payment Schedule</td>
-                    </tr>
-
-                    <tr th:each="offer : ${client.creditOffers}" class="list">
-                        <td th:text="${offer.bank.name}"></td>
-
-                        <td th:text="${offer.credit.limit}"></td>
-                        <td th:text="${offer.credit.interest}"></td>
-                        <td th:text="${offer.sum}"></td>
-
-                        <td>
-                            <table th:unless="${#lists.isEmpty(offer.payments)}">
-                                <tr bgcolor="#cccccc">
-                                    <td>Date</td>
-                                    <td>Sum</td>
-                                    <td>Credit Body Sum</td>
-                                    <td>Interest Sum</td>
-                                    <td></td>
-                                </tr>
-
-                                <tr th:each="payment : ${offer.payments}">
-                                    <td th:text="${payment.date}"></td>
-                                    <td th:text="${payment.paymentSum}"></td>
-                                    <td th:text="${payment.creditSum}"></td>
-                                    <td th:text="${payment.interestSum}"></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </td>
 
             <td>
                 <a th:href="@{'/clients/delete/{id}'(id=${client.id})}">delete</a>
