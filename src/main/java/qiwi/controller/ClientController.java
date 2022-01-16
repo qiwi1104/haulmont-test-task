@@ -141,14 +141,8 @@ public class ClientController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable UUID id, Model model) {
+    public String delete(@PathVariable UUID id) {
         clientDAO.deleteById(id);
-        return "redirect:/clients/";
-    }
-
-    @GetMapping("/deleteCredit/{id}")
-    public String deleteCredit(@PathVariable UUID id) {
-        creditDAO.deleteById(id);
         return "redirect:/clients/";
     }
 
