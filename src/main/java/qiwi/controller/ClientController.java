@@ -25,6 +25,11 @@ public class ClientController {
         model.addAttribute("clientInput", input);
     }
 
+    private void setUpViewAndAddAttribute(String attribute, Model model, ClientInput input) {
+        setUpView(model, input);
+        model.addAttribute(attribute);
+    }
+
     private void updateClient(Client client, ClientInput input) {
         if (input.getFirstName() != null && !input.getFirstName().equals("")) {
             client.setFirstName(input.getFirstName());
@@ -49,20 +54,17 @@ public class ClientController {
     @PostMapping("/add")
     public String add(@ModelAttribute("clientInput") ClientInput input, Model model) {
         if (input.hasEmptyFields()) {
-            setUpView(model, input);
-            model.addAttribute("emptyFieldsMessage", "");
+            setUpViewAndAddAttribute("emptyFieldsMessage", model, input);
             return "clients";
         }
 
         if (!Validator.Client.isValid(input)) {
-            setUpView(model, input);
-            model.addAttribute("invalidFieldsMessage", "");
+            setUpViewAndAddAttribute("invalidFieldsMessage", model, input);
             return "clients";
         }
 
         if (clientDAO.existsByPassport(input.getPassport())) {
-            setUpView(model, input);
-            model.addAttribute("alreadyExistsMessage", "");
+            setUpViewAndAddAttribute("alreadyExistsMessage", model, input);
             return "clients";
         }
 
@@ -91,14 +93,12 @@ public class ClientController {
     @PostMapping("/edit/{passport}")
     public String edit(@ModelAttribute("clientInput") ClientInput input, Model model) {
         if (input.getPassport().isEmpty()) {
-            setUpView(model, input);
-            model.addAttribute("emptyPassportMessage", "");
+            setUpViewAndAddAttribute("emptyPassportMessage", model, input);
             return "clients";
         }
 
         if (!Validator.Client.isValidEdit(input)) {
-            setUpView(model, input);
-            model.addAttribute("invalidFieldsMessageEdit", "");
+            setUpViewAndAddAttribute("invalidFieldsMessageEdit", model, input);
             return "clients";
         }
 
@@ -121,15 +121,13 @@ public class ClientController {
 
         if (!input.getNewPassport().isEmpty()) {
             if (clientDAO.existsByPassport(input.getNewPassport())) {
-                setUpView(model, input);
-                model.addAttribute("alreadyExistsMessageEdit", "");
+                setUpViewAndAddAttribute("alreadyExistsMessageEdit", model, input);
                 return "clients";
             }
         }
 
         if (!clientDAO.existsByPassport(input.getPassport())) {
-            setUpView(model, input);
-            model.addAttribute("nonExistentMessageEdit", "");
+            setUpViewAndAddAttribute("nonExistentMessageEdit", model, input);
             return "clients";
         }
 

@@ -93,8 +93,7 @@ public class CreditOfferController {
         String passport = input.getPassport();
 
         if (input.hasEmptyFields()) {
-            setUpView(model, input);
-            model.addAttribute("emptyFieldsCreditOfferMessage", "");
+            setUpViewAndAddAttribute("emptyFieldsCreditOfferMessage", model, input);
             return "creditOffers";
         }
 
@@ -104,50 +103,53 @@ public class CreditOfferController {
         BigDecimal sum = BigDecimal.valueOf(Long.parseLong(input.getSum()));
 
         if (!Validator.CreditOffer.isValid(input)) {
-            setUpView(model, input);
-            model.addAttribute("invalidFieldsCreditOfferMessage", "");
+            setUpViewAndAddAttribute("invalidFieldsCreditOfferMessage", model, input);
             return "creditOffers";
         }
 
         if (!Validator.CreditOffer.isValidCreditDetail(input)) {
-            setUpView(model, input);
-            model.addAttribute("invalidCreditDetailsMessage", "");
+            setUpViewAndAddAttribute("invalidCreditDetailsMessage", model, input);
             return "creditOffers";
         }
 
+        boolean hasErrors = false;
+
         if (!bankDAO.existsByName(bank)) {
-            setUpView(model, input);
-            model.addAttribute("nonExistentBankInCreditOfferMessage", "");
-            return "creditOffers";
+            setUpViewAndAddAttribute("nonExistentBankInCreditOfferMessage", model, input);
+            hasErrors = true;
         }
 
         if (!bankDAO.existsClientByPassport(bank, passport)) {
-            setUpView(model, input);
-            model.addAttribute("nonExistentClientInCreditOfferMessage", "");
-            return "creditOffers";
-        }
-
-        if (months.compareTo(BigDecimal.ZERO) != 1) {
-            setUpView(model, input);
-            model.addAttribute("monthsErrorMessage", "");
-            return "creditOffers";
+            setUpViewAndAddAttribute("nonExistentClientInCreditOfferMessage", model, input);
+            hasErrors = true;
         }
 
         if (limit.compareTo(BigDecimal.ZERO) != 1) {
-            setUpView(model, input);
-            model.addAttribute("limitErrorMessage", "");
-            return "creditOffers";
+            setUpViewAndAddAttribute("limitErrorMessage", model, input);
+            hasErrors = true;
+        }
+
+        if (interest.compareTo(BigDecimal.ZERO) == -1) {
+            setUpViewAndAddAttribute("interestErrorMessage", model, input);
+            hasErrors = true;
+        }
+
+        if (months.compareTo(BigDecimal.ZERO) != 1) {
+            setUpViewAndAddAttribute("monthsErrorMessage", model, input);
+            hasErrors = true;
         }
 
         if (sum.compareTo(BigDecimal.ZERO) != 1 || sum.compareTo(limit) == 1) {
-            setUpView(model, input);
-            model.addAttribute("sumErrorMessage", "");
-            return "creditOffers";
+            setUpViewAndAddAttribute("sumErrorMessage", model, input);
+            hasErrors = true;
         }
 
         if (creditDAO.getCredit(bank, limit, interest) == null) {
-            setUpView(model, input);
-            model.addAttribute("nonExistentCreditMessage", "");
+            setUpViewAndAddAttribute("nonExistentCreditMessage", model, input);
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
             return "creditOffers";
         }
 
