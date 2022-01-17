@@ -75,8 +75,8 @@ public class CreditController {
                 return "credits";
             }
 
+            bank.addCredit(credit);
             creditDAO.add(credit);
-            bankDAO.addCredit(bankDAO.getBankByName(input.getBank()), credit);
         } else {
             setUpView(model, input);
             model.addAttribute("nonExistentBankMessage", "");

@@ -25,18 +25,6 @@ public class BankDAO {
         }
     }
 
-    public void addClient(Bank bank, Client client) {
-        if (!existsClientByBankName(bank.getName(), client)) {
-            repository.getOne(bank.getId()).addClient(client);
-        }
-    }
-
-    public void addCredit(Bank bank, Credit credit) {
-        if (!existsCreditByBankName(bank.getName(), credit)) {
-            repository.getOne(bank.getId()).addCredit(credit);
-        }
-    }
-
     public void deleteClientById(UUID id) {
         for (Bank bank : repository.findAll()) {
             for (Client client : bank.getClients()) {
