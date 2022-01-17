@@ -45,13 +45,8 @@ public class CreditOfferController {
         LocalDate date = LocalDate.now();
         int months = Integer.parseInt(input.getMonths());
 
-        BigDecimal interest = BigDecimal
-                .valueOf(Double.parseDouble(input.getInterest()))
-                .setScale(10, RoundingMode.HALF_UP);
-
-        BigDecimal sum = BigDecimal
-                .valueOf(Double.parseDouble(input.getSum()))
-                .setScale(10, RoundingMode.HALF_UP);
+        BigDecimal interest = BigDecimal.valueOf(Double.parseDouble(input.getInterest()));
+        BigDecimal sum = BigDecimal.valueOf(Double.parseDouble(input.getSum()));
 
         BigDecimal monthlyInterest = interest.divide(BigDecimal.valueOf(100 * 12), RoundingMode.HALF_UP);
         BigDecimal temp = monthlyInterest
@@ -59,9 +54,8 @@ public class CreditOfferController {
                         .subtract(monthlyInterest
                                 .add(BigDecimal.ONE)
                                 .pow(-months, new MathContext(10))), RoundingMode.HALF_UP);
-        BigDecimal monthlyPaymentSum = sum
-                .multiply(temp).setScale(10, RoundingMode.HALF_UP);
-        BigDecimal remainsCreditSum = sum.setScale(10, RoundingMode.HALF_UP);
+        BigDecimal monthlyPaymentSum = sum.multiply(temp);
+        BigDecimal remainsCreditSum = sum;
 
         creditOffer.setSum(sum);
 

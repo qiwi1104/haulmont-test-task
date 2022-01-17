@@ -2,7 +2,6 @@ package qiwi.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 
 @Entity
@@ -25,9 +24,9 @@ public class Payment extends AbstractEntity implements Comparable<Payment> {
 
     public Payment(LocalDate date, BigDecimal paymentSum, BigDecimal creditSum, BigDecimal interestSum) {
         this.date = date;
-        this.paymentSum = paymentSum.setScale(10, RoundingMode.HALF_UP);
-        this.creditSum = creditSum.setScale(10, RoundingMode.HALF_UP);
-        this.interestSum = interestSum.setScale(10, RoundingMode.HALF_UP);
+        this.paymentSum = paymentSum;
+        this.creditSum = creditSum;
+        this.interestSum = interestSum;
     }
 
     public LocalDate getDate() {
