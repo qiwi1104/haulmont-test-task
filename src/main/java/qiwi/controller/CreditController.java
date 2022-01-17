@@ -65,6 +65,26 @@ public class CreditController {
             return "credits";
         }
 
+        boolean hasErrors = false;
+
+        BigDecimal limit = BigDecimal.valueOf(Double.parseDouble(input.getLimit()));
+        if (limit.compareTo(BigDecimal.ZERO) != 1) {
+            setUpView(model, input);
+            model.addAttribute("illegalLimitValueMessage", "");
+            hasErrors = true;
+        }
+
+        BigDecimal interest = BigDecimal.valueOf(Double.parseDouble(input.getInterest()));
+        if (interest.compareTo(BigDecimal.ZERO) == -1) {
+            setUpView(model, input);
+            model.addAttribute("illegalInterestValueMessage", "");
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
+            return "credits";
+        }
+
         Bank bank = bankDAO.getBankByName(input.getBank());
         Credit credit = new Credit(input, bank);
 

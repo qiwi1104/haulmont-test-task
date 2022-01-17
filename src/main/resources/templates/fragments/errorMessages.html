@@ -221,6 +221,24 @@
         </script>
     </div>
 </div>
+<div th:fragment="illegalLimitValue" th:object="${illegalLimitValueMessage}" hidden>
+    <div th:if="${illegalLimitValueMessage}">
+        <script>
+            let table = document.body.getElementsByClassName("hiddenPanel").add;
+            table.children[0].children[1].firstElementChild.append("Credit limit must be above 0.");
+
+        </script>
+    </div>
+</div>
+<div th:fragment="illegalInterestValue" th:object="${illegalInterestValueMessage}" hidden>
+    <div th:if="${illegalInterestValueMessage}">
+        <script>
+            let table = document.body.getElementsByClassName("hiddenPanel").add;
+            table.children[0].children[1].firstElementChild.append("Interest rate must not be negative.");
+
+        </script>
+    </div>
+</div>
 <div th:fragment="nonExistentBank" th:object="${nonExistentBankMessage}" hidden>
     <div th:if="${nonExistentBankMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
