@@ -23,7 +23,7 @@
                     <input type="text" field="*{limit}" name="limit" th:value="${creditInput.limit}">
                 </td>
                 <td>
-                    <label>Interest</label>
+                    <label>Annual Interest Rate</label>
                     <input type="text" field="*{interest}" name="interest" th:value="${creditInput.interest}">
                 </td>
             </tr>
@@ -79,7 +79,7 @@
         <tr bgcolor="#cccccc">
             <td><a th:href="@{'/credits/sort/{property}' (property = 'bank.name')}">Bank</a></td>
             <td><a th:href="@{'/credits/sort/{property}' (property = 'limit')}">Limit</a></td>
-            <td><a th:href="@{'/credits/sort/{property}' (property = 'interest')}">Interest</a></td>
+            <td><a th:href="@{'/credits/sort/{property}' (property = 'interest')}">Annual Interest Rate</a></td>
             <td></td>
         </tr>
 
