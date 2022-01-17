@@ -75,7 +75,6 @@ public class Credit extends AbstractEntity {
         this.interest = new BigDecimal(interest.setScale(10, RoundingMode.HALF_UP).toString());
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

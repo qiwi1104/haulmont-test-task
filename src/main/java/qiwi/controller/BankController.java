@@ -181,8 +181,6 @@ public class BankController {
             return "banks";
         }
 
-
-
         Credit credit = new Credit(input);
         if (bankDAO.existsCreditByBankName(input.getBank(), credit)) {
             model.addAttribute("alreadyExistsMessage", "");
