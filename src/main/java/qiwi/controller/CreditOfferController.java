@@ -45,30 +45,45 @@ public class CreditOfferController {
         LocalDate date = LocalDate.now();
         int months = Integer.parseInt(input.getMonths());
 
-        BigDecimal interest = BigDecimal.valueOf(Double.parseDouble(input.getInterest()));
-        BigDecimal sum = BigDecimal.valueOf(Double.parseDouble(input.getSum()));
+        BigDecimal interest = BigDecimal
+                .valueOf(Double.parseDouble(input.getInterest()))
+                .setScale(5, RoundingMode.HALF_UP);
+        BigDecimal sum = BigDecimal
+                .valueOf(Double.parseDouble(input.getSum()))
+                .setScale(5, RoundingMode.HALF_UP);
 
-        BigDecimal monthlyInterest = interest.divide(BigDecimal.valueOf(100 * 12), RoundingMode.HALF_UP);
+        BigDecimal monthlyInterest = interest
+                .divide(BigDecimal.valueOf(100 * 12), RoundingMode.HALF_UP)
+                .setScale(5, RoundingMode.HALF_UP);
         BigDecimal temp = monthlyInterest
                 .divide(BigDecimal.ONE
                         .subtract(monthlyInterest
                                 .add(BigDecimal.ONE)
-                                .pow(-months, new MathContext(10))), RoundingMode.HALF_UP);
-        BigDecimal monthlyPaymentSum = sum.multiply(temp);
+                                .pow(-months, new MathContext(10))), RoundingMode.HALF_UP)
+                .setScale(5, RoundingMode.HALF_UP);
+        BigDecimal monthlyPaymentSum = sum
+                .multiply(temp)
+                .setScale(5, RoundingMode.HALF_UP);
         BigDecimal remainsCreditSum = sum;
 
         creditOffer.setSum(sum);
 
-        for (int i = 1; i <= months; i++) {
-            BigDecimal interestSum = remainsCreditSum.multiply(monthlyInterest);
-            BigDecimal creditSum = monthlyPaymentSum.subtract(interestSum);
+        for (int i = 0; i < months; i++) {
+            BigDecimal interestSum = remainsCreditSum
+                    .multiply(monthlyInterest)
+                    .setScale(5, RoundingMode.HALF_UP);
+            BigDecimal creditSum = monthlyPaymentSum
+                    .subtract(interestSum)
+                    .setScale(5, RoundingMode.HALF_UP);
 
             Payment payment = new Payment(date, monthlyPaymentSum, creditSum, interestSum);
             creditOffer.addPayment(payment);
             payment.setCreditOffer(creditOffer);
 
             date = date.plusMonths(1);
-            remainsCreditSum = remainsCreditSum.subtract(creditSum);
+            remainsCreditSum = remainsCreditSum
+                    .subtract(creditSum)
+                    .setScale(5, RoundingMode.HALF_UP);
         }
     }
 
