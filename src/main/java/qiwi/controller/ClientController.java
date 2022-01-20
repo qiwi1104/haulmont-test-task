@@ -71,13 +71,13 @@ public class ClientController {
         }
 
         for (Client client : clientDAO.findAll()) {
-            if (client.equalsPhone(input.getPhone())
+            if (client.getPhone().equals(input.getPhone())
                     || client.getMail().equals(input.getMail())
                     || client.getPassport().equals(input.getPassport())) {
 
                 setUpView(model, input);
 
-                if (client.equalsPhone(input.getPhone())) {
+                if (client.getPhone().equals(input.getPhone())) {
                     model.addAttribute("occupiedPhoneMessage", "");
                 }
 
@@ -113,12 +113,12 @@ public class ClientController {
         }
 
         for (Client client : clientDAO.findAll()) {
-            if (client.equalsPhone(input.getPhone())
+            if (client.getPhone().equals(input.getPhone())
                     || client.getMail().equals(input.getMail())) {
 
                 setUpView(model, input);
 
-                if (client.equalsPhone(input.getPhone())) {
+                if (client.getPhone().equals(input.getPhone())) {
                     model.addAttribute("occupiedPhoneMessageEdit", "");
                 }
 

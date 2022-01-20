@@ -2,6 +2,7 @@ package qiwi.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -57,7 +58,7 @@ public class CreditOffer extends AbstractEntity {
     }
 
     public void setSum(BigDecimal sum) {
-        this.sum = sum;
+        this.sum = sum.setScale(5, RoundingMode.HALF_UP);
     }
 
     public void setClient(Client client) {
@@ -70,5 +71,27 @@ public class CreditOffer extends AbstractEntity {
 
     public void setBank(Bank bank) {
         this.bank = bank;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CreditOffer that = (CreditOffer) o;
+
+        if (sum.compareTo(that.sum) != 0) return false;
+        if (!client.equals(that.client)) return false;
+        if (!credit.equals(that.credit)) return false;
+        return bank.equals(that.bank);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = sum.hashCode();
+        result = 31 * result + client.hashCode();
+        result = 31 * result + credit.hashCode();
+        result = 31 * result + bank.hashCode();
+        return result;
     }
 }

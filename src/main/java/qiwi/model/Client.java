@@ -54,16 +54,8 @@ public class Client extends AbstractEntity {
         }
     }
 
-    public void addBank(Bank bank) {
-        banks.add(bank);
-    }
-
     public void addCreditOffer(CreditOffer creditOffer) {
         creditOffers.add(creditOffer);
-    }
-
-    public void deleteBank(Bank bank) {
-        banks.remove(bank);
     }
 
     public String getFirstName() {
@@ -120,15 +112,6 @@ public class Client extends AbstractEntity {
 
     public void setPassport(String passport) {
         this.passport = passport;
-    }
-
-    public boolean equalsPhone(String phone) {
-        String thisReversedPhone = new StringBuilder(this.phone).reverse().substring(0, 10);
-        String reversedPhone = "";
-        if (!phone.isEmpty()) {
-            reversedPhone = new StringBuilder(phone).reverse().substring(0, 10);
-        }
-        return thisReversedPhone.equals(reversedPhone);
     }
 
     @Override

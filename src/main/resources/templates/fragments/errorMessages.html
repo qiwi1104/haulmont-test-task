@@ -134,8 +134,8 @@
         <script>
             actionsHandler("addClient");
             table = document.body.getElementsByClassName("hiddenPanel").addClient;
-            lineBreak(table.children[0].children[3].firstElementChild);
-            table.children[0].children[3].firstElementChild.append("This client already exists.");
+            lineBreak(table.children[0].children[2].firstElementChild);
+            table.children[0].children[2].firstElementChild.append("This client already exists.");
         </script>
     </div>
 </div>
@@ -166,8 +166,8 @@
         <script>
             actionsHandler("addClient");
             table = document.body.getElementsByClassName("hiddenPanel").addClient;
-            lineBreak(table.children[0].children[3].firstElementChild);
-            table.children[0].children[3].firstElementChild.append("Please, fill in the passport field.");
+            lineBreak(table.children[0].children[2].firstElementChild);
+            table.children[0].children[2].firstElementChild.append("Please, fill in the passport field.");
         </script>
     </div>
 </div>
@@ -188,8 +188,8 @@
         <script>
             actionsHandler("addClient");
             table = document.body.getElementsByClassName("hiddenPanel").addClient;
-            lineBreak(table.children[0].children[3].firstElementChild);
-            table.children[0].children[3].firstElementChild.append("This bank doesn't exist.");
+            lineBreak(table.children[0].children[2].firstElementChild);
+            table.children[0].children[2].firstElementChild.append("This bank doesn't exist.");
         </script>
     </div>
 </div>
@@ -200,8 +200,8 @@
         <script>
             actionsHandler("addClient");
             table = document.body.getElementsByClassName("hiddenPanel").addClient;
-            lineBreak(table.children[0].children[3].firstElementChild);
-            table.children[0].children[3].firstElementChild.append("This client doesn't exist.");
+            lineBreak(table.children[0].children[2].firstElementChild);
+            table.children[0].children[2].firstElementChild.append("This client doesn't exist.");
         </script>
     </div>
 </div>
@@ -212,8 +212,8 @@
         <script>
             actionsHandler("addClient");
             table = document.body.getElementsByClassName("hiddenPanel").addClient;
-            lineBreak(table.children[0].children[3].firstElementChild);
-            table.children[0].children[3].firstElementChild.append("Passport field has illegal characters.");
+            lineBreak(table.children[0].children[2].firstElementChild);
+            table.children[0].children[2].firstElementChild.append("Passport field has illegal characters.");
         </script>
     </div>
 </div>
@@ -335,6 +335,16 @@
 </div>
 
 <!--Credit Offers-->
+<div th:fragment="alreadyExistsCreditOffer" th:object="${alreadyExistsCreditOfferMessage}" hidden>
+    <div th:if="${alreadyExistsCreditOfferMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
+        <script>
+            let table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("This credit offer already exists.");
+        </script>
+    </div>
+</div>
 <div th:fragment="emptyFieldsCreditOffer" th:object="${emptyFieldsCreditOfferMessage}" hidden>
     <div th:if="${emptyFieldsCreditOfferMessage}">
         <script th:src="@{/js/src/lineBreak.js}"></script>

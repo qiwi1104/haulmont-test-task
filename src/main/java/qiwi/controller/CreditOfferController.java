@@ -99,9 +99,13 @@ public class CreditOfferController {
         }
 
         BigDecimal months = BigDecimal.valueOf(Long.parseLong(input.getMonths()));
-        BigDecimal limit = BigDecimal.valueOf(Long.parseLong(input.getLimit()));
+        BigDecimal limit = BigDecimal
+                .valueOf(Double.parseDouble(input.getLimit()))
+                .setScale(5, RoundingMode.HALF_UP);
         BigDecimal interest = BigDecimal.valueOf(Long.parseLong(input.getInterest()));
-        BigDecimal sum = BigDecimal.valueOf(Long.parseLong(input.getSum()));
+        BigDecimal sum = BigDecimal
+                .valueOf(Double.parseDouble(input.getSum()))
+                .setScale(5, RoundingMode.HALF_UP);
 
         if (!Validator.CreditOffer.isValid(input)) {
             setUpViewAndAddAttribute("invalidFieldsCreditOfferMessage", model, input);
@@ -153,6 +157,11 @@ public class CreditOfferController {
         creditOffer.setClient(clientDAO.getClientByPassport(passport));
         creditOffer.setCredit(creditDAO.getCredit(bank, limit, interest));
         creditOffer.setBank(bankDAO.getBankByName(bank));
+
+        if (creditOfferDAO.exists(creditOffer)) {
+            setUpViewAndAddAttribute("alreadyExistsCreditOfferMessage", model, input);
+            return "creditOffers";
+        }
 
         clientDAO.addCreditOffer(passport, creditOffer);
         creditOfferDAO.add(creditOffer);

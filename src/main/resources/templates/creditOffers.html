@@ -41,9 +41,11 @@
                     <input type="text" field="*{sum}" name="sum" th:value="${creditOfferInput.sum}">
                 </td>
             </tr>
+
             <tr>
                 <td>
                     <input type="submit" value="add credit offer">
+                    <div th:replace="fragments/errorMessages :: alreadyExistsCreditOffer"></div>
                     <div th:replace="fragments/errorMessages :: emptyFieldsCreditOffer"></div>
                     <div th:replace="fragments/errorMessages :: invalidFieldsCreditOffer"></div>
                     <div th:replace="fragments/errorMessages :: nonExistentCredit"></div>
@@ -132,6 +134,9 @@
 </div>
 
 <div th:replace="fragments/scripts :: scripts"></div>
-<script>perform("addClient");</script>
+<script>
+    perform("addClient");
+    perform("edit");
+</script>
 </body>
 </html>

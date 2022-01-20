@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import qiwi.dao.CreditOfferRepository;
 import qiwi.model.CreditOffer;
-import qiwi.model.Payment;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,8 +21,8 @@ public class CreditOfferDAO {
         repository.deleteById(id);
     }
 
-    public List<Payment> getPaymentsById(UUID id) {
-        return repository.getAllPaymentsById(id);
+    public boolean exists(CreditOffer creditOffer) {
+        return repository.findAll().contains(creditOffer);
     }
 
     public List<CreditOffer> findAll() {
