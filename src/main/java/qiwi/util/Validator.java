@@ -134,11 +134,19 @@ public class Validator {
             Matcher matcher = pattern.matcher(input.getLimit());
             if (!matcher.matches()) {
                 return false;
+            } else {
+                if (Double.parseDouble(input.getLimit()) <= 0) {
+                    return false;
+                }
             }
 
             matcher = pattern.matcher(input.getInterest());
             if (!matcher.matches()) {
                 return false;
+            } else {
+                if (Double.parseDouble(input.getInterest()) < 0) {
+                    return false;
+                }
             }
 
             pattern = Pattern.compile("[a-zA-Z]+");

@@ -91,10 +91,11 @@ public class CreditOfferController {
     public String add(@ModelAttribute("creditOfferInput") CreditOfferInput input, Model model) {
         String bank = input.getBank();
         String passport = input.getPassport();
+        boolean hasErrors = false;
 
         if (input.hasEmptyFields()) {
             setUpViewAndAddAttribute("emptyFieldsCreditOfferMessage", model, input);
-            return "creditOffers";
+            hasErrors = true;
         }
 
         BigDecimal months = BigDecimal.valueOf(Long.parseLong(input.getMonths()));
@@ -104,15 +105,13 @@ public class CreditOfferController {
 
         if (!Validator.CreditOffer.isValid(input)) {
             setUpViewAndAddAttribute("invalidFieldsCreditOfferMessage", model, input);
-            return "creditOffers";
+            hasErrors = true;
         }
 
         if (!Validator.CreditOffer.isValidCreditDetail(input)) {
             setUpViewAndAddAttribute("invalidCreditDetailsMessage", model, input);
-            return "creditOffers";
+            hasErrors = true;
         }
-
-        boolean hasErrors = false;
 
         if (!bankDAO.existsByName(bank)) {
             setUpViewAndAddAttribute("nonExistentBankInCreditOfferMessage", model, input);
@@ -124,18 +123,13 @@ public class CreditOfferController {
             hasErrors = true;
         }
 
-        if (limit.compareTo(BigDecimal.ZERO) != 1) {
-            setUpViewAndAddAttribute("limitErrorMessage", model, input);
-            hasErrors = true;
-        }
-
-        if (interest.compareTo(BigDecimal.ZERO) == -1) {
-            setUpViewAndAddAttribute("interestErrorMessage", model, input);
-            hasErrors = true;
-        }
-
         if (months.compareTo(BigDecimal.ZERO) != 1) {
             setUpViewAndAddAttribute("monthsErrorMessage", model, input);
+            hasErrors = true;
+        }
+
+        if (limit.compareTo(BigDecimal.ZERO) != 1) {
+            setUpViewAndAddAttribute("limitErrorMessage", model, input);
             hasErrors = true;
         }
 

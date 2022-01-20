@@ -25,8 +25,20 @@ public class CreditDAO {
         }
     }
 
+    public boolean existsById(UUID id) {
+        return repository.existsById(id);
+    }
+
     public boolean exists(Credit credit) {
         return repository.findAll().contains(credit);
+    }
+
+    public Credit getCreditById(UUID id) {
+        if (repository.existsById(id)) {
+            return repository.getOne(id);
+        }
+
+        return null;
     }
 
     public Credit getCredit(String bankName, BigDecimal limit, BigDecimal interest) {

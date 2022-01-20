@@ -27,7 +27,7 @@ public class ClientController {
 
     private void setUpViewAndAddAttribute(String attribute, Model model, ClientInput input) {
         setUpView(model, input);
-        model.addAttribute(attribute);
+        model.addAttribute(attribute, "");
     }
 
     private void updateClient(Client client, ClientInput input) {
@@ -53,19 +53,21 @@ public class ClientController {
 
     @PostMapping("/add")
     public String add(@ModelAttribute("clientInput") ClientInput input, Model model) {
+        boolean hasErrors = false;
+
         if (input.hasEmptyFields()) {
             setUpViewAndAddAttribute("emptyFieldsMessage", model, input);
-            return "clients";
+            hasErrors = true;
         }
 
         if (!Validator.Client.isValid(input)) {
             setUpViewAndAddAttribute("invalidFieldsMessage", model, input);
-            return "clients";
+            hasErrors = true;
         }
 
         if (clientDAO.existsByPassport(input.getPassport())) {
             setUpViewAndAddAttribute("alreadyExistsMessage", model, input);
-            return "clients";
+            hasErrors = true;
         }
 
         for (Client client : clientDAO.findAll()) {
@@ -74,15 +76,21 @@ public class ClientController {
                     || client.getPassport().equals(input.getPassport())) {
 
                 setUpView(model, input);
+
                 if (client.equalsPhone(input.getPhone())) {
                     model.addAttribute("occupiedPhoneMessage", "");
                 }
+
                 if (client.getMail().equals(input.getMail())) {
                     model.addAttribute("occupiedMailMessage", "");
                 }
 
-                return "clients";
+                hasErrors = true;
             }
+        }
+
+        if (hasErrors) {
+            return "clients";
         }
 
         clientDAO.add(new Client(input));
@@ -92,14 +100,16 @@ public class ClientController {
 
     @PostMapping("/edit/{passport}")
     public String edit(@ModelAttribute("clientInput") ClientInput input, Model model) {
+        boolean hasErrors = false;
+
         if (input.getPassport().isEmpty()) {
             setUpViewAndAddAttribute("emptyPassportMessage", model, input);
-            return "clients";
+            hasErrors = true;
         }
 
         if (!Validator.Client.isValidEdit(input)) {
             setUpViewAndAddAttribute("invalidFieldsMessageEdit", model, input);
-            return "clients";
+            hasErrors = true;
         }
 
         for (Client client : clientDAO.findAll()) {
@@ -108,26 +118,32 @@ public class ClientController {
                     || client.getPassport().equals(input.getPassport())) {
 
                 setUpView(model, input);
+
                 if (client.equalsPhone(input.getPhone())) {
                     model.addAttribute("occupiedPhoneMessageEdit", "");
                 }
+
                 if (client.getMail().equals(input.getMail())) {
                     model.addAttribute("occupiedMailMessageEdit", "");
                 }
 
-                return "clients";
+                hasErrors = true;
             }
         }
 
         if (!input.getNewPassport().isEmpty()) {
             if (clientDAO.existsByPassport(input.getNewPassport())) {
                 setUpViewAndAddAttribute("alreadyExistsMessageEdit", model, input);
-                return "clients";
+                hasErrors = true;
             }
         }
 
         if (!clientDAO.existsByPassport(input.getPassport())) {
             setUpViewAndAddAttribute("nonExistentMessageEdit", model, input);
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
             return "clients";
         }
 

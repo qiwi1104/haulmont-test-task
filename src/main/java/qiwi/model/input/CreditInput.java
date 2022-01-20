@@ -1,14 +1,19 @@
 package qiwi.model.input;
 
 public class CreditInput {
-    protected String limit = "";
-    protected String interest = "";
-    protected String bank = "";
+    private String id;
+    private String limit = "";
+    private String interest = "";
+    private String bank = "";
 
     public boolean hasEmptyFields() {
         return limit == null || limit.isEmpty()
                 || interest == null || interest.isEmpty()
                 || bank == null || bank.isEmpty();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getLimit() {
@@ -21,6 +26,10 @@ public class CreditInput {
 
     public String getBank() {
         return bank;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setLimit(String limit) {

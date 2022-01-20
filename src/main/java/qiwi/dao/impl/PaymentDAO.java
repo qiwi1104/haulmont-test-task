@@ -2,7 +2,6 @@ package qiwi.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import qiwi.dao.PaymentRepository;
 import qiwi.model.Payment;
 
 import java.util.List;
