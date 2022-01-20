@@ -31,49 +31,56 @@
                 <td>
                     <input type="submit" value="add credit">
                     <div th:replace="fragments/errorMessages :: alreadyExistsCredit"></div>
+                    <div th:replace="fragments/errorMessages :: nonExistentBank"></div>
                     <div th:replace="fragments/errorMessages :: emptyFieldsCredit"></div>
                     <div th:replace="fragments/errorMessages :: invalidFieldsCredit"></div>
                     <div th:replace="fragments/errorMessages :: illegalLimitValue"></div>
                     <div th:replace="fragments/errorMessages :: illegalInterestValue"></div>
-                    <div th:replace="fragments/errorMessages :: nonExistentClient"></div>
-                    <div th:replace="fragments/errorMessages :: nonExistentBank"></div>
                 </td>
             </tr>
         </table>
     </form>
 
-<!--    <form action="#" th:action="@{'/credits/edit/{id}'}" th:object="${creditInput}"-->
-<!--          method="post">-->
-<!--        <table th:fragment="edit" class="hiddenPanel" hidden id="edit">-->
-<!--            <tr>-->
-<!--                <td>-->
-<!--                    <label>Passport</label>-->
-<!--                    <input type="text" field="*{passport}" name="passport" th:value="${creditInput.passport}">-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <label>Bank</label>-->
-<!--                    <input type="text" field="*{bank}" name="bank" th:value="${creditInput.bank}">-->
-<!--                </td>-->
-<!--            </tr>-->
-<!--            <tr>-->
-<!--                <td>-->
-<!--                    <label>Limit</label>-->
-<!--                    <input type="text" field="*{limit}" name="limit" th:value="${creditInput.limit}">-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                    <label>Interest</label>-->
-<!--                    <input type="text" field="*{interest}" name="interest" th:value="${creditInput.interest}">-->
-<!--                </td>-->
-<!--            </tr>-->
-<!--            <tr>-->
-<!--                <td>-->
-<!--                    <input type="submit" value="edit credit">-->
-<!--                    <div th:replace="fragments/errorMessages :: nonExistentEditCredit"></div>-->
-<!--                    <div th:replace="fragments/errorMessages :: alreadyExistsCredit"></div>-->
-<!--                </td>-->
-<!--            </tr>-->
-<!--        </table>-->
-<!--    </form>-->
+    <form action="#" th:action="@{'/credits/edit/{id}'}" th:object="${creditEditInput}"
+          method="post">
+        <table th:fragment="edit" class="hiddenPanel" hidden id="edit">
+            <tr>
+                <td>
+                    <label>Bank</label>
+                    <input type="text" field="*{bank}" name="bank" th:value="${creditEditInput.bank}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Limit</label>
+                    <input type="text" field="*{limit}" name="limit" th:value="${creditEditInput.limit}">
+                </td>
+                <td>
+                    <label>Interest</label>
+                    <input type="text" field="*{interest}" name="interest" th:value="${creditEditInput.interest}">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label>New Limit</label>
+                    <input type="text" field="*{newLimit}" name="newLimit" th:value="${creditEditInput.newLimit}">
+                </td>
+                <td>
+                    <label>New Interest</label>
+                    <input type="text" field="*{newInterest}" name="newInterest" th:value="${creditEditInput.newInterest}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="edit credit">
+                    <div th:replace="fragments/errorMessages :: emptyBankEditCredit"></div>
+                    <div th:replace="fragments/errorMessages :: nonExistentEditCredit"></div>
+                    <div th:replace="fragments/errorMessages :: alreadyExistsEditCredit"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
 </div>
 <br/>
 <div>
