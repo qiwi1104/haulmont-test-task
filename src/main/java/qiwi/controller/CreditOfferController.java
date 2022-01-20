@@ -95,17 +95,8 @@ public class CreditOfferController {
 
         if (input.hasEmptyFields()) {
             setUpViewAndAddAttribute("emptyFieldsCreditOfferMessage", model, input);
-            hasErrors = true;
+            return "creditOffers";
         }
-
-        BigDecimal months = BigDecimal.valueOf(Long.parseLong(input.getMonths()));
-        BigDecimal limit = BigDecimal
-                .valueOf(Double.parseDouble(input.getLimit()))
-                .setScale(5, RoundingMode.HALF_UP);
-        BigDecimal interest = BigDecimal.valueOf(Long.parseLong(input.getInterest()));
-        BigDecimal sum = BigDecimal
-                .valueOf(Double.parseDouble(input.getSum()))
-                .setScale(5, RoundingMode.HALF_UP);
 
         if (!Validator.CreditOffer.isValid(input)) {
             setUpViewAndAddAttribute("invalidFieldsCreditOfferMessage", model, input);
@@ -117,14 +108,45 @@ public class CreditOfferController {
             hasErrors = true;
         }
 
+        if (hasErrors) {
+            return "creditOffers";
+        }
+
+        BigDecimal months = BigDecimal.valueOf(Long.parseLong(input.getMonths()));
+        BigDecimal limit = BigDecimal
+                .valueOf(Double.parseDouble(input.getLimit()))
+                .setScale(5, RoundingMode.HALF_UP);
+        BigDecimal interest = BigDecimal.valueOf(Long.parseLong(input.getInterest()));
+        BigDecimal sum = BigDecimal
+                .valueOf(Double.parseDouble(input.getSum()))
+                .setScale(5, RoundingMode.HALF_UP);
+
         if (!bankDAO.existsByName(bank)) {
             setUpViewAndAddAttribute("nonExistentBankInCreditOfferMessage", model, input);
             hasErrors = true;
         }
 
-        if (!bankDAO.existsClientByPassport(bank, passport)) {
-            setUpViewAndAddAttribute("nonExistentClientInCreditOfferMessage", model, input);
+        if (creditDAO.getCredit(bank, limit, interest) == null) {
+            setUpViewAndAddAttribute("nonExistentCreditMessage", model, input);
             hasErrors = true;
+        }
+
+        if (Validator.CreditOffer.isValid(input)) {
+            if (bankDAO.existsByName(bank)) {
+                if (!bankDAO.existsClientByPassport(bank, passport)) {
+                    setUpViewAndAddAttribute("nonExistentClientInCreditOfferMessage", model, input);
+                    hasErrors = true;
+                }
+            } else {
+                if (!clientDAO.existsByPassport(passport)) {
+                    setUpViewAndAddAttribute("nonExistentClientInCreditOfferMessage", model, input);
+                    hasErrors = true;
+                }
+            }
+        }
+
+        if (hasErrors) {
+            return "creditOffers";
         }
 
         if (months.compareTo(BigDecimal.ZERO) != 1) {
@@ -139,11 +161,6 @@ public class CreditOfferController {
 
         if (sum.compareTo(BigDecimal.ZERO) != 1 || sum.compareTo(limit) == 1) {
             setUpViewAndAddAttribute("sumErrorMessage", model, input);
-            hasErrors = true;
-        }
-
-        if (creditDAO.getCredit(bank, limit, interest) == null) {
-            setUpViewAndAddAttribute("nonExistentCreditMessage", model, input);
             hasErrors = true;
         }
 

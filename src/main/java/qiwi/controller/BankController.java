@@ -100,6 +100,11 @@ public class BankController {
             hasErrors = true;
         } else {
             if (!input.isEmptyPassport() && !input.getBank().isEmpty()) {
+                if (!Validator.Bank.isPassportValid(input)) {
+                    setUpViewAndAddAttribute("invalidPassportBankMessage", model, input, new BankInput());
+                    return "banks";
+                }
+
                 if (!clientDAO.existsByPassport(input.getPassport())) {
                     setUpViewAndAddAttribute("nonExistentClientMessage", model, input, new BankInput());
                 }
@@ -131,11 +136,6 @@ public class BankController {
                 setUpViewAndAddAttribute("emptyFieldsMessage", model, input, new BankInput());
                 hasErrors = true;
             }
-        }
-
-        if (!Validator.Bank.isPassportValid(input)) {
-            setUpViewAndAddAttribute("invalidFieldsMessage", model, input, new BankInput());
-            hasErrors = true;
         }
 
         if (hasErrors) {
