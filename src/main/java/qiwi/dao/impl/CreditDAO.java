@@ -43,7 +43,7 @@ public class CreditDAO {
 
     public Credit getCredit(String bankName, BigDecimal limit, BigDecimal interest) {
         Bank bank = new Bank(bankName);
-        Credit creditToFind = new Credit(limit, interest, bank);
+        Credit creditToFind = new Credit(bank, limit, interest);
 
         for (Credit credit : repository.findAll()) {
             if (credit.equals(creditToFind)) {

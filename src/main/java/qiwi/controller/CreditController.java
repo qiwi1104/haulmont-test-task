@@ -68,7 +68,7 @@ public class CreditController {
         }
 
         Bank bank = bankDAO.getBankByName(input.getBank());
-        Credit credit = new Credit(input, bank);
+        Credit credit = new Credit(bank, input);
 
         if (bank != null) {
             if (creditDAO.exists(credit)) {
@@ -105,7 +105,7 @@ public class CreditController {
             hasErrors = true;
         }
 
-        if (!creditDAO.exists(new Credit(input, bankDAO.getBankByName(input.getBank())))) {
+        if (!creditDAO.exists(new Credit(bankDAO.getBankByName(input.getBank()), input))) {
             setUpViewAndAddAttribute("nonExistentCreditEditMessage", model, new CreditInput(), input);
             hasErrors = true;
         }
@@ -159,7 +159,7 @@ public class CreditController {
             return "credits";
         }
 
-        Credit updatedCredit = new Credit(limit, interest, bankDAO.getBankByName(input.getBank()));
+        Credit updatedCredit = new Credit(bankDAO.getBankByName(input.getBank()), limit, interest);
         updateCredit(updatedCredit, input);
 
         if (!creditDAO.exists(updatedCredit)) {
