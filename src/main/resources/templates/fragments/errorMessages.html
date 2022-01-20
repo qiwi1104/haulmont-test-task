@@ -33,7 +33,7 @@
     <div th:if="${emptyFieldsMessage}">
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
-            table.children[0].children[2].firstElementChild.append("Please fill the empty fields.");
+            table.children[0].children[2].firstElementChild.append("Please, fill in the empty fields.");
 
         </script>
     </div>
@@ -138,7 +138,7 @@
     <div th:if="${emptyFieldsBankMessage}">
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
-            table.children[0].children[1].firstElementChild.append("Please fill the empty fields.");
+            table.children[0].children[1].firstElementChild.append("Please, fill in the empty fields.");
 
         </script>
     </div>
@@ -198,7 +198,7 @@
     <div th:if="${alreadyExistsCreditMessage}">
         <script>
         table = document.body.getElementsByClassName("hiddenPanel").add;
-        table.children[0].children[1].firstElementChild.append("This credit already exists.");
+        table.children[0].children[2].firstElementChild.append("This credit already exists.");
 
         </script>
     </div>
@@ -207,7 +207,7 @@
     <div th:if="${emptyFieldsCreditMessage}">
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
-            table.children[0].children[1].firstElementChild.append("Please fill the empty fields.");
+            table.children[0].children[2].firstElementChild.append("Please, fill in the empty fields.");
 
         </script>
     </div>
@@ -216,7 +216,7 @@
     <div th:if="${invalidFieldsCreditMessage}">
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
-            table.children[0].children[1].firstElementChild.append("Some fields have illegal characters.");
+            table.children[0].children[2].firstElementChild.append("Some fields have illegal characters.");
 
         </script>
     </div>
@@ -228,15 +228,6 @@
         actionsHandler("add");
         table = document.body.getElementsByClassName("hiddenPanel").add
         table.children[0].children[2].firstElementChild.append("This bank doesn't exist.");
-        </script>
-    </div>
-</div>
-<div th:fragment="nonExistentClient" th:object="${nonExistentClientMessage}" hidden>
-    <div th:if="${nonExistentClientMessage}">
-        <script>
-        table = document.body.getElementsByClassName("hiddenPanel").add;
-        table.children[0].children[2].firstElementChild.append("This person is not a client of this bank.");
-
         </script>
     </div>
 </div>
@@ -288,7 +279,7 @@
     <div th:if="${emptyFieldsCreditOfferMessage}">
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
-            table.children[0].children[3].firstElementChild.append("Please fill the empty fields.");
+            table.children[0].children[3].firstElementChild.append("Please, fill in the empty fields.");
 
         </script>
     </div>
