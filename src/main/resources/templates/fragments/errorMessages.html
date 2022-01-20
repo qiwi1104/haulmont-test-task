@@ -4,46 +4,51 @@
 <!--Clients-->
 <div th:fragment="alreadyExists" th:object="${alreadyExistsMessage}" hidden>
     <div th:if="${alreadyExistsMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        table = document.body.getElementsByClassName("hiddenPanel").add;
-        table.children[0].children[2].firstElementChild.append("This client already exists.");
-
+            table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[2].firstElementChild);
+            table.children[0].children[2].firstElementChild.append("This client already exists.");
         </script>
     </div>
 </div>
 <div th:fragment="occupiedPhone" th:object="${occupiedPhoneMessage}" hidden>
     <div th:if="${occupiedPhoneMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        table = document.body.getElementsByClassName("hiddenPanel").add;
-        table.children[0].children[2].firstElementChild.append("This phone is occupied.");
-
+            table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[2].firstElementChild);
+            table.children[0].children[2].firstElementChild.append("This phone is occupied.");
         </script>
     </div>
 </div>
 <div th:fragment="occupiedMail" th:object="${occupiedMailMessage}" hidden>
     <div th:if="${occupiedMailMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        table = document.body.getElementsByClassName("hiddenPanel").add;
-        table.children[0].children[2].firstElementChild.append("This mail is occupied.");
-
+            table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[2].firstElementChild);
+            table.children[0].children[2].firstElementChild.append("This mail is occupied.");
         </script>
     </div>
 </div>
 <div th:fragment="emptyFields" th:object="${emptyFieldsMessage}" hidden>
     <div th:if="${emptyFieldsMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[2].firstElementChild);
             table.children[0].children[2].firstElementChild.append("Please, fill in the empty fields.");
-
         </script>
     </div>
 </div>
 <div th:fragment="invalidFields" th:object="${invalidFieldsMessage}" hidden>
     <div th:if="${invalidFieldsMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[2].firstElementChild);
             table.children[0].children[2].firstElementChild.append("Some fields have illegal characters.");
-
         </script>
     </div>
 </div>
@@ -51,64 +56,72 @@
 <div th:fragment="alreadyExistsEdit" th:object="${alreadyExistsMessageEdit}" hidden>
     <div th:if="${alreadyExistsMessageEdit}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        actionsHandler("edit");
-        table = document.body.getElementsByClassName("hiddenPanel").edit;
-        table.children[0].children[3].firstElementChild.append("This client already exists.");
-
+            actionsHandler("edit");
+            table = document.body.getElementsByClassName("hiddenPanel").edit;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("This client already exists.");
         </script>
     </div>
 </div>
 <div th:fragment="nonExistentEdit" th:object="${nonExistentMessageEdit}" hidden>
     <div th:if="${nonExistentMessageEdit}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        actionsHandler("edit");
-        table = document.body.getElementsByClassName("hiddenPanel").edit;
-        table.children[0].children[3].firstElementChild.append("This client doesn't exist.");
+            actionsHandler("edit");
+            table = document.body.getElementsByClassName("hiddenPanel").edit;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("This client doesn't exist.");
         </script>
     </div>
 </div>
 <div th:fragment="emptyPassport" th:object="${emptyPassportMessage}" hidden>
     <div th:if="${emptyPassportMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        actionsHandler("edit");
-        table = document.body.getElementsByClassName("hiddenPanel").edit;
-        table.children[0].children[3].firstElementChild.append("Please, fill in the passport field.");
+            actionsHandler("edit");
+            table = document.body.getElementsByClassName("hiddenPanel").edit;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("Please, fill in the passport field.");
         </script>
     </div>
 </div>
 <div th:fragment="occupiedPhoneEdit" th:object="${occupiedPhoneMessageEdit}" hidden>
     <div th:if="${occupiedPhoneMessageEdit}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        actionsHandler("edit");
-        table = document.body.getElementsByClassName("hiddenPanel").edit;
-        table.children[0].children[3].firstElementChild.append("This phone is occupied.");
-
+            actionsHandler("edit");
+            table = document.body.getElementsByClassName("hiddenPanel").edit;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("This phone is occupied.");
         </script>
     </div>
 </div>
 <div th:fragment="occupiedMailEdit" th:object="${occupiedMailMessageEdit}" hidden>
     <div th:if="${occupiedMailMessageEdit}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        actionsHandler("edit");
-        table = document.body.getElementsByClassName("hiddenPanel").edit;
-        table.children[0].children[3].firstElementChild.append("This mail is occupied.");
-
+            actionsHandler("edit");
+            table = document.body.getElementsByClassName("hiddenPanel").edit;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("This mail is occupied.");
         </script>
     </div>
 </div>
 <div th:fragment="invalidFieldsEdit" th:object="${invalidFieldsMessageEdit}" hidden>
     <div th:if="${invalidFieldsMessageEdit}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             actionsHandler("edit");
             let table = document.body.getElementsByClassName("hiddenPanel").edit;
+            lineBreak(table.children[0].children[3].firstElementChild);
             table.children[0].children[3].firstElementChild.append("Some fields have illegal characters.");
-
         </script>
     </div>
 </div>
@@ -117,57 +130,90 @@
 <div th:fragment="alreadyExistsClient" th:object="${alreadyExistsClientMessage}" hidden>
     <div th:if="${alreadyExistsClientMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        actionsHandler("addClient");
-        table = document.body.getElementsByClassName("hiddenPanel").addClient;
-        table.children[0].children[3].firstElementChild.append("This client already exists.");
-
+            actionsHandler("addClient");
+            table = document.body.getElementsByClassName("hiddenPanel").addClient;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("This client already exists.");
         </script>
     </div>
 </div>
 <div th:fragment="alreadyExistsBank" th:object="${alreadyExistsBankMessage}" hidden>
     <div th:if="${alreadyExistsBankMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        table = document.body.getElementsByClassName("hiddenPanel").add;
-        table.children[0].children[1].firstElementChild.append("This bank already exists.");
-
+            table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[1].firstElementChild);
+            table.children[0].children[1].firstElementChild.append("This bank already exists.");
         </script>
     </div>
 </div>
 <div th:fragment="emptyFieldsBank" th:object="${emptyFieldsBankMessage}" hidden>
     <div th:if="${emptyFieldsBankMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[1].firstElementChild);
             table.children[0].children[1].firstElementChild.append("Please, fill in the empty fields.");
-
         </script>
     </div>
 </div>
 <div th:fragment="emptyPassportBank" th:object="${emptyPassportBankMessage}" hidden>
     <div th:if="${emptyPassportBankMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        actionsHandler("addClient");
-        table = document.body.getElementsByClassName("hiddenPanel").addClient;
-        table.children[0].children[3].firstElementChild.append("Please, fill in the passport field.");
+            actionsHandler("addClient");
+            table = document.body.getElementsByClassName("hiddenPanel").addClient;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("Please, fill in the passport field.");
         </script>
     </div>
 </div>
 <div th:fragment="invalidFieldsBank" th:object="${invalidFieldsBankMessage}" hidden>
     <div th:if="${invalidFieldsBankMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[1].firstElementChild);
             table.children[0].children[1].firstElementChild.append("Some fields have illegal characters.");
-
         </script>
     </div>
 </div>
 <div th:fragment="nonExistentBank" th:object="${nonExistentBankMessage}" hidden>
     <div th:if="${nonExistentBankMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        table = document.body.getElementsByClassName("hiddenPanel").add;
-        table.children[0].children[1].firstElementChild.append("This bank doesn't exist.");
+            actionsHandler("addClient");
+            table = document.body.getElementsByClassName("hiddenPanel").addClient;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("This bank doesn't exist.");
+        </script>
+    </div>
+</div>
+<div th:fragment="nonExistentClient" th:object="${nonExistentClientMessage}" hidden>
+    <div th:if="${nonExistentClientMessage}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
+        <script>
+            actionsHandler("addClient");
+            table = document.body.getElementsByClassName("hiddenPanel").addClient;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("This client doesn't exist.");
+        </script>
+    </div>
+</div>
+<div th:fragment="${invalidFields}" th:object="${invalidFieldsMessage}" hidden>
+    <div th:if="${invalidFieldsMessage}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
+        <script>
+            actionsHandler("addClient");
+            table = document.body.getElementsByClassName("hiddenPanel").addClient;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("Passport field has illegal characters.");
         </script>
     </div>
 </div>
@@ -175,19 +221,23 @@
 <div th:fragment="nonExistentEditBank" th:object="${nonExistentBankMessageEdit}" hidden>
     <div th:if="${nonExistentBankMessageEdit}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        actionsHandler("edit");
-        table = document.body.getElementsByClassName("hiddenPanel").edit;
-        table.children[0].children[2].firstElementChild.append("This bank doesn't exist.");
+            actionsHandler("edit");
+            table = document.body.getElementsByClassName("hiddenPanel").edit;
+            lineBreak(table.children[0].children[2].firstElementChild);
+            table.children[0].children[2].firstElementChild.append("This bank doesn't exist.");
         </script>
     </div>
 </div>
 <div th:fragment="alreadyExistsBankName" th:object="${alreadyExistsBankNameMessage}" hidden>
     <div th:if="${alreadyExistsBankNameMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             actionsHandler("edit");
             table = document.body.getElementsByClassName("hiddenPanel").edit;
+            lineBreak(table.children[0].children[2].firstElementChild);
             table.children[0].children[2].firstElementChild.append("This bank already exists.");
         </script>
     </div>
@@ -196,38 +246,42 @@
 <!--Credits-->
 <div th:fragment="alreadyExistsCredit" th:object="${alreadyExistsCreditMessage}" hidden>
     <div th:if="${alreadyExistsCreditMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        table = document.body.getElementsByClassName("hiddenPanel").add;
-        table.children[0].children[2].firstElementChild.append("This credit already exists.");
-
+            table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[2].firstElementChild);
+            table.children[0].children[2].firstElementChild.append("This credit already exists.");
         </script>
     </div>
 </div>
 <div th:fragment="emptyFieldsCredit" th:object="${emptyFieldsCreditMessage}" hidden>
     <div th:if="${emptyFieldsCreditMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[2].firstElementChild);
             table.children[0].children[2].firstElementChild.append("Please, fill in the empty fields.");
-
         </script>
     </div>
 </div>
 <div th:fragment="invalidFieldsCredit" th:object="${invalidFieldsCreditMessage}" hidden>
     <div th:if="${invalidFieldsCreditMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
-            table.children[0].children[2].firstElementChild.append("Some fields have illegal characters.");
-
+            tlineBreak(table.children[0].children[2].firstElementChild);
+            able.children[0].children[2].firstElementChild.append("Some fields have illegal characters.");
         </script>
     </div>
 </div>
 <div th:fragment="nonExistentBank" th:object="${nonExistentBankMessage}" hidden>
     <div th:if="${nonExistentBankMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        actionsHandler("add");
-        table = document.body.getElementsByClassName("hiddenPanel").add
-        table.children[0].children[2].firstElementChild.append("This bank doesn't exist.");
+            table = document.body.getElementsByClassName("hiddenPanel").add
+            lineBreak(table.children[0].children[2].firstElementChild);
+            table.children[0].children[2].firstElementChild.append("This bank doesn't exist.");
         </script>
     </div>
 </div>
@@ -235,41 +289,47 @@
 <div th:fragment="emptyFieldsCreditEdit" th:object="${emptyFieldsCreditEditMessage}" hidden>
     <div th:if="${emptyFieldsCreditEditMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             actionsHandler("edit");
             let table = document.body.getElementsByClassName("hiddenPanel").edit;
+            lineBreak(table.children[0].children[3].firstElementChild);
             table.children[0].children[3].firstElementChild.append("Please, fill in the empty fields.");
-
         </script>
     </div>
 </div>
 <div th:fragment="invalidFieldsEditCredit" th:object="${invalidFieldsEditCreditMessage}" hidden>
     <div th:if="${invalidFieldsEditCreditMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             actionsHandler("edit");
             let table = document.body.getElementsByClassName("hiddenPanel").edit;
+            lineBreak(table.children[0].children[3].firstElementChild);
             table.children[0].children[3].firstElementChild.append("Some fields have illegal characters.");
-
         </script>
     </div>
 </div>
 <div th:fragment="alreadyExistsEditCredit" th:object="${alreadyExistsEditCreditMessage}" hidden>
     <div th:if="${alreadyExistsEditCreditMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        table = document.body.getElementsByClassName("hiddenPanel").edit;
-        table.children[0].children[3].firstElementChild.append("This credit already exists.");
-
+            actionsHandler("edit");
+            table = document.body.getElementsByClassName("hiddenPanel").edit;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("This credit already exists.");
         </script>
     </div>
 </div>
 <div th:fragment="nonExistentEditCredit" th:object="${nonExistentEditCreditMessage}" hidden>
     <div th:if="${nonExistentEditCreditMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        actionsHandler("edit");
-        table = document.body.getElementsByClassName("hiddenPanel").edit;
-        table.children[0].children[3].firstElementChild.append("This credit doesn't exist.");
+            actionsHandler("edit");
+            table = document.body.getElementsByClassName("hiddenPanel").edit;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("This credit doesn't exist.");
         </script>
     </div>
 </div>
@@ -277,69 +337,81 @@
 <!--Credit Offers-->
 <div th:fragment="emptyFieldsCreditOffer" th:object="${emptyFieldsCreditOfferMessage}" hidden>
     <div th:if="${emptyFieldsCreditOfferMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[3].firstElementChild);
             table.children[0].children[3].firstElementChild.append("Please, fill in the empty fields.");
-
         </script>
     </div>
 </div>
 <div th:fragment="invalidFieldsCreditOffer" th:object="${invalidFieldsCreditOfferMessage}" hidden>
     <div th:if="${invalidFieldsCreditOfferMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[3].firstElementChild);
             table.children[0].children[3].firstElementChild.append("Some fields have illegal characters.");
-
         </script>
     </div>
 </div>
 <div th:fragment="nonExistentCredit" th:object="${nonExistentCreditMessage}" hidden>
     <div th:if="${nonExistentCreditMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[3].firstElementChild);
             table.children[0].children[3].firstElementChild.append("This credit doesn't exists.");
-
         </script>
     </div>
 </div>
 <div th:fragment="nonExistentBankInCreditOffer" th:object="${nonExistentBankInCreditOfferMessage}" hidden>
     <div th:if="${nonExistentBankInCreditOfferMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        table = document.body.getElementsByClassName("hiddenPanel").add;
-        table.children[0].children[3].firstElementChild.append("This bank doesn't exist.");
+            table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("This bank doesn't exist.");
         </script>
     </div>
 </div>
 <div th:fragment="nonExistentClientInCreditOffer" th:object="${nonExistentClientInCreditOfferMessage}" hidden>
     <div th:if="${nonExistentClientInCreditOfferMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
-        table = document.body.getElementsByClassName("hiddenPanel").add;
-        table.children[0].children[3].firstElementChild.append("This person is not a client of this bank.");
-
+            table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("This person is not a client of this bank.");
         </script>
     </div>
 </div>
 <div th:fragment="monthsError" th:object="${monthsErrorMessage}" hidden>
     <div th:if="${monthsErrorMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[3].firstElementChild);
             table.children[0].children[3].firstElementChild.append("Number of months must be above 0.");
         </script>
     </div>
 </div>
 <div th:fragment="limitError" th:object="${limitErrorMessage}" hidden>
     <div th:if="${limitErrorMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[3].firstElementChild);
             table.children[0].children[3].firstElementChild.append("Credit limit must be above 0.");
         </script>
     </div>
 </div>
 <div th:fragment="sumError" th:object="${sumErrorMessage}" hidden>
     <div th:if="${sumErrorMessage}">
+        <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             let table = document.body.getElementsByClassName("hiddenPanel").add;
+            lineBreak(table.children[0].children[3].firstElementChild);
             table.children[0].children[3].firstElementChild.append("Credit sum must be between 0 and credit limit.");
         </script>
     </div>

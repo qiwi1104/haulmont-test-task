@@ -93,48 +93,48 @@ public class BankController {
 
     @PostMapping("/addClient")
     public String addClient(@ModelAttribute ClientInput input, Model model) {
-        boolean hasErrors = false;
+        boolean hasErrors;
 
-        if (input.hasEmptyFields()) {
-            if (!input.getBank().isEmpty()) {
-                if (!input.getPassport().isEmpty()) {
-                    if (bankDAO.existsByName(input.getBank())) {
-                        Client client = new Client(input);
+        if (input.isEmptyPassport() || input.getBank().isEmpty()) {
+            setUpViewAndAddAttribute("emptyFieldsMessage", model, input, new BankInput());
+            hasErrors = true;
+        } else {
+            if (!input.isEmptyPassport() && !input.getBank().isEmpty()) {
+                if (!clientDAO.existsByPassport(input.getPassport())) {
+                    setUpViewAndAddAttribute("nonExistentClientMessage", model, input, new BankInput());
+                }
 
-                        if (clientDAO.existsByPassport(client.getPassport())) {
-                            if (bankDAO.existsClientByBankName(input.getBank(), client)) {
-                                setUpViewAndAddAttribute("alreadyExistsClientMessage", model, input, new BankInput());
-                            } else {
-                                client = clientDAO.getClientByPassport(client.getPassport());
-                                Bank bank = bankDAO.getBankByName(input.getBank());
-                                bank.addClient(client);
-                                bankDAO.add(bank);
+                if (bankDAO.existsByName(input.getBank())) {
+                    Client client = new Client(input);
 
-                                return "redirect:/banks/";
-                            }
+                    if (clientDAO.existsByPassport(client.getPassport())) {
+                        if (bankDAO.existsClientByBankName(input.getBank(), client)) {
+                            setUpViewAndAddAttribute("alreadyExistsClientMessage", model, input, new BankInput());
+                            hasErrors = true;
+                        } else {
+                            client = clientDAO.getClientByPassport(client.getPassport());
+                            Bank bank = bankDAO.getBankByName(input.getBank());
+                            bank.addClient(client);
+                            bankDAO.add(bank);
+
+                            return "redirect:/banks/";
                         }
                     } else {
-                        setUpViewAndAddAttribute("nonExistentBankMessage", model, input, new BankInput());
+                        setUpViewAndAddAttribute("nonExistentClientMessage", model, input, new BankInput());
+                        hasErrors = true;
                     }
                 } else {
-                    setUpViewAndAddAttribute("emptyPassportBankMessage", model, input, new BankInput());
+                    setUpViewAndAddAttribute("nonExistentBankMessage", model, input, new BankInput());
+                    hasErrors = true;
                 }
             } else {
                 setUpViewAndAddAttribute("emptyFieldsMessage", model, input, new BankInput());
+                hasErrors = true;
             }
-
-            setUpViewAndAddAttribute("emptyFieldsMessage", model, input, new BankInput());
-            hasErrors = true;
         }
 
-        if (!Validator.Client.isValid(input)) {
+        if (!Validator.Bank.isPassportValid(input)) {
             setUpViewAndAddAttribute("invalidFieldsMessage", model, input, new BankInput());
-            hasErrors = true;
-        }
-
-        Client client = new Client(input);
-        if (bankDAO.existsClientByBankName(input.getBank(), client)) {
-            setUpViewAndAddAttribute("alreadyExistsClientMessage", model, input, new BankInput());
             hasErrors = true;
         }
 
@@ -142,11 +142,9 @@ public class BankController {
             return "banks";
         }
 
-        if (!clientDAO.existsByPassport(client.getPassport())) {
-            clientDAO.add(client);
-        }
-
+        Client client = clientDAO.getClientByPassport(input.getPassport());
         Bank bank = bankDAO.getBankByName(input.getBank());
+
         bank.addClient(client);
         bankDAO.add(bank);
 

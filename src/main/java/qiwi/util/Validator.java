@@ -101,6 +101,14 @@ public class Validator {
         }
     }
 
+    public static class Bank {
+        public static boolean isPassportValid(ClientInput input) {
+            Pattern pattern = Pattern.compile("^\\d{10}");
+            Matcher matcher = pattern.matcher(input.getPassport());
+            return matcher.matches();
+        }
+    }
+
     public static class Credit {
 
         public static boolean isValidEdit(CreditEditInput input) {
