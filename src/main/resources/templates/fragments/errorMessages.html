@@ -241,22 +241,44 @@
     </div>
 </div>
 <!--Edit-->
-<div th:fragment="alreadyExistsCreditEdit" th:object="${alreadyExistsCreditEditMessage}" hidden>
-    <div th:if="${alreadyExistsCreditEditMessage}">
+<div th:fragment="emptyFieldsCreditEdit" th:object="${emptyFieldsCreditEditMessage}" hidden>
+    <div th:if="${emptyFieldsCreditEditMessage}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
         <script>
-        table = document.body.getElementsByClassName("hiddenPanel").edit;
-        table.children[0].children[1].firstElementChild.append("This credit already exists.");
+            actionsHandler("edit");
+            let table = document.body.getElementsByClassName("hiddenPanel").edit;
+            table.children[0].children[3].firstElementChild.append("Please, fill in the empty fields.");
 
         </script>
     </div>
 </div>
-<div th:fragment="nonExistentEditCredit" th:object="${nonExistentCreditMessageEdit}" hidden>
-    <div th:if="${nonExistentCreditMessageEdit}">
+<div th:fragment="invalidFieldsEditCredit" th:object="${invalidFieldsEditCreditMessage}" hidden>
+    <div th:if="${invalidFieldsEditCreditMessage}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script>
+            actionsHandler("edit");
+            let table = document.body.getElementsByClassName("hiddenPanel").edit;
+            table.children[0].children[3].firstElementChild.append("Some fields have illegal characters.");
+
+        </script>
+    </div>
+</div>
+<div th:fragment="alreadyExistsEditCredit" th:object="${alreadyExistsEditCreditMessage}" hidden>
+    <div th:if="${alreadyExistsEditCreditMessage}">
+        <script>
+        table = document.body.getElementsByClassName("hiddenPanel").edit;
+        table.children[0].children[3].firstElementChild.append("This credit already exists.");
+
+        </script>
+    </div>
+</div>
+<div th:fragment="nonExistentEditCredit" th:object="${nonExistentEditCreditMessage}" hidden>
+    <div th:if="${nonExistentEditCreditMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
         <script>
         actionsHandler("edit");
         table = document.body.getElementsByClassName("hiddenPanel").edit;
-        table.children[0].children[1].firstElementChild.append("This credit doesn't exist.");
+        table.children[0].children[3].firstElementChild.append("This credit doesn't exist.");
         </script>
     </div>
 </div>

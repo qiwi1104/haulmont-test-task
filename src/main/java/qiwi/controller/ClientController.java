@@ -114,8 +114,7 @@ public class ClientController {
 
         for (Client client : clientDAO.findAll()) {
             if (client.equalsPhone(input.getPhone())
-                    || client.getMail().equals(input.getMail())
-                    || client.getPassport().equals(input.getPassport())) {
+                    || client.getMail().equals(input.getMail())) {
 
                 setUpView(model, input);
 

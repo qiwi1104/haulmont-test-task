@@ -25,25 +25,25 @@ public class Credit extends AbstractEntity {
     }
 
     public Credit(BigDecimal limit, BigDecimal interest) {
-        this.limit = new BigDecimal(limit.setScale(10, RoundingMode.HALF_UP).toString());
-        this.interest = new BigDecimal(interest.setScale(10, RoundingMode.HALF_UP).toString());
+        this.limit = new BigDecimal(limit.setScale(5, RoundingMode.HALF_UP).toString());
+        this.interest = new BigDecimal(interest.setScale(5, RoundingMode.HALF_UP).toString());
     }
 
     public Credit(BigDecimal limit, BigDecimal interest, Bank bank) {
-        this.limit = new BigDecimal(limit.setScale(10, RoundingMode.HALF_UP).toString());
-        this.interest = new BigDecimal(interest.setScale(10, RoundingMode.HALF_UP).toString());
+        this.limit = new BigDecimal(limit.setScale(5, RoundingMode.HALF_UP).toString());
+        this.interest = new BigDecimal(interest.setScale(5, RoundingMode.HALF_UP).toString());
 
         this.bank = bank;
     }
 
     public Credit(CreditInput input) {
-        this.limit = BigDecimal.valueOf(Double.parseDouble(input.getLimit())).setScale(10, RoundingMode.HALF_UP);
-        this.interest = BigDecimal.valueOf(Double.parseDouble(input.getInterest())).setScale(10, RoundingMode.HALF_UP);
+        this.limit = BigDecimal.valueOf(Double.parseDouble(input.getLimit())).setScale(5, RoundingMode.HALF_UP);
+        this.interest = BigDecimal.valueOf(Double.parseDouble(input.getInterest())).setScale(5, RoundingMode.HALF_UP);
     }
 
     public Credit(CreditInput input, Bank bank) {
-        this.limit = BigDecimal.valueOf(Double.parseDouble(input.getLimit())).setScale(10, RoundingMode.HALF_UP);
-        this.interest = BigDecimal.valueOf(Double.parseDouble(input.getInterest())).setScale(10, RoundingMode.HALF_UP);
+        this.limit = BigDecimal.valueOf(Double.parseDouble(input.getLimit())).setScale(5, RoundingMode.HALF_UP);
+        this.interest = BigDecimal.valueOf(Double.parseDouble(input.getInterest())).setScale(5, RoundingMode.HALF_UP);
         this.bank = bank;
     }
 
@@ -68,11 +68,11 @@ public class Credit extends AbstractEntity {
     }
 
     public void setLimit(BigDecimal limit) {
-        this.limit = new BigDecimal(limit.setScale(10, RoundingMode.HALF_UP).toString());
+        this.limit = new BigDecimal(limit.setScale(5, RoundingMode.HALF_UP).toString());
     }
 
     public void setInterest(BigDecimal interest) {
-        this.interest = new BigDecimal(interest.setScale(10, RoundingMode.HALF_UP).toString());
+        this.interest = new BigDecimal(interest.setScale(5, RoundingMode.HALF_UP).toString());
     }
 
     @Override

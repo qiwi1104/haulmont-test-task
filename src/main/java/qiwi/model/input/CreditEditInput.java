@@ -5,7 +5,10 @@ public class CreditEditInput extends CreditInput {
     private String newInterest = "";
 
     public boolean hasEmptyFields() {
-        return bank == null || bank.isEmpty();
+        return bank == null || bank.isEmpty()
+                || ((limit == null || limit.isEmpty()) && (interest == null || interest.isEmpty()))
+                || ((newLimit == null || newLimit.isEmpty())
+                && (newInterest == null || newInterest.isEmpty()));
     }
 
     public String getNewLimit() {

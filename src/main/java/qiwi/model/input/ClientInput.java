@@ -11,8 +11,11 @@ public class ClientInput {
     private String bank = "";
 
     public boolean hasEmptyFields() {
-        return firstName.equals("") || lastName.equals("")
-                || phone.equals("") || mail.equals("") || passport.equals("");
+        return firstName == null || firstName.isEmpty()
+                || lastName == null || lastName.isEmpty()
+                || phone == null || phone.isEmpty()
+                || mail == null || mail.isEmpty()
+                || passport == null || passport.isEmpty();
     }
 
     public String getPassport() {

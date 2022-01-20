@@ -1,6 +1,7 @@
 package qiwi.util;
 
 import qiwi.model.input.ClientInput;
+import qiwi.model.input.CreditEditInput;
 import qiwi.model.input.CreditInput;
 import qiwi.model.input.CreditOfferInput;
 
@@ -102,7 +103,7 @@ public class Validator {
 
     public static class Credit {
 
-        public static boolean isValidEdit(CreditInput input) {
+        public static boolean isValidEdit(CreditEditInput input) {
             Pattern pattern = Pattern.compile("[0-9]+(\\.[0-9]+)|[0-9]+");
 
             Matcher matcher = pattern.matcher(input.getLimit());
@@ -114,6 +115,20 @@ public class Validator {
 
             if (!input.getInterest().isEmpty()) {
                 matcher = pattern.matcher(input.getInterest());
+                if (!matcher.matches()) {
+                    return false;
+                }
+            }
+
+            if (!input.getNewLimit().isEmpty()) {
+                matcher = pattern.matcher(input.getNewLimit());
+                if (!matcher.matches()) {
+                    return false;
+                }
+            }
+
+            if (!input.getNewInterest().isEmpty()) {
+                matcher = pattern.matcher(input.getNewInterest());
                 if (!matcher.matches()) {
                     return false;
                 }
@@ -134,19 +149,11 @@ public class Validator {
             Matcher matcher = pattern.matcher(input.getLimit());
             if (!matcher.matches()) {
                 return false;
-            } else {
-                if (Double.parseDouble(input.getLimit()) <= 0) {
-                    return false;
-                }
             }
 
             matcher = pattern.matcher(input.getInterest());
             if (!matcher.matches()) {
                 return false;
-            } else {
-                if (Double.parseDouble(input.getInterest()) < 0) {
-                    return false;
-                }
             }
 
             pattern = Pattern.compile("[a-zA-Z]+");

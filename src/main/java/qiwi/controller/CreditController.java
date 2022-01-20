@@ -8,10 +8,12 @@ import qiwi.dao.impl.BankDAO;
 import qiwi.dao.impl.CreditDAO;
 import qiwi.model.Bank;
 import qiwi.model.Credit;
+import qiwi.model.input.CreditEditInput;
 import qiwi.model.input.CreditInput;
 import qiwi.util.Validator;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.UUID;
 
 @Controller
@@ -22,46 +24,46 @@ public class CreditController {
     @Autowired
     private BankDAO bankDAO;
 
-    private void setUpView(Model model, CreditInput input) {
+    private void setUpView(Model model, CreditInput input, CreditEditInput creditEditInput) {
         model.addAttribute("credits", creditDAO.findAll());
         model.addAttribute("creditInput", input);
+        model.addAttribute("creditEditInput", creditEditInput);
     }
 
-    private boolean updateCredit(Credit credit, CreditInput input) {
-        Credit updatedCredit = new Credit();
+    private void setUpViewAndAddAttribute(String attribute, Model model, CreditInput input, CreditEditInput creditEditInput) {
+        setUpView(model, input, creditEditInput);
+        model.addAttribute(attribute, "");
+    }
 
-        if (input.getLimit() != null && !input.getLimit().isEmpty()) {
-            updatedCredit.setLimit(BigDecimal.valueOf(Double.parseDouble(input.getLimit())));
+    private void updateCredit(Credit credit, CreditEditInput input) {
+        if (input.getNewLimit() != null && !input.getNewLimit().isEmpty()) {
+            credit.setLimit(BigDecimal.valueOf(Double.parseDouble(input.getNewLimit())));
         } else {
-            updatedCredit.setLimit(credit.getLimit());
+            credit.setLimit(BigDecimal.valueOf(Double.parseDouble(input.getLimit())));
         }
 
-        if (input.getInterest() != null && !input.getInterest().isEmpty()) {
-            updatedCredit.setInterest(BigDecimal.valueOf(Double.parseDouble(input.getInterest())));
+        if (input.getNewInterest() != null && !input.getNewInterest().isEmpty()) {
+            credit.setInterest(BigDecimal.valueOf(Double.parseDouble(input.getNewInterest())));
         } else {
-            updatedCredit.setInterest(credit.getInterest());
-        }
-
-        if (!creditDAO.exists(updatedCredit)) {
-            credit.setLimit(updatedCredit.getLimit());
-            credit.setInterest(updatedCredit.getInterest());
-            return true;
-        } else {
-            return false;
+            credit.setInterest(BigDecimal.valueOf(Double.parseDouble(input.getInterest())));
         }
     }
 
     @PostMapping("/add")
     public String add(@ModelAttribute("creditInput") CreditInput input, Model model) {
+        boolean hasErrors = false;
+
         if (input.hasEmptyFields()) {
-            setUpView(model, input);
-            model.addAttribute("emptyFieldsCreditMessage", "");
-            return "credits";
+            setUpViewAndAddAttribute("emptyFieldsCreditMessage", model, input, new CreditEditInput());
+            hasErrors = true;
         }
 
         if (!Validator.Credit.isValid(input)) {
-            setUpView(model, input);
-            model.addAttribute("invalidFieldsCreditMessage", "");
+            setUpViewAndAddAttribute("invalidFieldsCreditMessage", model, input, new CreditEditInput());
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
             return "credits";
         }
 
@@ -70,16 +72,14 @@ public class CreditController {
 
         if (bank != null) {
             if (creditDAO.exists(credit)) {
-                setUpView(model, input);
-                model.addAttribute("alreadyExistsCreditMessage", "");
+                setUpViewAndAddAttribute("alreadyExistsCreditMessage", model, input, new CreditEditInput());
                 return "credits";
             }
 
             bank.addCredit(credit);
             creditDAO.add(credit);
         } else {
-            setUpView(model, input);
-            model.addAttribute("nonExistentBankMessage", "");
+            setUpViewAndAddAttribute("nonExistentBankMessage", model, input, new CreditEditInput());
             return "credits";
         }
 
@@ -87,25 +87,90 @@ public class CreditController {
     }
 
     @PostMapping("/edit/{id}")
-    public String edit(@ModelAttribute("creditInput") CreditInput input, Model model) {
-        if (input.getId().isEmpty()) {
-            setUpView(model, input);
-            model.addAttribute("emptyIdCreditMessage", "");
-            return "credits";
+    public String edit(@ModelAttribute("creditEditInput") CreditEditInput input, Model model) {
+        boolean hasErrors = false;
+
+        if (input.hasEmptyFields()) {
+            setUpViewAndAddAttribute("emptyFieldsCreditEditMessage", model, new CreditInput(), input);
+            hasErrors = true;
         }
 
         if (!Validator.Credit.isValidEdit(input)) {
-            setUpView(model, input);
-            model.addAttribute("invalidFieldsCreditMessage", "");
+            setUpViewAndAddAttribute("invalidFieldsEditCreditMessage", model, new CreditInput(), input);
+            hasErrors = true;
+        }
+
+        if (!bankDAO.existsByName(input.getBank())) {
+            setUpViewAndAddAttribute("nonExistentBankEditCreditMessage", model, new CreditInput(), input);
+            hasErrors = true;
+        }
+
+        if (!creditDAO.exists(new Credit(input, bankDAO.getBankByName(input.getBank())))) {
+            setUpViewAndAddAttribute("nonExistentCreditEditMessage", model, new CreditInput(), input);
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
             return "credits";
         }
 
-        Credit credit = creditDAO.getCreditById(UUID.fromString(input.getId()));
-        if (updateCredit(credit, input)) {
+        BigDecimal limit = BigDecimal
+                .valueOf(Double.parseDouble(input.getLimit()))
+                .setScale(5, RoundingMode.HALF_UP);
+        BigDecimal interest = BigDecimal
+                .valueOf(Double.parseDouble(input.getInterest()))
+                .setScale(5, RoundingMode.HALF_UP);
+
+        BigDecimal newLimit = limit;
+        if (!input.getNewLimit().isEmpty()) {
+            newLimit = BigDecimal
+                    .valueOf(Double.parseDouble(input.getNewLimit()))
+                    .setScale(5, RoundingMode.HALF_UP);
+        }
+
+        BigDecimal newInterest = interest;
+        if (!input.getNewInterest().isEmpty()) {
+            newInterest = BigDecimal
+                    .valueOf(Double.parseDouble(input.getNewInterest()))
+                    .setScale(5, RoundingMode.HALF_UP);
+        }
+
+        if (limit.compareTo(BigDecimal.ZERO) == -1) {
+            setUpViewAndAddAttribute("limitErrorEditCredit", model, new CreditInput(), input);
+            hasErrors = true;
+        }
+
+        if (interest.compareTo(BigDecimal.ZERO) != 1) {
+            setUpViewAndAddAttribute("interestErrorEditCredit", model, new CreditInput(), input);
+            hasErrors = true;
+        }
+
+        if (newLimit.compareTo(BigDecimal.ZERO) == -1) {
+            setUpViewAndAddAttribute("limitErrorEditCredit", model, new CreditInput(), input);
+            hasErrors = true;
+        }
+
+        if (newInterest.compareTo(BigDecimal.ZERO) != 1) {
+            setUpViewAndAddAttribute("interestErrorEditCredit", model, new CreditInput(), input);
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
+            return "credits";
+        }
+
+        Credit updatedCredit = new Credit(limit, interest, bankDAO.getBankByName(input.getBank()));
+        updateCredit(updatedCredit, input);
+
+        if (!creditDAO.exists(updatedCredit)) {
+            Credit credit = creditDAO.getCredit(input.getBank(), limit, interest);
+            credit.setLimit(updatedCredit.getLimit());
+            credit.setInterest(updatedCredit.getInterest());
+
+            bankDAO.getBankByName(input.getBank()).addCredit(credit);
             creditDAO.add(credit);
         } else {
-            setUpView(model, input);
-            model.addAttribute("alreadyExistsCreditEditMessage", "");
+            setUpViewAndAddAttribute("alreadyExistsEditCreditMessage", model, new CreditInput(), input);
             return "credits";
         }
 
@@ -120,7 +185,7 @@ public class CreditController {
 
     @GetMapping("/")
     public String showAllCredits(Model model) {
-        setUpView(model, new CreditInput());
+        setUpView(model, new CreditInput(), new CreditEditInput());
         return "credits";
     }
 }
