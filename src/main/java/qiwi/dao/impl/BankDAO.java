@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import qiwi.dao.BankRepository;
 import qiwi.model.Bank;
 import qiwi.model.Client;
-import qiwi.model.Credit;
 
 import java.util.List;
 import java.util.UUID;
