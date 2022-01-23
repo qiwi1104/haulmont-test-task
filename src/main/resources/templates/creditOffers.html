@@ -120,9 +120,9 @@
 
                     <tr th:each="payment : ${offer.payments}" hidden class="hidePayments">
                         <td th:text="${payment.date}"></td>
-                        <td th:text="${payment.paymentSum}"></td>
-                        <td th:text="${payment.creditSum}"></td>
-                        <td th:text="${payment.interestSum}"></td>
+                        <td th:text="${stringUtil.removeTrailingZeros(payment.paymentSum)}"></td>
+                        <td th:text="${stringUtil.removeTrailingZeros(payment.creditSum)}"></td>
+                        <td th:text="${stringUtil.removeTrailingZeros(payment.interestSum)}"></td>
                     </tr>
                 </table>
             </td>
