@@ -6,13 +6,19 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "clients")
+@Table(name = "CLIENTS")
 public class Client extends AbstractEntity {
+    @Column(name = "FIRST_NAME")
     private String firstName;
+    @Column(name = "MIDDLE_NAME")
     private String middleName;
+    @Column(name = "LAST_NAME")
     private String lastName;
+    @Column(name = "PHONE")
     private String phone;
+    @Column(name = "MAIL")
     private String mail;
+    @Column(name = "PASSPORT")
     private String passport;
 
     @ManyToMany(mappedBy = "clients")

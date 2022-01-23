@@ -8,21 +8,21 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 @Entity
-@Table(name = "credit_offers")
+@Table(name = "CREDIT_OFFERS")
 public class CreditOffer extends AbstractEntity {
-    @Column(name = "credit_sum")
+    @Column(name = "CREDIT_SUM")
     private BigDecimal sum;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "CLIENT_ID")
     private Client client;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "credit_id")
+    @JoinColumn(name = "CREDIT_ID")
     private Credit credit;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "bank_id")
+    @JoinColumn(name = "BANK_ID")
     private Bank bank;
 
     @OneToMany(mappedBy = "creditOffer", cascade = CascadeType.ALL, orphanRemoval = true)

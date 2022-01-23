@@ -9,15 +9,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "credits")
+@Table(name = "CREDITS")
 public class Credit extends AbstractEntity {
-    @Column(precision = 20, scale = 5)
+    @Column(name = "LIMIT", precision = 20, scale = 5)
     private BigDecimal limit;
-    @Column(precision = 20, scale = 5)
+    @Column(name = "INTEREST", precision = 20, scale = 5)
     private BigDecimal interest;
 
     @ManyToOne
-    @JoinColumn(name = "bank_id")
+    @JoinColumn(name = "BANK_ID")
     private Bank bank;
 
     @OneToMany(mappedBy = "credit", cascade = CascadeType.ALL, orphanRemoval = true)

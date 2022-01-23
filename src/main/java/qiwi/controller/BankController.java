@@ -40,7 +40,7 @@ public class BankController {
 
     @PostMapping("/add")
     public String add(@ModelAttribute BankInput input, Model model) {
-        if (input.hasEmptyFields()) {
+        if (input.getName() == null || input.getName().isEmpty()) {
             setUpViewAndAddAttribute("emptyFieldsBankMessage", model, new ClientInput(), input);
             return "banks";
         }

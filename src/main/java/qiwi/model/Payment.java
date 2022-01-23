@@ -6,18 +6,18 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "payments")
+@Table(name = "PAYMENTS")
 public class Payment extends AbstractEntity implements Comparable<Payment> {
-    @Column(name = "payment_date")
+    @Column(name = "PAYMENT_DATE")
     private LocalDate date;
-    @Column(name = "payment_sum")
+    @Column(name = "PAYMENT_SUM")
     private BigDecimal paymentSum;
-    @Column(name = "credit_sum")
+    @Column(name = "CREDIT_SUM")
     private BigDecimal creditSum;
-    @Column(name = "interest_sum")
+    @Column(name = "INTEREST_SUM")
     private BigDecimal interestSum;
     @ManyToOne
-    @JoinColumn(name = "credit_offer_id")
+    @JoinColumn(name = "CREDIT_OFFER_ID")
     private CreditOffer creditOffer;
 
     public Payment() {

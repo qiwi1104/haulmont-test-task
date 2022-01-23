@@ -7,17 +7,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "banks")
+@Table(name = "BANKS")
 public class Bank extends AbstractEntity {
+    @Column(name = "NAME")
     private String name;
 
     @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Credit> credits;
 
     @ManyToMany
-    @JoinTable(name = "clients_banks",
-            joinColumns = @JoinColumn(name = "bank_id"),
-            inverseJoinColumns = {@JoinColumn(name = "client_id")})
+    @JoinTable(name = "CLIENTS_BANKS",
+            joinColumns = @JoinColumn(name = "BANK_ID"),
+            inverseJoinColumns = {@JoinColumn(name = "CLIENT_ID")})
     private Set<Client> clients;
 
     @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, orphanRemoval = true)

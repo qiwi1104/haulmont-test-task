@@ -259,6 +259,7 @@
 </div>
 <div th:fragment="emptyFieldsBankEdit" th:object="${emptyFieldsBankEditMessage}" hidden>
     <div th:if="${emptyFieldsBankEditMessage}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
         <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             actionsHandler("edit");
@@ -449,7 +450,6 @@
 </div>
 <div th:fragment="nonExistentBankInCreditOffer" th:object="${nonExistentBankInCreditOfferMessage}" hidden>
     <div th:if="${nonExistentBankInCreditOfferMessage}">
-        <script th:src="@{/js/src/actionsHandler.js}"></script>
         <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             table = document.body.getElementsByClassName("hiddenPanel").add;

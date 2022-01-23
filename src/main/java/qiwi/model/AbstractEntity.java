@@ -13,7 +13,7 @@ public abstract class AbstractEntity {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(name = "id", nullable = false)
+    @Column(name = "ID", nullable = false)
     protected UUID id;
 
     public UUID getId() {
