@@ -8,6 +8,7 @@ import qiwi.dao.impl.BankDAO;
 import qiwi.dao.impl.CreditDAO;
 import qiwi.model.Bank;
 import qiwi.model.Credit;
+import qiwi.model.CreditOffer;
 import qiwi.model.input.CreditEditInput;
 import qiwi.model.input.CreditInput;
 
@@ -191,21 +192,31 @@ public class CreditController {
             return "credits";
         }
 
-        if (!creditDAO.exists(new Credit(bankDAO.getBankByName(input.getBank()), input))) {
+        Credit creditToUpdate = new Credit(bankDAO.getBankByName(input.getBank()), input);
+        if (!creditDAO.exists(creditToUpdate)) {
             setUpViewAndAddAttribute("nonExistentEditCreditMessage", model, new CreditInput(), input);
             return "credits";
+        }
+
+        for (Bank bank : bankDAO.findAll()) {
+            for (CreditOffer creditOffer : bank.getCreditOffers()) {
+                if (creditOffer.getCredit().equals(creditToUpdate)) {
+                    setUpViewAndAddAttribute("unavailableCreditEditMessage", model, new CreditInput(), input);
+                    return "credits";
+                }
+            }
         }
 
         Credit updatedCredit = new Credit(bankDAO.getBankByName(input.getBank()), limit, interest);
         updateCredit(updatedCredit, input);
 
         if (!creditDAO.exists(updatedCredit)) {
-            Credit credit = creditDAO.getCredit(input.getBank(), limit, interest);
-            credit.setLimit(updatedCredit.getLimit());
-            credit.setInterest(updatedCredit.getInterest());
+            creditToUpdate = creditDAO.getCredit(input.getBank(), limit, interest);
+            creditToUpdate.setLimit(updatedCredit.getLimit());
+            creditToUpdate.setInterest(updatedCredit.getInterest());
 
-            bankDAO.getBankByName(input.getBank()).addCredit(credit);
-            creditDAO.add(credit);
+            bankDAO.getBankByName(input.getBank()).addCredit(creditToUpdate);
+            creditDAO.add(creditToUpdate);
         } else {
             setUpViewAndAddAttribute("alreadyExistsEditCreditMessage", model, new CreditInput(), input);
             return "credits";

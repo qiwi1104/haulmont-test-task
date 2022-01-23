@@ -113,9 +113,12 @@
                         <td>Payment Sum</td>
                         <td>Credit Body Sum</td>
                         <td>Interest Sum</td>
+                        <td>
+                            <div onclick="hideRows()" id="button">Hide Payments</div>
+                        </td>
                     </tr>
 
-                    <tr th:each="payment : ${offer.payments}">
+                    <tr th:each="payment : ${offer.payments}" hidden class="hidePayments">
                         <td th:text="${payment.date}"></td>
                         <td th:text="${payment.paymentSum}"></td>
                         <td th:text="${payment.creditSum}"></td>

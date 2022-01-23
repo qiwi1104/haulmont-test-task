@@ -379,6 +379,18 @@
         </script>
     </div>
 </div>
+<div th:fragment="unavailableCreditEdit" th:object="${unavailableCreditEditMessage}" hidden>
+    <div th:if="${unavailableCreditEditMessage}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
+        <script>
+            actionsHandler("edit");
+            table = document.body.getElementsByClassName("hiddenPanel").edit;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("Cannot edit credit which is used in a credit offer.");
+        </script>
+    </div>
+</div>
 <div th:fragment="limitEditError" th:object="${limitEditErrorMessage}" hidden>
     <div th:if="${limitEditErrorMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
