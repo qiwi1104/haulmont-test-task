@@ -11,6 +11,7 @@ import qiwi.dao.impl.CreditOfferDAO;
 import qiwi.model.CreditOffer;
 import qiwi.model.Payment;
 import qiwi.model.input.CreditOfferInput;
+import qiwi.util.StringUtil;
 import qiwi.util.Validator;
 
 import java.math.BigDecimal;
@@ -34,6 +35,7 @@ public class CreditOfferController {
     private void setUpView(Model model, CreditOfferInput input) {
         model.addAttribute("creditOfferInput", input);
         model.addAttribute("creditOffers", creditOfferDAO.findAll());
+        model.addAttribute("stringUtil", new StringUtil());
     }
 
     private void setUpViewAndAddAttribute(String attribute, Model model, CreditOfferInput input) {
@@ -104,11 +106,11 @@ public class CreditOfferController {
             return "creditOffers";
         }
 
-        BigDecimal months = BigDecimal.valueOf(Long.parseLong(input.getMonths()));
+        BigDecimal months = BigDecimal.valueOf(Double.parseDouble(input.getMonths()));
         BigDecimal limit = BigDecimal
                 .valueOf(Double.parseDouble(input.getLimit()))
                 .setScale(5, RoundingMode.HALF_UP);
-        BigDecimal interest = BigDecimal.valueOf(Long.parseLong(input.getInterest()));
+        BigDecimal interest = BigDecimal.valueOf(Double.parseDouble(input.getInterest()));
         BigDecimal sum = BigDecimal
                 .valueOf(Double.parseDouble(input.getSum()))
                 .setScale(5, RoundingMode.HALF_UP);

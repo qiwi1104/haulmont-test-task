@@ -11,6 +11,7 @@ import qiwi.model.Credit;
 import qiwi.model.CreditOffer;
 import qiwi.model.input.CreditEditInput;
 import qiwi.model.input.CreditInput;
+import qiwi.util.StringUtil;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -27,6 +28,7 @@ public class CreditController {
         model.addAttribute("credits", creditDAO.findAll());
         model.addAttribute("creditInput", input);
         model.addAttribute("creditEditInput", creditEditInput);
+        model.addAttribute("stringUtil", new StringUtil());
     }
 
     private void setUpViewAndAddAttribute(String attribute, Model model, CreditInput input, CreditEditInput creditEditInput) {

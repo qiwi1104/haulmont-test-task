@@ -11,6 +11,7 @@ import qiwi.model.Bank;
 import qiwi.model.Client;
 import qiwi.model.input.BankInput;
 import qiwi.model.input.ClientInput;
+import qiwi.util.StringUtil;
 import qiwi.util.Validator;
 
 import java.util.UUID;
@@ -29,6 +30,7 @@ public class BankController {
         model.addAttribute("banks", bankDAO.findAll());
         model.addAttribute("clientInput", clientInput);
         model.addAttribute("bankInput", bankInput);
+        model.addAttribute("stringUtil", new StringUtil());
     }
 
     private void setUpViewAndAddAttribute(String attribute, Model model, ClientInput clientInput, BankInput bankInput) {

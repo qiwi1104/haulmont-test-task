@@ -101,13 +101,13 @@
                     </tr>
 
                     <tr>
-                        <td th:text="${offer.credit.limit}"></td>
-                        <td th:text="${offer.credit.interest}"></td>
+                        <td th:text="${stringUtil.removeTrailingZeros(offer.credit.limit)}"></td>
+                        <td th:text="${stringUtil.removeTrailingZeros(offer.credit.interest)}"></td>
                     </tr>
                 </table>
             </td>
 
-            <td th:text="${offer.sum}"></td>
+            <td th:text="${stringUtil.removeTrailingZeros(offer.sum)}"></td>
 
             <td>
                 <table border="1" th:unless="${#lists.isEmpty(offer.payments)}">

@@ -11,7 +11,9 @@ import java.util.Set;
 @Entity
 @Table(name = "credits")
 public class Credit extends AbstractEntity {
+    @Column(precision = 20, scale = 5)
     private BigDecimal limit;
+    @Column(precision = 20, scale = 5)
     private BigDecimal interest;
 
     @ManyToOne

@@ -27,6 +27,7 @@
                     <input type="text" field="*{interest}" name="interest" th:value="${creditInput.interest}">
                 </td>
             </tr>
+
             <tr>
                 <td>
                     <input type="submit" value="add credit">
@@ -98,11 +99,8 @@
 
         <tr th:each="credit : ${credits}" class="list">
             <td th:text="${credit.bank.name}"></td>
-<!--            <td th:text="${#numbers.formatDecimal(credit.limit, 1, 5, 'COMMA')}"></td>-->
-<!--            <td th:text="${#numbers.formatDecimal(credit.interest, 1, 5, 'COMMA')}"></td>-->
-
-            <td th:text="${credit.limit}"></td>
-            <td th:text="${credit.interest}"></td>
+            <td th:text="${stringUtil.removeTrailingZeros(credit.limit)}"></td>
+            <td th:text="${stringUtil.removeTrailingZeros(credit.interest)}"></td>
 
             <td>
                 <a th:href="@{'/credits/delete/{id}'(id=${credit.id})}">delete</a>
