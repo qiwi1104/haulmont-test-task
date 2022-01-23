@@ -125,6 +125,18 @@
         </script>
     </div>
 </div>
+<div th:fragment="emptyFieldsEdit" th:object="${emptyFieldsMessageEdit}" hidden>
+    <div th:if="${emptyFieldsMessageEdit}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
+        <script>
+            actionsHandler("edit");
+            table = document.body.getElementsByClassName("hiddenPanel").edit;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("Please, fill in at least one field.");
+        </script>
+    </div>
+</div>
 
 <!--Banks-->
 <div th:fragment="alreadyExistsBank" th:object="${alreadyExistsBankMessage}" hidden>
@@ -345,6 +357,7 @@
 </div>
 <div th:fragment="alreadyExistsEditCredit" th:object="${alreadyExistsEditCreditMessage}" hidden>
     <div th:if="${alreadyExistsEditCreditMessage}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
         <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
             actionsHandler("edit");
@@ -363,6 +376,30 @@
             table = document.body.getElementsByClassName("hiddenPanel").edit;
             lineBreak(table.children[0].children[3].firstElementChild);
             table.children[0].children[3].firstElementChild.append("This credit doesn't exist.");
+        </script>
+    </div>
+</div>
+<div th:fragment="limitEditError" th:object="${limitEditErrorMessage}" hidden>
+    <div th:if="${limitEditErrorMessage}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
+        <script>
+            actionsHandler("edit");
+            table = document.body.getElementsByClassName("hiddenPanel").edit;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("Credit limit must be above 0.");
+        </script>
+    </div>
+</div>
+<div th:fragment="interestEditError" th:object="${interestEditErrorMessage}" hidden>
+    <div th:if="${interestEditErrorMessage}">
+        <script th:src="@{/js/src/actionsHandler.js}"></script>
+        <script th:src="@{/js/src/lineBreak.js}"></script>
+        <script>
+            actionsHandler("edit");
+            table = document.body.getElementsByClassName("hiddenPanel").edit;
+            lineBreak(table.children[0].children[3].firstElementChild);
+            table.children[0].children[3].firstElementChild.append("Interest rate must not be below 0.");
         </script>
     </div>
 </div>

@@ -59,8 +59,12 @@ public class Validator {
                 }
             }
 
-            matcher = pattern.matcher(input.getPassport());
-            return matcher.matches();
+            if (!input.getPassport().isEmpty()) {
+                matcher = pattern.matcher(input.getPassport());
+                return matcher.matches();
+            }
+
+            return true;
         }
 
         public static boolean isValid(ClientInput input) {
@@ -110,46 +114,6 @@ public class Validator {
     }
 
     public static class Credit {
-
-        public static boolean isValidEdit(CreditEditInput input) {
-            Pattern pattern = Pattern.compile("[0-9]+(\\.[0-9]+)|[0-9]+");
-
-            Matcher matcher = pattern.matcher(input.getLimit());
-            if (!input.getLimit().isEmpty()) {
-                if (!matcher.matches()) {
-                    return false;
-                }
-            }
-
-            if (!input.getInterest().isEmpty()) {
-                matcher = pattern.matcher(input.getInterest());
-                if (!matcher.matches()) {
-                    return false;
-                }
-            }
-
-            if (!input.getNewLimit().isEmpty()) {
-                matcher = pattern.matcher(input.getNewLimit());
-                if (!matcher.matches()) {
-                    return false;
-                }
-            }
-
-            if (!input.getNewInterest().isEmpty()) {
-                matcher = pattern.matcher(input.getNewInterest());
-                if (!matcher.matches()) {
-                    return false;
-                }
-            }
-
-            if (!input.getBank().isEmpty()) {
-                pattern = Pattern.compile("[a-zA-Z]+");
-                matcher = pattern.matcher(input.getBank());
-                return matcher.matches();
-            }
-
-            return true;
-        }
 
         public static boolean isValid(CreditInput input) {
             Pattern pattern = Pattern.compile("[0-9]+(\\.[0-9]+)|[0-9]+");

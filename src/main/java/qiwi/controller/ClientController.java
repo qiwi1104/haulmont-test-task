@@ -71,13 +71,12 @@ public class ClientController {
         }
 
         for (Client client : clientDAO.findAll()) {
-            if (client.getPhone().equals(input.getPhone())
-                    || client.getMail().equals(input.getMail())
-                    || client.getPassport().equals(input.getPassport())) {
+            if (client.equalsPhone(input.getPhone())
+                    || client.getMail().equals(input.getMail())) {
 
                 setUpView(model, input);
 
-                if (client.getPhone().equals(input.getPhone())) {
+                if (client.equalsPhone(input.getPhone())) {
                     model.addAttribute("occupiedPhoneMessage", "");
                 }
 
@@ -105,6 +104,11 @@ public class ClientController {
         if (input.getPassport().isEmpty()) {
             setUpViewAndAddAttribute("emptyPassportMessage", model, input);
             hasErrors = true;
+        } else {
+            if (input.hasEmptyFieldsEdit()) {
+                setUpViewAndAddAttribute("emptyFieldsMessageEdit", model, input);
+                hasErrors = true;
+            }
         }
 
         if (!Validator.Client.isValidEdit(input)) {
@@ -112,13 +116,17 @@ public class ClientController {
             hasErrors = true;
         }
 
+        if (hasErrors) {
+            return "clients";
+        }
+
         for (Client client : clientDAO.findAll()) {
-            if (client.getPhone().equals(input.getPhone())
+            if (client.equalsPhone(input.getPhone())
                     || client.getMail().equals(input.getMail())) {
 
                 setUpView(model, input);
 
-                if (client.getPhone().equals(input.getPhone())) {
+                if (client.equalsPhone(input.getPhone())) {
                     model.addAttribute("occupiedPhoneMessageEdit", "");
                 }
 

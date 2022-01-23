@@ -114,6 +114,13 @@ public class Client extends AbstractEntity {
         this.passport = passport;
     }
 
+    public boolean equalsPhone(String phone) {
+        String thisPhone = new StringBuilder(this.phone).reverse().substring(0, 10);
+        phone = new StringBuilder(phone).reverse().substring(0, 10);
+
+        return thisPhone.contains(phone);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

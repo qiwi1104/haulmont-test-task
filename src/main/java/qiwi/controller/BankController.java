@@ -91,17 +91,23 @@ public class BankController {
 
     @PostMapping("/addClient")
     public String addClient(@ModelAttribute ClientInput input, Model model) {
-        boolean hasErrors;
+        boolean hasErrors = false;
 
-        if (!Validator.Bank.isPassportValid(input)) {
-            setUpViewAndAddAttribute("invalidPassportBankMessage", model, input, new BankInput());
-            hasErrors = true;
+        if (!input.getPassport().isEmpty()) {
+            if (!Validator.Bank.isPassportValid(input)) {
+                setUpViewAndAddAttribute("invalidPassportBankMessage", model, input, new BankInput());
+                hasErrors = true;
+            }
         }
 
         if (input.isEmptyPassportOrBank()) {
-            setUpViewAndAddAttribute("emptyFieldsAddClientBank", model, input, new BankInput());
+            setUpViewAndAddAttribute("emptyFieldsAddClientBankMessage", model, input, new BankInput());
             hasErrors = true;
         } else {
+            if (hasErrors) {
+                return "banks";
+            }
+
             if (!clientDAO.existsByPassport(input.getPassport())) {
                 setUpViewAndAddAttribute("nonExistentClientMessage", model, input, new BankInput());
             }

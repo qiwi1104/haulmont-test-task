@@ -23,6 +23,15 @@ public class ClientInput {
                 || bank == null || bank.isEmpty();
     }
 
+    public boolean hasEmptyFieldsEdit() {
+        return (firstName == null || firstName.isEmpty())
+                && (middleName == null || middleName.isEmpty())
+                && (lastName == null || lastName.isEmpty())
+                && (phone == null || phone.isEmpty())
+                && (mail == null || mail.isEmpty())
+                && (newPassport == null || newPassport.isEmpty());
+    }
+
     public String getPassport() {
         return passport;
     }

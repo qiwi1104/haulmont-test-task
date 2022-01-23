@@ -85,10 +85,11 @@
                     <input type="text" field="*{mail}" name="mail" th:value="${clientInput.mail}">
                 </td>
                 <td>
-                    <label>Passport</label>
+                    <label>New Passport</label>
                     <input type="text" field="*{newPassport}" name="newPassport" th:value="${clientInput.newPassport}">
                 </td>
             </tr>
+
             <tr>
                 <td>
                     <input type="submit" value="edit client">
@@ -98,6 +99,7 @@
                     <div th:replace="fragments/errorMessages :: occupiedMailEdit"></div>
                     <div th:replace="fragments/errorMessages :: occupiedPhoneEdit"></div>
                     <div th:replace="fragments/errorMessages :: invalidFieldsEdit"></div>
+                    <div th:replace="fragments/errorMessages :: emptyFieldsEdit"></div>
                 </td>
             </tr>
         </table>
@@ -120,7 +122,7 @@
                 <span th:text="${client.middleName}"></span>
                 <span th:text="${client.lastName}"></span>
             </td>
-            <td th:text=" ${client.phone}"></td>
+            <td th:text="${client.phone}"></td>
             <td th:text="${client.mail}"></td>
             <td th:text="${client.passport}"></td>
 
