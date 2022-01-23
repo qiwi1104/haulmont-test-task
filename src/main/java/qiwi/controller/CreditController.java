@@ -10,10 +10,8 @@ import qiwi.model.Bank;
 import qiwi.model.Credit;
 import qiwi.model.input.CreditEditInput;
 import qiwi.model.input.CreditInput;
-import qiwi.util.Validator;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.UUID;
 
 @Controller
@@ -118,67 +116,83 @@ public class CreditController {
             hasErrors = true;
         }
 
-        if (!Validator.Credit.isValidEdit(input)) {
-            setUpViewAndAddAttribute("invalidFieldsEditCreditMessage", model, new CreditInput(), input);
-            hasErrors = true;
+        if (hasErrors) {
+            return "credits";
         }
 
-        if (!bankDAO.existsByName(input.getBank())) {
-            setUpViewAndAddAttribute("nonExistentBankEditCreditMessage", model, new CreditInput(), input);
-            hasErrors = true;
+        BigDecimal limit = BigDecimal.ZERO;
+        if (!input.getLimit().isEmpty()) {
+            try {
+                limit = BigDecimal.valueOf(Double.parseDouble(input.getLimit()));
+
+                if (limit.compareTo(BigDecimal.ZERO) != 1) {
+                    setUpViewAndAddAttribute("limitEditErrorMessage", model, input, new CreditEditInput());
+                    hasErrors = true;
+                }
+            } catch (Exception e) {
+                setUpViewAndAddAttribute("invalidFieldsEditCreditMessage", model, input, new CreditEditInput());
+                hasErrors = true;
+            }
         }
 
-        if (!creditDAO.exists(new Credit(bankDAO.getBankByName(input.getBank()), input))) {
-            setUpViewAndAddAttribute("nonExistentCreditEditMessage", model, new CreditInput(), input);
-            hasErrors = true;
+        BigDecimal interest = BigDecimal.ZERO;
+        if (!input.getInterest().isEmpty()) {
+            try {
+                interest = BigDecimal.valueOf(Double.parseDouble(input.getInterest()));
+
+                if (interest.compareTo(BigDecimal.ZERO) == -1) {
+                    setUpViewAndAddAttribute("interestEditErrorMessage", model, input, new CreditEditInput());
+                    hasErrors = true;
+                }
+            } catch (Exception e) {
+                setUpViewAndAddAttribute("invalidFieldsEditCreditMessage", model, input, new CreditEditInput());
+                hasErrors = true;
+            }
+        }
+
+        BigDecimal newLimit;
+        if (!input.getNewLimit().isEmpty()) {
+            try {
+                newLimit = BigDecimal.valueOf(Double.parseDouble(input.getLimit()));
+
+                if (newLimit.compareTo(BigDecimal.ZERO) != 1) {
+                    setUpViewAndAddAttribute("limitEditErrorMessage", model, input, new CreditEditInput());
+                    hasErrors = true;
+                }
+            } catch (Exception e) {
+                setUpViewAndAddAttribute("invalidFieldsEditCreditMessage", model, input, new CreditEditInput());
+                hasErrors = true;
+            }
+        }
+
+        BigDecimal newInterest;
+        if (!input.getNewInterest().isEmpty()) {
+            try {
+                newInterest = BigDecimal.valueOf(Double.parseDouble(input.getNewInterest()));
+
+                if (newInterest.compareTo(BigDecimal.ZERO) == -1) {
+                    setUpViewAndAddAttribute("interestEditErrorMessage", model, new CreditInput(), input);
+                    hasErrors = true;
+                }
+            } catch (Exception e) {
+                setUpViewAndAddAttribute("invalidFieldsEditCreditMessage", model, new CreditInput(), input);
+                hasErrors = true;
+            }
+        }
+
+        if (!input.getBank().isEmpty()) {
+            if (!bankDAO.existsByName(input.getBank())) {
+                setUpViewAndAddAttribute("nonExistentBankEditCreditMessage", model, new CreditInput(), input);
+                hasErrors = true;
+            }
         }
 
         if (hasErrors) {
             return "credits";
         }
 
-        BigDecimal limit = BigDecimal
-                .valueOf(Double.parseDouble(input.getLimit()))
-                .setScale(5, RoundingMode.HALF_UP);
-        BigDecimal interest = BigDecimal
-                .valueOf(Double.parseDouble(input.getInterest()))
-                .setScale(5, RoundingMode.HALF_UP);
-
-        BigDecimal newLimit = limit;
-        if (!input.getNewLimit().isEmpty()) {
-            newLimit = BigDecimal
-                    .valueOf(Double.parseDouble(input.getNewLimit()))
-                    .setScale(5, RoundingMode.HALF_UP);
-        }
-
-        BigDecimal newInterest = interest;
-        if (!input.getNewInterest().isEmpty()) {
-            newInterest = BigDecimal
-                    .valueOf(Double.parseDouble(input.getNewInterest()))
-                    .setScale(5, RoundingMode.HALF_UP);
-        }
-
-        if (limit.compareTo(BigDecimal.ZERO) == -1) {
-            setUpViewAndAddAttribute("limitErrorEditCredit", model, new CreditInput(), input);
-            hasErrors = true;
-        }
-
-        if (interest.compareTo(BigDecimal.ZERO) != 1) {
-            setUpViewAndAddAttribute("interestErrorEditCredit", model, new CreditInput(), input);
-            hasErrors = true;
-        }
-
-        if (newLimit.compareTo(BigDecimal.ZERO) == -1) {
-            setUpViewAndAddAttribute("limitErrorEditCredit", model, new CreditInput(), input);
-            hasErrors = true;
-        }
-
-        if (newInterest.compareTo(BigDecimal.ZERO) != 1) {
-            setUpViewAndAddAttribute("interestErrorEditCredit", model, new CreditInput(), input);
-            hasErrors = true;
-        }
-
-        if (hasErrors) {
+        if (!creditDAO.exists(new Credit(bankDAO.getBankByName(input.getBank()), input))) {
+            setUpViewAndAddAttribute("nonExistentEditCreditMessage", model, new CreditInput(), input);
             return "credits";
         }
 

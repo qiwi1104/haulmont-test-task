@@ -6,9 +6,9 @@ public class CreditEditInput extends CreditInput {
 
     public boolean hasEmptyFields() {
         return bank == null || bank.isEmpty()
-                || ((limit == null || limit.isEmpty()) && (interest == null || interest.isEmpty()))
-                || ((newLimit == null || newLimit.isEmpty())
-                && (newInterest == null || newInterest.isEmpty()));
+                || limit == null || limit.isEmpty()
+                || interest == null || interest.isEmpty()
+                || ((newLimit == null || newLimit.isEmpty()) && (newInterest == null || newInterest.isEmpty()));
     }
 
     public String getNewLimit() {
