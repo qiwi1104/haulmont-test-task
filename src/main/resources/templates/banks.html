@@ -46,7 +46,6 @@
             <tr>
                 <td>
                     <input type="submit" value="add client">
-<!--                    <div th:replace="fragments/errorMessages :: invalidFieldsBank"></div>-->
                     <div th:replace="fragments/errorMessages :: emptyFieldsAddClientBank"></div>
                     <div th:replace="fragments/errorMessages :: invalidPassportBank"></div>
                     <div th:replace="fragments/errorMessages :: alreadyExistsClient"></div>
@@ -77,7 +76,7 @@
                 <td>
                     <input type="submit" value="edit bank">
                     <div th:replace="fragments/errorMessages :: emptyFieldsBankEdit"></div>
-                    <div th:replace="fragments/errorMessages :: nonExistentEditBank"></div>
+                    <div th:replace="fragments/errorMessages :: nonExistentBankEdit"></div>
                     <div th:replace="fragments/errorMessages :: alreadyExistsBankName"></div>
                 </td>
             </tr>

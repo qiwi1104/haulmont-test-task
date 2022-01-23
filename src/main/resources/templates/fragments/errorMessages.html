@@ -53,8 +53,8 @@
     </div>
 </div>
 <!--Edit-->
-<div th:fragment="alreadyExistsEdit" th:object="${alreadyExistsMessageEdit}" hidden>
-    <div th:if="${alreadyExistsMessageEdit}">
+<div th:fragment="alreadyExistsEdit" th:object="${alreadyExistsEditMessage}" hidden>
+    <div th:if="${alreadyExistsEditMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
         <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
@@ -65,8 +65,8 @@
         </script>
     </div>
 </div>
-<div th:fragment="nonExistentEdit" th:object="${nonExistentMessageEdit}" hidden>
-    <div th:if="${nonExistentMessageEdit}">
+<div th:fragment="nonExistentEdit" th:object="${nonExistentEditMessage}" hidden>
+    <div th:if="${nonExistentEditMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
         <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
@@ -89,8 +89,8 @@
         </script>
     </div>
 </div>
-<div th:fragment="occupiedPhoneEdit" th:object="${occupiedPhoneMessageEdit}" hidden>
-    <div th:if="${occupiedPhoneMessageEdit}">
+<div th:fragment="occupiedPhoneEdit" th:object="${occupiedPhoneEditMessage}" hidden>
+    <div th:if="${occupiedPhoneEditMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
         <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
@@ -101,8 +101,8 @@
         </script>
     </div>
 </div>
-<div th:fragment="occupiedMailEdit" th:object="${occupiedMailMessageEdit}" hidden>
-    <div th:if="${occupiedMailMessageEdit}">
+<div th:fragment="occupiedMailEdit" th:object="${occupiedMailEditMessage}" hidden>
+    <div th:if="${occupiedMailEditMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
         <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
@@ -113,8 +113,8 @@
         </script>
     </div>
 </div>
-<div th:fragment="invalidFieldsEdit" th:object="${invalidFieldsMessageEdit}" hidden>
-    <div th:if="${invalidFieldsMessageEdit}">
+<div th:fragment="invalidFieldsEdit" th:object="${invalidFieldsEditMessage}" hidden>
+    <div th:if="${invalidFieldsEditMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
         <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
@@ -125,8 +125,8 @@
         </script>
     </div>
 </div>
-<div th:fragment="emptyFieldsEdit" th:object="${emptyFieldsMessageEdit}" hidden>
-    <div th:if="${emptyFieldsMessageEdit}">
+<div th:fragment="emptyFieldsEdit" th:object="${emptyFieldsEditMessage}" hidden>
+    <div th:if="${emptyFieldsEditMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
         <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>
@@ -233,8 +233,8 @@
     </div>
 </div>
 <!--Edit-->
-<div th:fragment="nonExistentEditBank" th:object="${nonExistentBankMessageEdit}" hidden>
-    <div th:if="${nonExistentBankMessageEdit}">
+<div th:fragment="nonExistentBankEdit" th:object="${nonExistentBankEditMessage}" hidden>
+    <div th:if="${nonExistentBankEditMessage}">
         <script th:src="@{/js/src/actionsHandler.js}"></script>
         <script th:src="@{/js/src/lineBreak.js}"></script>
         <script>

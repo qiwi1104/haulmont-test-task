@@ -69,7 +69,7 @@ public class BankController {
             bank = bankDAO.getBankByName(input.getName());
 
             if (bank == null) {
-                setUpViewAndAddAttribute("nonExistentBankMessageEdit", model, new ClientInput(), input);
+                setUpViewAndAddAttribute("nonExistentBankEditMessage", model, new ClientInput(), input);
                 return "banks";
             }
         }

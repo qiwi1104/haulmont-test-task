@@ -106,13 +106,13 @@ public class ClientController {
             hasErrors = true;
         } else {
             if (input.hasEmptyFieldsEdit()) {
-                setUpViewAndAddAttribute("emptyFieldsMessageEdit", model, input);
+                setUpViewAndAddAttribute("emptyFieldsEditMessage", model, input);
                 hasErrors = true;
             }
         }
 
         if (!Validator.Client.isValidEdit(input)) {
-            setUpViewAndAddAttribute("invalidFieldsMessageEdit", model, input);
+            setUpViewAndAddAttribute("invalidFieldsEditMessage", model, input);
             hasErrors = true;
         }
 
@@ -127,11 +127,11 @@ public class ClientController {
                 setUpView(model, input);
 
                 if (client.equalsPhone(input.getPhone())) {
-                    model.addAttribute("occupiedPhoneMessageEdit", "");
+                    model.addAttribute("occupiedPhoneEditMessage", "");
                 }
 
                 if (client.getMail().equals(input.getMail())) {
-                    model.addAttribute("occupiedMailMessageEdit", "");
+                    model.addAttribute("occupiedMailEditMessage", "");
                 }
 
                 hasErrors = true;
@@ -140,13 +140,13 @@ public class ClientController {
 
         if (!input.getNewPassport().isEmpty()) {
             if (clientDAO.existsByPassport(input.getNewPassport())) {
-                setUpViewAndAddAttribute("alreadyExistsMessageEdit", model, input);
+                setUpViewAndAddAttribute("alreadyExistsEditMessage", model, input);
                 hasErrors = true;
             }
         }
 
         if (!clientDAO.existsByPassport(input.getPassport())) {
-            setUpViewAndAddAttribute("nonExistentMessageEdit", model, input);
+            setUpViewAndAddAttribute("nonExistentEditMessage", model, input);
             hasErrors = true;
         }
 
