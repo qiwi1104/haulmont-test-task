@@ -17,18 +17,18 @@
                     <input type="text" field="*{name}" name="name" th:value="${bankInput.name}">
                 </td>
             </tr>
+
             <tr>
                 <td>
                     <input type="submit" value="add bank">
                     <div th:replace="fragments/errorMessages :: alreadyExistsBank"></div>
                     <div th:replace="fragments/errorMessages :: emptyFieldsBank"></div>
-                    <div th:replace="fragments/errorMessages :: invalidFieldsBank"></div>
                 </td>
             </tr>
         </table>
     </form>
 
-    <form action="#" th:action="@{'/banks/addClient'}" th:object="${clientInput}" method="post">
+    <form action="#" th:action="@{'/banks/addClient'}" th:object="${addClientBankInput}" method="post">
         <table th:fragment="addClient" class="hiddenPanel" hidden id="addClient">
             <tr>
                 <td>
@@ -46,9 +46,9 @@
             <tr>
                 <td>
                     <input type="submit" value="add client">
-                    <script th:src="@{/js/src/actionsHandler.js}"></script>
+<!--                    <div th:replace="fragments/errorMessages :: invalidFieldsBank"></div>-->
+                    <div th:replace="fragments/errorMessages :: emptyFieldsAddClientBank"></div>
                     <div th:replace="fragments/errorMessages :: invalidPassportBank"></div>
-                    <div th:replace="fragments/errorMessages :: emptyPassportBank"></div>
                     <div th:replace="fragments/errorMessages :: alreadyExistsClient"></div>
                     <div th:replace="fragments/errorMessages :: nonExistentBank"></div>
                     <div th:replace="fragments/errorMessages :: nonExistentClient"></div>
@@ -72,9 +72,11 @@
                     <input type="text" field="*{newName}" name="newName" th:value="${bankInput.newName}">
                 </td>
             </tr>
+
             <tr>
                 <td>
                     <input type="submit" value="edit bank">
+                    <div th:replace="fragments/errorMessages :: emptyFieldsBankEdit"></div>
                     <div th:replace="fragments/errorMessages :: nonExistentEditBank"></div>
                     <div th:replace="fragments/errorMessages :: alreadyExistsBankName"></div>
                 </td>

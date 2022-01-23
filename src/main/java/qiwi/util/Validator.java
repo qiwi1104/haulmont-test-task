@@ -160,12 +160,6 @@ public class Validator {
             }
 
             matcher = pattern.matcher(input.getInterest());
-            if (!matcher.matches()) {
-                return false;
-            }
-
-            pattern = Pattern.compile("[a-zA-Z]+");
-            matcher = pattern.matcher(input.getBank());
             return matcher.matches();
         }
     }

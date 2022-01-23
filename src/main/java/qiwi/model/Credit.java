@@ -47,10 +47,6 @@ public class Credit extends AbstractEntity {
         this.bank = bank;
     }
 
-    public void addCreditOffer(CreditOffer creditOffer) {
-        this.creditOffers.add(creditOffer);
-    }
-
     public BigDecimal getLimit() {
         return limit;
     }

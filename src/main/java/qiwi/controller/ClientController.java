@@ -57,7 +57,7 @@ public class ClientController {
 
         if (input.hasEmptyFields()) {
             setUpViewAndAddAttribute("emptyFieldsMessage", model, input);
-            hasErrors = true;
+            return "clients";
         }
 
         if (!Validator.Client.isValid(input)) {

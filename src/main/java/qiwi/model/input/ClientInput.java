@@ -18,8 +18,9 @@ public class ClientInput {
                 || passport == null || passport.isEmpty();
     }
 
-    public boolean isEmptyPassport() {
-        return passport == null || passport.isEmpty();
+    public boolean isEmptyPassportOrBank() {
+        return passport == null || passport.isEmpty()
+                || bank == null || bank.isEmpty();
     }
 
     public String getPassport() {

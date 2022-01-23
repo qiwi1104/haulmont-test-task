@@ -55,12 +55,40 @@ public class CreditController {
 
         if (input.hasEmptyFields()) {
             setUpViewAndAddAttribute("emptyFieldsCreditMessage", model, input, new CreditEditInput());
+            return "credits";
+        }
+
+        if (!bankDAO.existsByName(input.getBank())) {
+            setUpViewAndAddAttribute("nonExistentBankCreditMessage", model, input, new CreditEditInput());
             hasErrors = true;
         }
 
-        if (!Validator.Credit.isValid(input)) {
-            setUpViewAndAddAttribute("invalidFieldsCreditMessage", model, input, new CreditEditInput());
-            hasErrors = true;
+        if (!input.getLimit().isEmpty()) {
+            try {
+                BigDecimal limit = BigDecimal.valueOf(Double.parseDouble(input.getLimit()));
+
+                if (limit.compareTo(BigDecimal.ZERO) != 1) {
+                    setUpViewAndAddAttribute("limitErrorMessage", model, input, new CreditEditInput());
+                    hasErrors = true;
+                }
+            } catch (Exception e) {
+                setUpViewAndAddAttribute("invalidFieldsCreditMessage", model, input, new CreditEditInput());
+                hasErrors = true;
+            }
+        }
+
+        if (!input.getInterest().isEmpty()) {
+            try {
+                BigDecimal interest = BigDecimal.valueOf(Double.parseDouble(input.getInterest()));
+
+                if (interest.compareTo(BigDecimal.ZERO) == -1) {
+                    setUpViewAndAddAttribute("interestErrorMessage", model, input, new CreditEditInput());
+                    hasErrors = true;
+                }
+            } catch (Exception e) {
+                setUpViewAndAddAttribute("invalidFieldsCreditMessage", model, input, new CreditEditInput());
+                hasErrors = true;
+            }
         }
 
         if (hasErrors) {
@@ -70,18 +98,13 @@ public class CreditController {
         Bank bank = bankDAO.getBankByName(input.getBank());
         Credit credit = new Credit(bank, input);
 
-        if (bank != null) {
-            if (creditDAO.exists(credit)) {
-                setUpViewAndAddAttribute("alreadyExistsCreditMessage", model, input, new CreditEditInput());
-                return "credits";
-            }
-
-            bank.addCredit(credit);
-            creditDAO.add(credit);
-        } else {
-            setUpViewAndAddAttribute("nonExistentBankMessage", model, input, new CreditEditInput());
+        if (creditDAO.exists(credit)) {
+            setUpViewAndAddAttribute("alreadyExistsCreditMessage", model, input, new CreditEditInput());
             return "credits";
         }
+
+        bank.addCredit(credit);
+        creditDAO.add(credit);
 
         return "redirect:/credits/";
     }

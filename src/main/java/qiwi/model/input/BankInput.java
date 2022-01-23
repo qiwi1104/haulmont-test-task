@@ -5,7 +5,8 @@ public class BankInput {
     private String newName = "";
 
     public boolean hasEmptyFields() {
-        return name == null || name.isEmpty();
+        return name == null || name.isEmpty()
+                || newName == null || newName.isEmpty();
     }
 
     public String getName() {

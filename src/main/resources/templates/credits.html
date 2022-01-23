@@ -33,7 +33,9 @@
                     <div th:replace="fragments/errorMessages :: alreadyExistsCredit"></div>
                     <div th:replace="fragments/errorMessages :: emptyFieldsCredit"></div>
                     <div th:replace="fragments/errorMessages :: invalidFieldsCredit"></div>
-                    <div th:replace="fragments/errorMessages :: nonExistentBank"></div>
+                    <div th:replace="fragments/errorMessages :: nonExistentBankCredit"></div>
+                    <div th:replace="fragments/errorMessages :: limitError"></div>
+                    <div th:replace="fragments/errorMessages :: interestError"></div>
                 </td>
             </tr>
         </table>
@@ -76,6 +78,7 @@
                     <div th:replace="fragments/errorMessages :: invalidFieldsEditCredit"></div>
                     <div th:replace="fragments/errorMessages :: alreadyExistsEditCredit"></div>
                     <div th:replace="fragments/errorMessages :: nonExistentEditCredit"></div>
+
                 </td>
             </tr>
         </table>
@@ -93,6 +96,9 @@
 
         <tr th:each="credit : ${credits}" class="list">
             <td th:text="${credit.bank.name}"></td>
+<!--            <td th:text="${#numbers.formatDecimal(credit.limit, 1, 5, 'COMMA')}"></td>-->
+<!--            <td th:text="${#numbers.formatDecimal(credit.interest, 1, 5, 'COMMA')}"></td>-->
+
             <td th:text="${credit.limit}"></td>
             <td th:text="${credit.interest}"></td>
 

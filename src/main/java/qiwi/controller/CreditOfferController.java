@@ -98,17 +98,9 @@ public class CreditOfferController {
             return "creditOffers";
         }
 
-        if (!Validator.CreditOffer.isValid(input)) {
+        if (!Validator.CreditOffer.isValid(input)
+                || !Validator.CreditOffer.isValidCreditDetail(input)) {
             setUpViewAndAddAttribute("invalidFieldsCreditOfferMessage", model, input);
-            hasErrors = true;
-        }
-
-        if (!Validator.CreditOffer.isValidCreditDetail(input)) {
-            setUpViewAndAddAttribute("invalidCreditDetailsMessage", model, input);
-            hasErrors = true;
-        }
-
-        if (hasErrors) {
             return "creditOffers";
         }
 
@@ -124,38 +116,20 @@ public class CreditOfferController {
         if (!bankDAO.existsByName(bank)) {
             setUpViewAndAddAttribute("nonExistentBankInCreditOfferMessage", model, input);
             hasErrors = true;
-        }
-
-        if (creditDAO.getCredit(bank, limit, interest) == null) {
-            setUpViewAndAddAttribute("nonExistentCreditMessage", model, input);
-            hasErrors = true;
-        }
-
-        if (Validator.CreditOffer.isValid(input)) {
-            if (bankDAO.existsByName(bank)) {
-                if (!bankDAO.existsClientByPassport(bank, passport)) {
-                    setUpViewAndAddAttribute("nonExistentClientInCreditOfferMessage", model, input);
-                    hasErrors = true;
-                }
-            } else {
-                if (!clientDAO.existsByPassport(passport)) {
-                    setUpViewAndAddAttribute("nonExistentClientInCreditOfferMessage", model, input);
-                    hasErrors = true;
-                }
+        } else {
+            if (!bankDAO.existsClientByPassport(bank, passport)) {
+                setUpViewAndAddAttribute("nonExistentClientInCreditOfferMessage", model, input);
+                hasErrors = true;
             }
-        }
 
-        if (hasErrors) {
-            return "creditOffers";
+            if (creditDAO.getCredit(bank, limit, interest) == null) {
+                setUpViewAndAddAttribute("nonExistentCreditMessage", model, input);
+                hasErrors = true;
+            }
         }
 
         if (months.compareTo(BigDecimal.ZERO) != 1) {
             setUpViewAndAddAttribute("monthsErrorMessage", model, input);
-            hasErrors = true;
-        }
-
-        if (limit.compareTo(BigDecimal.ZERO) != 1) {
-            setUpViewAndAddAttribute("limitErrorMessage", model, input);
             hasErrors = true;
         }
 
