@@ -1,7 +1,6 @@
 package qiwi.util;
 
 import qiwi.model.input.ClientInput;
-import qiwi.model.input.CreditEditInput;
 import qiwi.model.input.CreditInput;
 import qiwi.model.input.CreditOfferInput;
 

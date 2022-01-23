@@ -10,5 +10,4 @@ import java.util.UUID;
 
 @Repository
 public interface CreditOfferRepository extends JpaRepository<CreditOffer, UUID> {
-    List<Payment> getAllPaymentsById(UUID id);
 }

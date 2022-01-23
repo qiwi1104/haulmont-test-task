@@ -61,10 +61,6 @@ public class BankDAO {
         return getBankByName(bankName).getClients().contains(client);
     }
 
-    public boolean existsCreditByBankName(String bankName, Credit credit) {
-        return getBankByName(bankName).getCredits().contains(credit);
-    }
-
     public List<Bank> findAll() {
         return repository.findAll();
     }

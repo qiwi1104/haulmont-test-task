@@ -87,7 +87,7 @@
 <div>
     <table align="center" border="1">
         <tr bgcolor="#cccccc">
-            <td><a th:href="@{'/banks/sort/{property}' (property = 'name')}">Name</a></td>
+            <td>Name</td>
             <td>Clients</td>
             <td>Credits</td>
             <td></td>
@@ -110,7 +110,8 @@
                             <span th:text="${client.middleName}"></span>
                             <span th:text="${client.lastName}"></span>
                         </td>
-                        <td><span th:text="${client.passport}"></span></td>
+                        <td th:text="${client.passport}"></td>
+
                         <td><a th:href="@{'/banks/deleteClient/{id}'(id=${client.id})}">delete</a></td>
                     </tr>
                 </table>
@@ -125,8 +126,9 @@
                     </tr>
 
                     <tr th:each="credit : ${bank.credits}">
-                        <td><span th:text="${stringUtil.removeTrailingZeros(credit.limit)}"></span></td>
-                        <td><span th:text="${stringUtil.removeTrailingZeros(credit.interest)}"></span></td>
+                        <td th:text="${stringUtil.removeTrailingZeros(credit.limit)}"></td>
+                        <td th:text="${stringUtil.removeTrailingZeros(credit.interest)}"></td>
+
                         <td><a th:href="@{'/banks/deleteCredit/{id}'(id=${credit.id})}">delete</a></td>
                     </tr>
                 </table>

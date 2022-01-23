@@ -33,14 +33,6 @@ public class CreditDAO {
         return repository.findAll().contains(credit);
     }
 
-    public Credit getCreditById(UUID id) {
-        if (repository.existsById(id)) {
-            return repository.getOne(id);
-        }
-
-        return null;
-    }
-
     public Credit getCredit(String bankName, BigDecimal limit, BigDecimal interest) {
         Bank bank = new Bank(bankName);
         Credit creditToFind = new Credit(bank, limit, interest);
