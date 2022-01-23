@@ -60,6 +60,9 @@
 </div>
 <br/>
 <div>
+    <button onclick="hideRows()" id="button">Show Payments</button>
+    <div><br/></div>
+
     <table align="center" border="1">
         <tr bgcolor="#cccccc">
             <td>Bank</td>
@@ -113,9 +116,6 @@
                         <td>Payment Sum</td>
                         <td>Credit Body Sum</td>
                         <td>Interest Sum</td>
-                        <td>
-                            <div onclick="hideRows()" id="button">Hide Payments</div>
-                        </td>
                     </tr>
 
                     <tr th:each="payment : ${offer.payments}" hidden class="hidePayments">
@@ -138,6 +138,7 @@
 <script>
     perform("addClient");
     perform("edit");
+
 </script>
 </body>
 </html>
