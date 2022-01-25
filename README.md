@@ -39,3 +39,10 @@
 - Spring Boot
 - HSQLDB
 - Thymeleaf
+
+## Run
+Run in the command line:
+
+    mvn spring-boot:run
+  
+Open `http://localhost:8080/banks/` in a web browser.
