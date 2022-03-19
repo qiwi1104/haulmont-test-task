@@ -1,8 +1,12 @@
 package qiwi.model;
 
+import org.springframework.validation.annotation.Validated;
 import qiwi.model.input.BankInput;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,6 +14,7 @@ import java.util.Set;
 @Table(name = "BANKS")
 public class Bank extends AbstractEntity {
     @Column(name = "NAME")
+    @NotBlank(message = "Bank name must not be empty.")
     private String name;
 
     @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, orphanRemoval = true)

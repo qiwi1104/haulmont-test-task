@@ -9,20 +9,22 @@
 <div th:replace="fragments/header :: header"></div>
 <br/>
 <div>
-    <form action="#" th:action="@{/banks/add}" th:object="${bankInput}" method="post">
+    <form action="#" th:action="@{/banks/add}" th:object="${bank}" method="post">
         <table th:fragment="add" class="hiddenPanel" id="add">
             <tr>
                 <td>
                     <label>Name</label>
-                    <input type="text" field="*{name}" name="name" th:value="${bankInput.name}">
+                    <input type="text" th:field="*{name}" name="name">
                 </td>
             </tr>
 
             <tr>
                 <td>
                     <input type="submit" value="add bank">
-                    <div th:replace="fragments/errorMessages :: alreadyExistsBank"></div>
-                    <div th:replace="fragments/errorMessages :: emptyFieldsBank"></div>
+                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                    <div th:if="${#fields.hasErrors('global')}">
+                        <span th:each="err : ${#fields.errors('global')}" th:text="${err}"></span>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -135,6 +137,7 @@
             </td>
 
             <td>
+<!--                <a th:href="@{'/banks/edit/{id}'(id=${bank.id})}">edit</a>-->
                 <a th:href="@{'/banks/delete/{id}'(id=${bank.id})}">delete</a>
             </td>
         </tr>

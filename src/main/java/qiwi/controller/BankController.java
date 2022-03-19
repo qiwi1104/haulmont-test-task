@@ -3,6 +3,7 @@ package qiwi.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import qiwi.dao.impl.BankDAO;
 import qiwi.dao.impl.ClientDAO;
@@ -14,6 +15,7 @@ import qiwi.model.input.ClientInput;
 import qiwi.util.StringUtil;
 import qiwi.util.Validator;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @Controller
@@ -39,15 +41,15 @@ public class BankController {
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute BankInput input, Model model) {
-        if (input.getName() == null || input.getName().isEmpty()) {
-            setUpViewAndAddAttribute("emptyFieldsBankMessage", model, new ClientInput(), input);
+    public String add(@Valid @ModelAttribute("bank") Bank bank, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            setUpView(model, new ClientInput(), new BankInput());
             return "banks";
         }
 
-        Bank bank = new Bank(input);
         if (bankDAO.existsByName(bank.getName())) {
-            setUpViewAndAddAttribute("alreadyExistsBankMessage", model, new ClientInput(), input);
+            setUpView(model, new ClientInput(), new BankInput());
+            result.reject("error.alreadyExists", "This bank already exists.");
             return "banks";
         }
 
@@ -173,6 +175,8 @@ public class BankController {
     @GetMapping("/")
     public String showAllBanks(Model model) {
         setUpView(model, new ClientInput(), new BankInput());
+
+        model.addAttribute("bank", new Bank());
         return "banks";
     }
 }
