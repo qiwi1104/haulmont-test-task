@@ -57,33 +57,6 @@
             </tr>
         </table>
     </form>
-
-    <form action="#" th:action="@{'/banks/edit/{name}'}" th:object="${bankInput}"
-          method="post">
-        <table th:fragment="edit" class="hiddenPanel" hidden id="edit">
-            <tr>
-                <td>
-                    <label>Name</label>
-                    <input type="text" field="*{name}" name="name" th:value="${bankInput.name}">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label>New Name</label>
-                    <input type="text" field="*{newName}" name="newName" th:value="${bankInput.newName}">
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <input type="submit" value="edit bank">
-                    <div th:replace="fragments/errorMessages :: emptyFieldsBankEdit"></div>
-                    <div th:replace="fragments/errorMessages :: nonExistentBankEdit"></div>
-                    <div th:replace="fragments/errorMessages :: alreadyExistsBankName"></div>
-                </td>
-            </tr>
-        </table>
-    </form>
 </div>
 <br/>
 <div>
@@ -137,7 +110,7 @@
             </td>
 
             <td>
-<!--                <a th:href="@{'/banks/edit/{id}'(id=${bank.id})}">edit</a>-->
+                <a th:href="@{'/banks/edit/{id}'(id=${bank.id})}">edit</a>
                 <a th:href="@{'/banks/delete/{id}'(id=${bank.id})}">delete</a>
             </td>
         </tr>

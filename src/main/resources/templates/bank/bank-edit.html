@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Banks</title>
+    <link th:replace="fragments/css :: css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<br/>
+<form action="#" th:action="@{'/banks/update'}" th:object="${bank}" method="post">
+    <table id="edit">
+        <tr>
+            <td hidden>
+                <input th:field="*{id}" />
+            </td>
+            <td>
+                <label>New Name</label>
+                <input type="text" th:field="*{name}">
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <input type="submit" value="edit bank">
+                <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                <div th:if="${#fields.hasErrors('global')}">
+                    <span th:each="err : ${#fields.errors('global')}" th:text="${err}"></span>
+                </div>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

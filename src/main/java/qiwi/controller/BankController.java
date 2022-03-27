@@ -10,13 +10,18 @@ import qiwi.dao.impl.ClientDAO;
 import qiwi.dao.impl.CreditDAO;
 import qiwi.model.Bank;
 import qiwi.model.Client;
+import qiwi.model.Credit;
+import qiwi.model.CreditOffer;
 import qiwi.model.input.BankInput;
 import qiwi.model.input.ClientInput;
 import qiwi.util.StringUtil;
 import qiwi.util.Validator;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/banks")
@@ -41,16 +46,16 @@ public class BankController {
     }
 
     @PostMapping("/add")
-    public String add(@Valid @ModelAttribute("bank") Bank bank, BindingResult result, Model model) {
+    public String add(@ModelAttribute("bank") @Valid Bank bank, BindingResult result, Model model) {
         if (result.hasErrors()) {
             setUpView(model, new ClientInput(), new BankInput());
-            return "banks";
+            return "bank/banks";
         }
 
         if (bankDAO.existsByName(bank.getName())) {
             setUpView(model, new ClientInput(), new BankInput());
             result.reject("error.alreadyExists", "This bank already exists.");
-            return "banks";
+            return "bank/banks";
         }
 
         bankDAO.add(bank);
@@ -58,39 +63,27 @@ public class BankController {
         return "redirect:/banks/";
     }
 
-    @PostMapping("/edit/{id}")
-    public String edit(@ModelAttribute BankInput input, Model model) {
-        boolean hasErrors = false;
-
-        if (input.hasEmptyFields()) {
-            setUpViewAndAddAttribute("emptyFieldsBankEditMessage", model, new ClientInput(), input);
-            hasErrors = true;
+    @PostMapping("/update")
+    public String update(@ModelAttribute("bank") @Valid Bank bank, BindingResult result) {
+        if (result.hasErrors()) {
+            return "bank/bank-edit";
         }
 
-        Bank bank = null;
-
-        if (!input.getName().isEmpty()) {
-            bank = bankDAO.getBankByName(input.getName());
-
-            if (bank == null) {
-                setUpViewAndAddAttribute("nonExistentBankEditMessage", model, new ClientInput(), input);
-                return "banks";
-            }
+        if (bankDAO.existsByName(bank.getName())) {
+            result.reject("error.alreadyExists", "This bank already exists.");
+            return "bank/bank-edit";
         }
 
-        if (bankDAO.getBankByName(input.getNewName()) != null) {
-            setUpViewAndAddAttribute("alreadyExistsBankNameMessage", model, new ClientInput(), input);
-            hasErrors = true;
-        }
-
-        if (hasErrors) {
-            return "banks";
-        }
-
-        bank.setName(input.getNewName());
-        bankDAO.add(bank);
+        bankDAO.update(bankDAO.getBankById(bank.getId()), bank);
 
         return "redirect:/banks/";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable UUID id, Model model) {
+        model.addAttribute("bank", bankDAO.getBankById(id));
+
+        return "bank/bank-edit";
     }
 
     @PostMapping("/addClient")
@@ -109,7 +102,7 @@ public class BankController {
             hasErrors = true;
         } else {
             if (hasErrors) {
-                return "banks";
+                return "bank/banks";
             }
 
             if (!clientDAO.existsByPassport(input.getPassport())) {
@@ -142,7 +135,7 @@ public class BankController {
         }
 
         if (hasErrors) {
-            return "banks";
+            return "bank/banks";
         }
 
         Client client = clientDAO.getClientByPassport(input.getPassport());
@@ -177,6 +170,6 @@ public class BankController {
         setUpView(model, new ClientInput(), new BankInput());
 
         model.addAttribute("bank", new Bank());
-        return "banks";
+        return "bank/banks";
     }
 }
