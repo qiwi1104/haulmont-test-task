@@ -29,34 +29,6 @@
             </tr>
         </table>
     </form>
-
-    <form action="#" th:action="@{'/banks/addClient'}" th:object="${addClientBankInput}" method="post">
-        <table th:fragment="addClient" class="hiddenPanel" hidden id="addClient">
-            <tr>
-                <td>
-                    <label>Passport</label>
-                    <input type="text" field="*{passport}" name="passport" th:value="${clientInput.passport}">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label>Bank</label>
-                    <input type="text" field="*{bank}" name="bank" th:value="${clientInput.bank}">
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <input type="submit" value="add client">
-                    <div th:replace="fragments/errorMessages :: emptyFieldsAddClientBank"></div>
-                    <div th:replace="fragments/errorMessages :: invalidPassportBank"></div>
-                    <div th:replace="fragments/errorMessages :: alreadyExistsClient"></div>
-                    <div th:replace="fragments/errorMessages :: nonExistentBank"></div>
-                    <div th:replace="fragments/errorMessages :: nonExistentClient"></div>
-                </td>
-            </tr>
-        </table>
-    </form>
 </div>
 <br/>
 <div>
@@ -110,6 +82,7 @@
             </td>
 
             <td>
+                <a th:href="@{'/banks/add-client/{id}'(id=${bank.id})}">add client</a>
                 <a th:href="@{'/banks/edit/{id}'(id=${bank.id})}">edit</a>
                 <a th:href="@{'/banks/delete/{id}'(id=${bank.id})}">delete</a>
             </td>
