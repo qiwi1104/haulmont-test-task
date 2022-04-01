@@ -3,7 +3,6 @@ package qiwi.model;
 import qiwi.model.input.ClientInput;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity
@@ -20,7 +19,6 @@ public class Client extends AbstractEntity {
     @Column(name = "MAIL")
     private String mail;
     @Column(name = "PASSPORT")
-    @NotBlank(message = "Passport field must not be empty.")
     private String passport;
 
     @ManyToMany(mappedBy = "clients")

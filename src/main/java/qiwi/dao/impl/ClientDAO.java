@@ -40,8 +40,25 @@ public class ClientDAO {
         return repository.getClientByPassport(passport);
     }
 
+    public Client getClientById(UUID id) {
+        return repository.getClientById(id);
+    }
+
     public boolean existsByPassport(String passport) {
         return repository.existsByPassport(passport);
+    }
+
+    public void update(Client oldClient, Client newClient) {
+        oldClient = getClientById(oldClient.getId());
+
+        oldClient.setFirstName(newClient.getFirstName());
+        oldClient.setMiddleName(newClient.getMiddleName());
+        oldClient.setLastName(newClient.getLastName());
+        oldClient.setPhone(newClient.getPhone());
+        oldClient.setMail(newClient.getMail());
+        oldClient.setPassport(newClient.getPassport());
+
+        repository.save(oldClient);
     }
 
     public List<Client> findAll() {

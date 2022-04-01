@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Clients</title>
+    <link th:replace="fragments/css :: css">
+</head>
+<body>
+<div class="panel">
+    <span class="underlineSelected">add</span>
+</div>
+<div th:replace="fragments/header :: header"></div>
+<br/>
+<div>
+    <form action="#" th:action="@{/clients/add}" th:object="${client}" method="post">
+        <table th:fragment="add" class="hiddenPanel" id="add">
+            <tr>
+                <td>
+                    <label>First Name</label>
+                    <input type="text" field="*{firstName}" name="firstName" th:value="${client.firstName}">
+                </td>
+                <td>
+                    <label>Middle Name</label>
+                    <input type="text" field="*{middleName}" name="middleName" th:value="${client.middleName}">
+                </td>
+                <td>
+                    <label>Last Name</label>
+                    <input type="text" field="*{lastName}" name="lastName" th:value="${client.lastName}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Phone</label>
+                    <input type="text" field="*{phone}" name="phone" th:value="${client.phone}">
+                </td>
+                <td>
+                    <label>Mail</label>
+                    <input type="text" field="*{mail}" name="mail" th:value="${client.mail}">
+                </td>
+                <td>
+                    <label>Passport</label>
+                    <input type="text" field="*{passport}" name="passport" th:value="${client.passport}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="add client">
+                    <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+                    <div th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}"></div>
+                    <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+                    <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+                    <div th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"></div>
+                    <div th:if="${#fields.hasErrors('passport')}" th:errors="*{passport}"></div>
+                    <div th:if="${#fields.hasErrors('global')}">
+                        <div th:each="err : ${#fields.errors('global')}" th:text="${err}"></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<br/>
+<div>
+    <table align="center" border="1">
+        <tr bgcolor="#cccccc">
+            <td>Name</td>
+            <td>Phone</td>
+            <td>Mail</td>
+            <td>Passport</td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr th:each="client : ${clients}" class="list">
+            <td>
+                <span th:text="${client.firstName}"></span>
+                <span th:text="${client.middleName}"></span>
+                <span th:text="${client.lastName}"></span>
+            </td>
+            <td th:text="${client.phone}"></td>
+            <td th:text="${client.mail}"></td>
+            <td th:text="${client.passport}"></td>
+
+            <td>
+                <a th:href="@{'/clients/edit/{id}'(id=${client.id})}" class="underline">edit</a>
+            </td>
+            <td>
+                <a th:href="@{'/clients/delete/{id}'(id=${client.id})}" class="underline">delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div th:replace="fragments/scripts :: scripts"></div>
+<script>perform("addClient");</script>
+</body>
+</html>
