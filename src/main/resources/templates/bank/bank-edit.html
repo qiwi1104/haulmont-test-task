@@ -6,6 +6,9 @@
     <link th:replace="fragments/css :: css">
 </head>
 <body>
+<div class="panel">
+    <span class="underlineSelected">edit</span>
+</div>
 <div th:replace="fragments/header :: header"></div>
 <br/>
 <form action="#" th:action="@{'/banks/update'}" th:object="${bank}" method="post">

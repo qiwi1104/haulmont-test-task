@@ -6,6 +6,9 @@
     <link th:replace="fragments/css :: css">
 </head>
 <body>
+<div class="panel">
+    <span class="underlineSelected">add client</span>
+</div>
 <div th:replace="fragments/header :: header"></div>
 <br/>
 <form action="#" th:action="@{'/banks/add-client'}" th:object="${client}" method="post">
