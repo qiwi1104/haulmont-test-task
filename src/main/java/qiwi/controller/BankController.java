@@ -11,6 +11,8 @@ import qiwi.dao.impl.ClientDAO;
 import qiwi.dao.impl.CreditDAO;
 import qiwi.model.Bank;
 import qiwi.model.Client;
+import qiwi.model.Credit;
+import qiwi.util.CreditValidator;
 import qiwi.util.StringUtil;
 
 import javax.validation.Valid;
@@ -82,7 +84,8 @@ public class BankController {
     }
 
     @PostMapping("/add-client")
-    public String addClient(@Valid Client client, BindingResult result, @SessionAttribute("bankId") UUID id, SessionStatus status) {
+    public String addClient(@Valid Client client, BindingResult result,
+                            @SessionAttribute("bankId") UUID id, SessionStatus status) {
         if (result.hasErrors()) {
             return "bank/add-client";
         }
@@ -101,6 +104,40 @@ public class BankController {
             result.reject("error.nonExistentClient", "This person doesn't exist.");
             return "bank/add-client";
         }
+
+        status.setComplete();
+
+        return "redirect:/banks/";
+    }
+
+    @GetMapping("add-credit/{id}")
+    public String addCredit(@PathVariable UUID id, Model model) {
+        model.addAttribute("bankId", id);
+        model.addAttribute("credit", new Credit());
+
+        return "bank/add-credit";
+    }
+
+    @PostMapping("/add-credit")
+    public String addCredit(@ModelAttribute("credit") @Valid Credit credit, BindingResult result,
+                            @SessionAttribute("bankId") UUID id, SessionStatus status) {
+        CreditValidator validator = new CreditValidator();
+        validator.validate(credit, result);
+
+        if (result.hasErrors()) {
+            return "bank/add-credit";
+        }
+
+        Bank bank = bankDAO.getBankById(id);
+        credit.setBank(bank);
+
+        if (creditDAO.exists(credit)) {
+            result.reject("alreadyExists", "This credit already exists.");
+            return "bank/add-credit";
+        }
+
+        bank.addCredit(credit);
+        creditDAO.add(credit);
 
         status.setComplete();
 

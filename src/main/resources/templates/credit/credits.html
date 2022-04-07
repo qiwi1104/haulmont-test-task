@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Credit</title>
+    <link th:replace="fragments/css :: css">
+</head>
+<body>
+<div class="panel">
+    <span class="underlineSelected">view</span>
+</div>
+<div th:replace="fragments/header :: header"></div>
+<br/>
+<div>
+    <table align="center" border="1">
+        <tr bgcolor="#cccccc">
+            <td>Bank</td>
+            <td>Limit</td>
+            <td>Annual Interest Rate</td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr th:each="credit : ${credits}" class="list">
+            <td th:text="${credit.bank.name}"></td>
+            <td th:text="${stringUtil.removeTrailingZeros(credit.limit)}"></td>
+            <td th:text="${stringUtil.removeTrailingZeros(credit.interest)}"></td>
+
+            <td>
+                <a th:href="@{'/credits/edit/{id}'(id=${credit.id})}">edit</a>
+            </td>
+            <td>
+                <a th:href="@{'/credits/delete/{id}'(id=${credit.id})}">delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div th:replace="fragments/scripts :: scripts"></div>
+<script>perform("addClient");</script>
+</body>
+</html>

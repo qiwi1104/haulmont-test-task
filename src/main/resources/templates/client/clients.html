@@ -82,10 +82,10 @@
             <td th:text="${client.passport}"></td>
 
             <td>
-                <a th:href="@{'/clients/edit/{id}'(id=${client.id})}" class="underline">edit</a>
+                <a th:href="@{'/clients/edit/{id}'(id=${client.id})}">edit</a>
             </td>
             <td>
-                <a th:href="@{'/clients/delete/{id}'(id=${client.id})}" class="underline">delete</a>
+                <a th:href="@{'/clients/delete/{id}'(id=${client.id})}">delete</a>
             </td>
         </tr>
     </table>

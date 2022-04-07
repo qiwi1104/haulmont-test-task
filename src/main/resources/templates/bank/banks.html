@@ -43,6 +43,7 @@
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
         </tr>
 
         <tr th:each="bank : ${banks}" class="list">
@@ -87,13 +88,16 @@
             </td>
 
             <td>
-                <a th:href="@{'/banks/add-client/{id}'(id=${bank.id})}" class="underline">add client</a>
+                <a th:href="@{'/banks/add-client/{id}'(id=${bank.id})}">add client</a>
             </td>
             <td>
-                <a th:href="@{'/banks/edit/{id}'(id=${bank.id})}" class="underline">edit</a>
+                <a th:href="@{'/banks/add-credit/{id}'(id=${bank.id})}">add credit</a>
             </td>
             <td>
-                <a th:href="@{'/banks/delete/{id}'(id=${bank.id})}" class="underline">delete</a>
+                <a th:href="@{'/banks/edit/{id}'(id=${bank.id})}">edit</a>
+            </td>
+            <td>
+                <a th:href="@{'/banks/delete/{id}'(id=${bank.id})}">delete</a>
             </td>
         </tr>
     </table>

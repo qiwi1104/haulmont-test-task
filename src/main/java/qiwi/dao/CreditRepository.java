@@ -6,4 +6,5 @@ import qiwi.model.Credit;
 import java.util.UUID;
 
 public interface CreditRepository extends JpaRepository<Credit, UUID> {
+    Credit getCreditById(UUID id);
 }

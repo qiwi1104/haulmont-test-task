@@ -73,6 +73,10 @@ public class Credit extends AbstractEntity {
         this.interest = interest.setScale(5, RoundingMode.HALF_UP);
     }
 
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

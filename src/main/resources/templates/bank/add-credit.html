@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Banks</title>
+    <link th:replace="fragments/css :: css">
+</head>
+<body>
+<div class="panel">
+    <span class="underlineSelected">add credit</span>
+</div>
+<div th:replace="fragments/header :: header"></div>
+<br/>
+<div>
+    <form action="#" th:action="@{/banks/add-credit}" th:object="${credit}" method="post">
+        <table th:fragment="add" id="add">
+            <tr>
+                <td hidden>
+                    <input th:field="*{id}" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Limit</label>
+                    <input type="text" th:field="*{limit}" name="limit" th:value="${limit}">
+                </td>
+                <td>
+                    <label>Annual Interest Rate</label>
+                    <input type="text" th:field="*{interest}" name="interest" th:value="${interest}">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="submit" value="add credit">
+                    <div th:if="${#fields.hasErrors('global')}">
+                        <div th:each="err : ${#fields.errors('global')}" th:text="${err}"></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

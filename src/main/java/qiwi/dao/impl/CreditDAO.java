@@ -25,10 +25,6 @@ public class CreditDAO {
         }
     }
 
-    public boolean existsById(UUID id) {
-        return repository.existsById(id);
-    }
-
     public boolean exists(Credit credit) {
         return repository.findAll().contains(credit);
     }
@@ -44,6 +40,19 @@ public class CreditDAO {
         }
 
         return null;
+    }
+
+    public Credit getCreditById(UUID id) {
+        return repository.getCreditById(id);
+    }
+
+    public void update(Credit oldCredit, Credit newCredit) {
+        oldCredit = getCreditById(oldCredit.getId());
+
+        oldCredit.setLimit(newCredit.getLimit());
+        oldCredit.setInterest(newCredit.getInterest());
+
+        repository.save(oldCredit);
     }
 
     public List<Credit> findAll() {
