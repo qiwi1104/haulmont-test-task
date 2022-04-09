@@ -8,56 +8,6 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 <br/>
-<div>
-    <form action="#" th:action="@{/credit-offers/add}" th:object="${creditOfferInput}" method="post">
-        <table th:fragment="add" class="hiddenPanel" id="add">
-            <tr>
-                <td>
-                    <label>Bank</label>
-                    <input type="text" th:field="*{bank}" name="bank" th:value="${creditOfferInput.bank}">
-                </td>
-                <td>
-                    <label>Passport</label>
-                    <input type="text" th:field="*{passport}" name="passport" th:value="${creditOfferInput.passport}">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label>Limit</label>
-                    <input type="text" th:field="*{limit}" name="limit" th:value="${creditOfferInput.limit}">
-                </td>
-                <td>
-                    <label>Annual Interest Rate</label>
-                    <input type="text" th:field="*{interest}" name="interest" th:value="${creditOfferInput.interest}">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label>Months</label>
-                    <input type="text" th:field="*{months}" name="months" th:value="${creditOfferInput.months}">
-                </td>
-                <td>
-                    <label>Sum</label>
-                    <input type="text" th:field="*{sum}" name="sum" th:value="${creditOfferInput.sum}">
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <input type="submit" value="add credit offer">
-                    <div th:replace="fragments/errorMessages :: alreadyExistsCreditOffer"></div>
-                    <div th:replace="fragments/errorMessages :: emptyFieldsCreditOffer"></div>
-                    <div th:replace="fragments/errorMessages :: invalidFieldsCreditOffer"></div>
-                    <div th:replace="fragments/errorMessages :: nonExistentBankInCreditOffer"></div>
-                    <div th:replace="fragments/errorMessages :: nonExistentClientInCreditOffer"></div>
-                    <div th:replace="fragments/errorMessages :: nonExistentCredit"></div>
-                    <div th:replace="fragments/errorMessages :: monthsError"></div>
-                    <div th:replace="fragments/errorMessages :: sumError"></div>
-                </td>
-            </tr>
-        </table>
-    </form>
-</div>
 <br/>
 <div>
     <button onclick="hideRows()" id="button">Show Payments</button>

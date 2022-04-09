@@ -9,17 +9,19 @@ import org.springframework.web.bind.support.SessionStatus;
 import qiwi.dao.impl.BankDAO;
 import qiwi.dao.impl.ClientDAO;
 import qiwi.dao.impl.CreditDAO;
+import qiwi.dao.impl.CreditOfferDAO;
 import qiwi.model.Bank;
 import qiwi.model.Client;
-import qiwi.model.Credit;
-import qiwi.util.CreditValidator;
+import qiwi.model.CreditOffer;
+import qiwi.util.CreditOfferValidator;
 import qiwi.util.StringUtil;
 
 import javax.validation.Valid;
 import java.util.UUID;
 
 @Controller
-@SessionAttributes(types = UUID.class, names = "bankId")
+@SessionAttributes(types = {UUID.class, String.class},
+        names = {"bankId", "passport"})
 @RequestMapping("/banks")
 public class BankController {
     @Autowired
@@ -28,8 +30,10 @@ public class BankController {
     private ClientDAO clientDAO;
     @Autowired
     private CreditDAO creditDAO;
+    @Autowired
+    private CreditOfferDAO creditOfferDAO;
 
-    private void setUpView(Model model) {
+    private void setUpModel(Model model) {
         model.addAttribute("banks", bankDAO.findAll());
         model.addAttribute("stringUtil", new StringUtil());
     }
@@ -37,12 +41,12 @@ public class BankController {
     @PostMapping("/add")
     public String add(@ModelAttribute("bank") @Valid Bank bank, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            setUpView(model);
+            setUpModel(model);
             return "bank/banks";
         }
 
         if (bankDAO.existsByName(bank.getName())) {
-            setUpView(model);
+            setUpModel(model);
             result.reject("error.alreadyExists", "This bank already exists.");
             return "bank/banks";
         }
@@ -59,8 +63,8 @@ public class BankController {
         return "bank/bank-edit";
     }
 
-    @PostMapping("/update")
-    public String update(@ModelAttribute("bank") @Valid Bank bank, BindingResult result) {
+    @PostMapping("/edit")
+    public String edit(@ModelAttribute("bank") @Valid Bank bank, BindingResult result) {
         if (result.hasErrors()) {
             return "bank/bank-edit";
         }
@@ -110,34 +114,48 @@ public class BankController {
         return "redirect:/banks/";
     }
 
-    @GetMapping("add-credit/{id}")
-    public String addCredit(@PathVariable UUID id, Model model) {
+    @GetMapping("/add-credit-offer/{id}/{passport}")
+    public String addCreditOffer(@PathVariable UUID id, @PathVariable String passport, Model model) {
         model.addAttribute("bankId", id);
-        model.addAttribute("credit", new Credit());
+        model.addAttribute("passport", passport);
 
-        return "bank/add-credit";
+        model.addAttribute("bank", bankDAO.getBankById(id));
+        model.addAttribute("creditOffer", new CreditOffer());
+
+        return "bank/add-credit-offer";
     }
 
-    @PostMapping("/add-credit")
-    public String addCredit(@ModelAttribute("credit") @Valid Credit credit, BindingResult result,
-                            @SessionAttribute("bankId") UUID id, SessionStatus status) {
-        CreditValidator validator = new CreditValidator();
-        validator.validate(credit, result);
+    @PostMapping("/add-credit-offer")
+    public String addCreditOffer(@ModelAttribute("creditOffer") @Valid CreditOffer creditOffer, BindingResult result,
+                                 @ModelAttribute("months") Integer months,
+                                 @SessionAttribute("bankId") UUID id, @SessionAttribute("passport") String passport,
+                                 Model model, SessionStatus status) {
+
+        CreditOfferValidator validator = new CreditOfferValidator();
+        validator.validate(creditOffer, result, months);
 
         if (result.hasErrors()) {
-            return "bank/add-credit";
+            setUpModel(model);
+            model.addAttribute("bank", bankDAO.getBankById(id));
+
+            return "bank/add-credit-offer";
         }
 
-        Bank bank = bankDAO.getBankById(id);
-        credit.setBank(bank);
+        creditOffer.calculatePayments(months);
 
-        if (creditDAO.exists(credit)) {
-            result.reject("alreadyExists", "This credit already exists.");
-            return "bank/add-credit";
+        creditOffer.setClient(clientDAO.getClientByPassport(passport));
+        creditOffer.setBank(bankDAO.getBankById(id));
+
+        if (creditOfferDAO.exists(creditOffer)) {
+            setUpModel(model);
+            model.addAttribute("bank", bankDAO.getBankById(id));
+
+            result.reject("alreadyExists", "This credit offer already exists.");
+
+            return "bank/add-credit-offer";
         }
 
-        bank.addCredit(credit);
-        creditDAO.add(credit);
+        creditOfferDAO.add(creditOffer);
 
         status.setComplete();
 
@@ -164,9 +182,9 @@ public class BankController {
 
     @GetMapping("/")
     public String showAllBanks(Model model) {
-        setUpView(model);
-
+        setUpModel(model);
         model.addAttribute("bank", new Bank());
+
         return "bank/banks";
     }
 }

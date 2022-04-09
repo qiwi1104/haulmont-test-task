@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank</title>
+    <link th:replace="fragments/css :: css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<br/>
+<div>
+    <form action="#" th:action="@{/banks/add-credit-offer}" th:object="${creditOffer}" method="post">
+        <table th:fragment="add" id="addCreditOffer">
+            <tr>
+                <td>Bank</td>
+                <td>Credit</td>
+            </tr>
+
+            <tr>
+                <td th:text="${bank.name}"></td>
+                <td>
+                    <select th:field="*{credit}">
+                        <option value="">Select credit</option>
+                        <option th:each="credit : ${bank.credits}"
+                                th:value="${credit.id}"
+                                th:text="${credit.limit}+' '+${credit.interest}"></option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label>Months</label>
+                    <input type="text" name="months" th:value="${months == null ? 0 : months}">
+                </td>
+                <td>
+                    <label>Sum</label>
+                    <input type="text" th:field="*{sum}" name="sum" th:value="${sum}">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="submit" value="add credit offer">
+                    <div th:if="${#fields.hasErrors('global')}">
+                        <div th:each="err : ${#fields.errors('global')}" th:text="${err}"></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div th:replace="fragments/scripts :: scripts"></div>
+</body>
+</html>
