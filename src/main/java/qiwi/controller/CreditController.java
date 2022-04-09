@@ -26,6 +26,34 @@ public class CreditController {
     @Autowired
     private BankDAO bankDAO;
 
+    private void setUpModel(Model model) {
+        model.addAttribute("credits", creditDAO.findAll());
+        model.addAttribute("banks", bankDAO.findAll());
+        model.addAttribute("credit", new Credit());
+        model.addAttribute("stringUtil", new StringUtil());
+    }
+
+    @PostMapping("/add-credit")
+    public String addCredit(@ModelAttribute("credit") @Valid Credit credit, BindingResult result, Model model) {
+        CreditValidator validator = new CreditValidator();
+        validator.validate(credit, result);
+
+        if (result.hasErrors()) {
+            setUpModel(model);
+            return "credit/credits";
+        }
+
+        if (creditDAO.exists(credit)) {
+            setUpModel(model);
+            result.reject("alreadyExists", "This credit already exists.");
+            return "credit/credits";
+        }
+
+        creditDAO.add(credit);
+
+        return "redirect:/credits/";
+    }
+
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable UUID id, Model model) {
         model.addAttribute("credit", creditDAO.getCreditById(id));
@@ -75,9 +103,7 @@ public class CreditController {
 
     @GetMapping("/")
     public String showAllCredits(Model model) {
-        model.addAttribute("credits", creditDAO.findAll());
-        model.addAttribute("stringUtil", new StringUtil());
-        model.addAttribute("credit", new Credit());
+        setUpModel(model);
         return "credit/credits";
     }
 }

@@ -43,7 +43,6 @@
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
         </tr>
 
         <tr th:each="bank : ${banks}" class="list">
@@ -55,6 +54,7 @@
                         <td>Name</td>
                         <td>Passport</td>
                         <td></td>
+                        <td></td>
                     </tr>
 
                     <tr th:each="client : ${bank.clients}">
@@ -65,6 +65,11 @@
                         </td>
                         <td th:text="${client.passport}"></td>
 
+                        <td>
+                            <a th:href="@{'/banks/add-credit-offer/{id}/{passport}' (id=${bank.id}, passport=${client.passport})}">
+                                add credit offer
+                            </a>
+                        </td>
                         <td><a th:href="@{'/banks/deleteClient/{id}'(id=${client.id})}">delete</a></td>
                     </tr>
                 </table>
@@ -89,9 +94,6 @@
 
             <td>
                 <a th:href="@{'/banks/add-client/{id}'(id=${bank.id})}">add client</a>
-            </td>
-            <td>
-                <a th:href="@{'/banks/add-credit/{id}'(id=${bank.id})}">add credit</a>
             </td>
             <td>
                 <a th:href="@{'/banks/edit/{id}'(id=${bank.id})}">edit</a>

@@ -7,9 +7,57 @@
 </head>
 <body>
 <div class="panel">
-    <span class="underlineSelected">view</span>
+    <span class="underlineSelected">add</span>
 </div>
 <div th:replace="fragments/header :: header"></div>
+<br/>
+<div>
+    <form action="#" th:action="@{/credits/add-credit}" th:object="${credit}" method="post">
+        <table th:fragment="add" id="add">
+            <tr>
+                <td hidden>
+                    <input th:field="*{id}" />
+                </td>
+            </tr>
+
+            <tr>
+                <td>Bank</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <select th:field="*{bank}">
+                        <option value="">Select bank</option>
+                        <option th:each="bank : ${banks}"
+                                th:value="${bank.id}"
+                                th:text="${bank.name}"></option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label>Limit</label>
+                    <input type="text" th:field="*{limit}" name="limit" th:value="${limit}">
+                </td>
+                <td>
+                    <label>Annual Interest Rate</label>
+                    <input type="text" th:field="*{interest}" name="interest" th:value="${interest}">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="submit" value="add credit">
+                    <div th:if="${#fields.hasErrors('global')}">
+                        <div th:each="err : ${#fields.errors('global')}" th:text="${err}"></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
 <br/>
 <div>
     <table align="center" border="1">
