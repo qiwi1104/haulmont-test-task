@@ -29,7 +29,6 @@ public class CreditController {
     private void setUpModel(Model model) {
         model.addAttribute("credits", creditDAO.findAll());
         model.addAttribute("banks", bankDAO.findAll());
-        model.addAttribute("credit", new Credit());
         model.addAttribute("stringUtil", new StringUtil());
     }
 
@@ -104,6 +103,8 @@ public class CreditController {
     @GetMapping("/")
     public String showAllCredits(Model model) {
         setUpModel(model);
+        model.addAttribute("credit", new Credit());
+
         return "credit/credits";
     }
 }
