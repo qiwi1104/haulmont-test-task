@@ -47,7 +47,7 @@ public class BankController {
 
         if (bankDAO.existsByName(bank.getName())) {
             setUpModel(model);
-            result.reject("error.alreadyExists", "This bank already exists.");
+            result.reject("alreadyExists", "This bank already exists.");
             return "bank/banks";
         }
 
@@ -70,7 +70,7 @@ public class BankController {
         }
 
         if (bankDAO.existsByName(bank.getName())) {
-            result.reject("error.alreadyExists", "This bank already exists.");
+            result.reject("alreadyExists", "This bank already exists.");
             return "bank/bank-edit";
         }
 
@@ -98,14 +98,14 @@ public class BankController {
             Bank bank = bankDAO.getBankById(id);
 
             if (bankDAO.existsClientByPassport(bank.getName(), client.getPassport())) {
-                result.reject("error.alreadyExists", "This person is already a client of this bank.");
+                result.reject("alreadyExists", "This person is already a client of this bank.");
                 return "bank/add-client";
             }
 
             bank.addClient(clientDAO.getClientByPassport(client.getPassport()));
             bankDAO.add(bank);
         } else {
-            result.reject("error.nonExistentClient", "This person doesn't exist.");
+            result.reject("nonExistentClient", "This person doesn't exist.");
             return "bank/add-client";
         }
 
