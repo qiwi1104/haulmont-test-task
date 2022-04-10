@@ -26,7 +26,7 @@
                     <input type="submit" value="add bank">
                     <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                     <div th:if="${#fields.hasErrors('global')}">
-                        <span th:each="err : ${#fields.errors('global')}" th:text="${err}"></span>
+                        <div th:each="err : ${#fields.errors('global')}" th:text="${err}"></div>
                     </div>
                 </td>
             </tr>

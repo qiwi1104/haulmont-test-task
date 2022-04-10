@@ -13,11 +13,12 @@
 <br/>
 <form action="#" th:action="@{'/credits/edit'}" th:object="${credit}" method="post">
     <table id="edit">
-        <tr>
-            <td hidden>
-                <input th:field="*{id}" />
+        <tr hidden>
+            <td>
+                <input th:field="*{id}"/>
             </td>
         </tr>
+
         <tr>
             <td>
                 <label>New Limit</label>

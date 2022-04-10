@@ -1,12 +1,7 @@
 package qiwi.model;
 
-import org.springframework.validation.annotation.Validated;
-import qiwi.model.input.BankInput;
-
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,12 +29,6 @@ public class Bank extends AbstractEntity {
 
     public Bank(String name) {
         this.name = name;
-    }
-
-    public Bank(BankInput input) {
-        if (!input.getName().isEmpty()) {
-            this.name = input.getName();
-        }
     }
 
     public Bank(Set<Client> clients) {

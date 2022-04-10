@@ -8,7 +8,6 @@ import qiwi.model.Client;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class BankDAO {
@@ -61,18 +60,8 @@ public class BankDAO {
         return repository.existsByName(name);
     }
 
-    public boolean existsClientByBankName(String bankName, Client client) {
-        return getBankByName(bankName).getClients().contains(client);
-    }
-
     public void update(Bank oldBank, Bank newBank) {
-        List<Bank> list = repository
-                .findAll()
-                .stream()
-                .filter(b -> b.getId().equals(newBank.getId()))
-                .collect(Collectors.toList());
-
-        if (!list.isEmpty()) {
+        if (getBankById(newBank.getId()) != null) {
             oldBank.setName(newBank.getName());
         }
 

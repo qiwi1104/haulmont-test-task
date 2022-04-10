@@ -48,12 +48,6 @@
         <tr>
             <td>
                 <input type="submit" value="edit client">
-                <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
-                <div th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}"></div>
-                <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
-                <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
-                <div th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"></div>
-                <div th:if="${#fields.hasErrors('passport')}" th:errors="*{passport}"></div>
                 <div th:if="${#fields.hasErrors('global')}">
                     <div th:each="err : ${#fields.errors('global')}" th:text="${err}"></div>
                 </div>
