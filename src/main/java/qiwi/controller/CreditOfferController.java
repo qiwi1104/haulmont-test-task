@@ -26,11 +26,6 @@ public class CreditOfferController {
     @Autowired
     private BankDAO bankDAO;
 
-    private void setUpView(Model model) {
-        model.addAttribute("creditOffers", creditOfferDAO.findAll());
-        model.addAttribute("stringUtil", new StringUtil());
-    }
-
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable UUID id) {
         creditOfferDAO.deleteById(id);
@@ -39,7 +34,9 @@ public class CreditOfferController {
 
     @GetMapping("/")
     public String findAll(Model model) {
-        setUpView(model);
+        model.addAttribute("creditOffers", creditOfferDAO.findAll());
+        model.addAttribute("stringUtil", new StringUtil());
+
         return "credit offer/creditOffers";
     }
 }

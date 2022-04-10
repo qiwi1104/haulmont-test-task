@@ -33,7 +33,7 @@ public class CreditController {
     }
 
     @PostMapping("/add")
-    public String addCredit(@ModelAttribute("credit") @Valid Credit credit, BindingResult result, Model model) {
+    public String add(@ModelAttribute("credit") @Valid Credit credit, BindingResult result, Model model) {
         CreditValidator validator = new CreditValidator();
         validator.validate(credit, result);
 
@@ -64,19 +64,8 @@ public class CreditController {
     @PostMapping("/edit")
     public String edit(@ModelAttribute("credit") @Valid Credit credit, BindingResult result,
                        @SessionAttribute("bankId") UUID id, SessionStatus status) {
-        CreditValidator validator = new CreditValidator();
-        validator.validate(credit, result);
-
-        if (result.hasErrors()) {
-            return "credit/credit-edit";
-        }
 
         credit.setBank(bankDAO.getBankById(id));
-
-        if (creditDAO.exists(credit)) {
-            result.reject("alreadyExists", "This credit already exists.");
-            return "credit/credit-edit";
-        }
 
         for (Bank bank : bankDAO.findAll()) {
             for (CreditOffer creditOffer : bank.getCreditOffers()) {
@@ -85,6 +74,18 @@ public class CreditController {
                     return "credit/credit-edit";
                 }
             }
+        }
+
+        CreditValidator validator = new CreditValidator();
+        validator.validate(credit, result);
+
+        if (result.hasErrors()) {
+            return "credit/credit-edit";
+        }
+
+        if (creditDAO.exists(credit)) {
+            result.reject("alreadyExists", "This credit already exists.");
+            return "credit/credit-edit";
         }
 
         creditDAO.update(creditDAO.getCreditById(credit.getId()), credit);
