@@ -12,7 +12,7 @@
 <div th:replace="fragments/header :: header"></div>
 <br/>
 <form action="#" th:action="@{'/credits/edit'}" th:object="${credit}" method="post">
-    <table th:fragment="edit" id="edit">
+    <table id="edit">
         <tr>
             <td hidden>
                 <input th:field="*{id}" />

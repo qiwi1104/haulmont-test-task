@@ -12,8 +12,8 @@
 <div th:replace="fragments/header :: header"></div>
 <br/>
 <div>
-    <form action="#" th:action="@{/credits/add-credit}" th:object="${credit}" method="post">
-        <table th:fragment="add" id="add">
+    <form action="#" th:action="@{/credits/add}" th:object="${credit}" method="post">
+        <table id="add">
             <tr>
                 <td hidden>
                     <input th:field="*{id}" />

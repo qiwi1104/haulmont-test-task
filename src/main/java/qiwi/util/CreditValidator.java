@@ -17,7 +17,7 @@ public class CreditValidator implements Validator {
         Credit credit = (Credit) o;
 
         if (credit.getBank() == null) {
-            errors.reject("limit", "Please, select bank.");
+            errors.reject("bank", "Please, select bank.");
         }
 
         if (credit.getLimit() == null) {

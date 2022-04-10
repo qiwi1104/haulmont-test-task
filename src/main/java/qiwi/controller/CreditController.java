@@ -32,7 +32,7 @@ public class CreditController {
         model.addAttribute("stringUtil", new StringUtil());
     }
 
-    @PostMapping("/add-credit")
+    @PostMapping("/add")
     public String addCredit(@ModelAttribute("credit") @Valid Credit credit, BindingResult result, Model model) {
         CreditValidator validator = new CreditValidator();
         validator.validate(credit, result);
