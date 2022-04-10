@@ -118,6 +118,7 @@ public class BankController {
     public String addCreditOffer(@PathVariable UUID id, @PathVariable String passport, Model model) {
         model.addAttribute("bankId", id);
         model.addAttribute("passport", passport);
+        model.addAttribute("months", "");
 
         model.addAttribute("bank", bankDAO.getBankById(id));
         model.addAttribute("creditOffer", new CreditOffer());
@@ -127,7 +128,7 @@ public class BankController {
 
     @PostMapping("/add-credit-offer")
     public String addCreditOffer(@ModelAttribute("creditOffer") @Valid CreditOffer creditOffer, BindingResult result,
-                                 @ModelAttribute("months") Integer months,
+                                 @ModelAttribute("months") String months,
                                  @SessionAttribute("bankId") UUID id, @SessionAttribute("passport") String passport,
                                  Model model, SessionStatus status) {
 
@@ -141,7 +142,7 @@ public class BankController {
             return "bank/add-credit-offer";
         }
 
-        creditOffer.calculatePayments(months);
+        creditOffer.calculatePayments(Integer.parseInt(months));
 
         creditOffer.setClient(clientDAO.getClientByPassport(passport));
         creditOffer.setBank(bankDAO.getBankById(id));
