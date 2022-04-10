@@ -84,11 +84,8 @@
     </table>
 </div>
 
-<div th:replace="fragments/scripts :: scripts"></div>
-<script>
-    perform("addClient");
-    perform("edit");
-
-</script>
+<script th:src="@{/js/src/actionsHandler.js}"></script>
+<script th:src="@{/js/src/select.js}"></script>
+<script th:src="@{/js/src/hideRows.js}"></script>
 </body>
 </html>

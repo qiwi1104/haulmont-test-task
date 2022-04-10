@@ -40,6 +40,6 @@ public class CreditOfferController {
     @GetMapping("/")
     public String findAll(Model model) {
         setUpView(model);
-        return "creditOffers";
+        return "credit offer/creditOffers";
     }
 }
