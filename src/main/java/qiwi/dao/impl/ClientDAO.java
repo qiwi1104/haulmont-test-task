@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import qiwi.dao.ClientRepository;
 import qiwi.model.Bank;
 import qiwi.model.Client;
-import qiwi.model.CreditOffer;
 
 import java.util.Iterator;
 import java.util.List;
@@ -30,10 +29,6 @@ public class ClientDAO {
 
             repository.deleteById(id);
         }
-    }
-
-    public void addCreditOffer(String passport, CreditOffer creditOffer) {
-        getClientByPassport(passport).addCreditOffer(creditOffer);
     }
 
     public Client getClientByPassport(String passport) {

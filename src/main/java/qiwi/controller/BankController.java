@@ -168,13 +168,13 @@ public class BankController {
         return "redirect:/banks/";
     }
 
-    @GetMapping("/deleteClient/{id}")
+    @GetMapping("/delete-client/{id}")
     public String deleteClient(@PathVariable UUID id) {
         bankDAO.deleteClientById(id);
         return "redirect:/banks/";
     }
 
-    @GetMapping("/deleteCredit/{id}")
+    @GetMapping("/delete-credit/{id}")
     public String deleteCredit(@PathVariable UUID id) {
         creditDAO.deleteById(id);
         return "redirect:/banks/";

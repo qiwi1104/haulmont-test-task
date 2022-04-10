@@ -70,7 +70,7 @@
                                 add credit offer
                             </a>
                         </td>
-                        <td><a th:href="@{'/banks/deleteClient/{id}'(id=${client.id})}">delete</a></td>
+                        <td><a th:href="@{'/banks/delete-client/{id}'(id=${client.id})}">delete</a></td>
                     </tr>
                 </table>
             </td>
@@ -87,7 +87,7 @@
                         <td th:text="${stringUtil.removeTrailingZeros(credit.limit)}"></td>
                         <td th:text="${stringUtil.removeTrailingZeros(credit.interest)}"></td>
 
-                        <td><a th:href="@{'/banks/deleteCredit/{id}'(id=${credit.id})}">delete</a></td>
+                        <td><a th:href="@{'/banks/delete-credit/{id}'(id=${credit.id})}">delete</a></td>
                     </tr>
                 </table>
             </td>

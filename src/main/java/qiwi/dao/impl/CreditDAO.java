@@ -3,10 +3,8 @@ package qiwi.dao.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import qiwi.dao.CreditRepository;
-import qiwi.model.Bank;
 import qiwi.model.Credit;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,19 +25,6 @@ public class CreditDAO {
 
     public boolean exists(Credit credit) {
         return repository.findAll().contains(credit);
-    }
-
-    public Credit getCredit(String bankName, BigDecimal limit, BigDecimal interest) {
-        Bank bank = new Bank(bankName);
-        Credit creditToFind = new Credit(bank, limit, interest);
-
-        for (Credit credit : repository.findAll()) {
-            if (credit.equals(creditToFind)) {
-                return credit;
-            }
-        }
-
-        return null;
     }
 
     public Credit getCreditById(UUID id) {
