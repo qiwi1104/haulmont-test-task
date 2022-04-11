@@ -23,7 +23,9 @@
                         <option value="">Select credit</option>
                         <option th:each="credit : ${bank.credits}"
                                 th:value="${credit.id}"
-                                th:text="${credit.limit}+' '+${credit.interest}"></option>
+                                th:text="'Limit: ' + ${stringUtil.removeTrailingZeros(credit.limit)}
+                                + ' '
+                                + 'Interest: ' + ${stringUtil.removeTrailingZeros(credit.interest)}"></option>
                     </select>
                 </td>
             </tr>

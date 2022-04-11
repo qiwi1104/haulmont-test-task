@@ -122,6 +122,7 @@ public class BankController {
 
         model.addAttribute("bank", bankDAO.getBankById(id));
         model.addAttribute("creditOffer", new CreditOffer());
+        model.addAttribute("stringUtil", new StringUtil());
 
         return "bank/add-credit-offer";
     }
