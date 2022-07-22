@@ -37,16 +37,14 @@ public class CreditOfferValidator implements Validator {
         }
     }
 
-    public void validate(Object o, Errors errors, String months) {
+    public void validate(Object o, Errors errors, Integer months) {
         validate(o, errors);
 
-        if (months.isEmpty()) {
+        if (months == null) {
             errors.reject("monthsError", "Months field must not be empty.");
         } else {
             try {
-                int monthsInt = Integer.parseInt(months);
-
-                if (monthsInt <= 0) {
+                if (months <= 0) {
                     errors.reject("monthsError", "Amount of months must be above 0.");
                 }
             } catch (NumberFormatException e) {

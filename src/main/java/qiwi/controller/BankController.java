@@ -12,6 +12,7 @@ import qiwi.dao.impl.CreditDAO;
 import qiwi.dao.impl.CreditOfferDAO;
 import qiwi.model.Bank;
 import qiwi.model.Client;
+import qiwi.model.Credit;
 import qiwi.model.CreditOffer;
 import qiwi.util.CreditOfferValidator;
 import qiwi.util.StringUtil;
@@ -118,9 +119,10 @@ public class BankController {
     public String addCreditOffer(@PathVariable UUID id, @PathVariable String passport, Model model) {
         model.addAttribute("bankId", id);
         model.addAttribute("passport", passport);
-        model.addAttribute("months", "");
+        model.addAttribute("months", 0);
 
         model.addAttribute("bank", bankDAO.getBankById(id));
+        model.addAttribute("credit", new Credit());
         model.addAttribute("creditOffer", new CreditOffer());
         model.addAttribute("stringUtil", new StringUtil());
 
@@ -129,7 +131,7 @@ public class BankController {
 
     @PostMapping("/add-credit-offer")
     public String addCreditOffer(@ModelAttribute("creditOffer") @Valid CreditOffer creditOffer, BindingResult result,
-                                 @ModelAttribute("months") String months,
+                                 @ModelAttribute("months") Integer months,
                                  @SessionAttribute("bankId") UUID id, @SessionAttribute("passport") String passport,
                                  Model model, SessionStatus status) {
 
@@ -143,7 +145,7 @@ public class BankController {
             return "bank/add-credit-offer";
         }
 
-        creditOffer.calculatePayments(Integer.parseInt(months));
+        creditOffer.calculatePayments(months);
 
         creditOffer.setClient(clientDAO.getClientByPassport(passport));
         creditOffer.setBank(bankDAO.getBankById(id));
