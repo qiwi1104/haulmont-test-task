@@ -2,7 +2,9 @@ package qiwi.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -10,7 +12,7 @@ import java.util.TreeSet;
 @Entity
 @Table(name = "CREDIT_OFFERS")
 public class CreditOffer extends AbstractEntity {
-    @Column(name = "CREDIT_SUM")
+    @Column(name = "CREDIT_SUM", precision = 20, scale = 5)
     private BigDecimal sum;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
@@ -71,6 +73,43 @@ public class CreditOffer extends AbstractEntity {
 
     public void setBank(Bank bank) {
         this.bank = bank;
+    }
+
+    public void calculatePayments(Integer months) {
+        LocalDate date = LocalDate.now();
+
+        BigDecimal monthlyInterest = credit
+                .getInterest()
+                .divide(BigDecimal.valueOf(100 * 12), RoundingMode.HALF_UP)
+                .setScale(5, RoundingMode.HALF_UP);
+        BigDecimal temp = monthlyInterest
+                .divide(BigDecimal.ONE
+                        .subtract(monthlyInterest
+                                .add(BigDecimal.ONE)
+                                .pow(-months, new MathContext(10))), RoundingMode.HALF_UP)
+                .setScale(5, RoundingMode.HALF_UP);
+        BigDecimal monthlyPaymentSum = sum
+                .multiply(temp)
+                .setScale(5, RoundingMode.HALF_UP);
+        BigDecimal remainsCreditSum = sum;
+
+        for (int i = 0; i < months; i++) {
+            BigDecimal interestSum = remainsCreditSum
+                    .multiply(monthlyInterest)
+                    .setScale(5, RoundingMode.HALF_UP);
+            BigDecimal creditSum = monthlyPaymentSum
+                    .subtract(interestSum)
+                    .setScale(5, RoundingMode.HALF_UP);
+
+            Payment payment = new Payment(date, monthlyPaymentSum, creditSum, interestSum);
+            this.addPayment(payment);
+            payment.setCreditOffer(this);
+
+            date = date.plusMonths(1);
+            remainsCreditSum = remainsCreditSum
+                    .subtract(creditSum)
+                    .setScale(5, RoundingMode.HALF_UP);
+        }
     }
 
     @Override

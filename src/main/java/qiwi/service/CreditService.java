@@ -1,17 +1,15 @@
-package qiwi.dao.impl;
+package qiwi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import qiwi.dao.CreditRepository;
-import qiwi.model.Bank;
 import qiwi.model.Credit;
+import qiwi.repository.CreditRepository;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
 @Service
-public class CreditDAO {
+public class CreditService {
     @Autowired
     private CreditRepository repository;
 
@@ -25,25 +23,21 @@ public class CreditDAO {
         }
     }
 
-    public boolean existsById(UUID id) {
-        return repository.existsById(id);
-    }
-
     public boolean exists(Credit credit) {
         return repository.findAll().contains(credit);
     }
 
-    public Credit getCredit(String bankName, BigDecimal limit, BigDecimal interest) {
-        Bank bank = new Bank(bankName);
-        Credit creditToFind = new Credit(bank, limit, interest);
+    public Credit getCreditById(UUID id) {
+        return repository.getCreditById(id);
+    }
 
-        for (Credit credit : repository.findAll()) {
-            if (credit.equals(creditToFind)) {
-                return credit;
-            }
-        }
+    public void update(Credit oldCredit, Credit newCredit) {
+        oldCredit = getCreditById(oldCredit.getId());
 
-        return null;
+        oldCredit.setLimit(newCredit.getLimit());
+        oldCredit.setInterest(newCredit.getInterest());
+
+        repository.save(oldCredit);
     }
 
     public List<Credit> findAll() {

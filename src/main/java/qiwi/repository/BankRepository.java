@@ -1,4 +1,4 @@
-package qiwi.dao;
+package qiwi.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import qiwi.model.Bank;
@@ -9,4 +9,6 @@ public interface BankRepository extends JpaRepository<Bank, UUID> {
     boolean existsByName(String name);
 
     Bank getBankByName(String name);
+
+    Bank getBankById(UUID id);
 }

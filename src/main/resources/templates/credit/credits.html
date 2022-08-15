@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Credit</title>
+    <link th:replace="fragments/css :: css">
+</head>
+<body>
+<div class="panel">
+    <span class="underlineSelected">add</span>
+</div>
+<div th:replace="fragments/header :: header"></div>
+<br/>
+<div>
+    <form action="#" th:action="@{/credits/add}" th:object="${credit}" method="post">
+        <table id="add">
+            <tr>
+                <td hidden>
+                    <input th:field="*{id}" />
+                </td>
+            </tr>
+
+            <tr>
+                <td>Bank</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <select th:field="*{bank}">
+                        <option value="">Select bank</option>
+                        <option th:each="bank : ${banks}"
+                                th:value="${bank.id}"
+                                th:text="${bank.name}"></option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label>Limit</label>
+                    <input type="text" th:field="*{limit}" name="limit" th:value="${limit}">
+                </td>
+                <td>
+                    <label>Annual Interest Rate</label>
+                    <input type="text" th:field="*{interest}" name="interest" th:value="${interest}">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="submit" value="add credit">
+                    <div th:if="${#fields.hasErrors('global')}">
+                        <div th:each="err : ${#fields.errors('global')}" th:text="${err}"></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<br/>
+<div>
+    <table align="center" border="1">
+        <tr bgcolor="#cccccc">
+            <td>Bank</td>
+            <td>Limit</td>
+            <td>Annual Interest Rate</td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr th:each="credit : ${credits}" class="list">
+            <td th:text="${credit.bank.name}"></td>
+            <td th:text="${stringUtil.removeTrailingZeros(credit.limit)}"></td>
+            <td th:text="${stringUtil.removeTrailingZeros(credit.interest)}"></td>
+
+            <td>
+                <a th:href="@{'/credits/edit/{id}'(id=${credit.id})}">edit</a>
+            </td>
+            <td>
+                <a th:href="@{'/credits/delete/{id}'(id=${credit.id})}">delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

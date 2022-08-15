@@ -1,15 +1,15 @@
-package qiwi.dao.impl;
+package qiwi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import qiwi.dao.CreditOfferRepository;
 import qiwi.model.CreditOffer;
+import qiwi.repository.CreditOfferRepository;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-public class CreditOfferDAO {
+public class CreditOfferService {
     @Autowired
     private CreditOfferRepository repository;
 

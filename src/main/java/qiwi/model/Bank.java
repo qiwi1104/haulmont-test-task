@@ -1,8 +1,7 @@
 package qiwi.model;
 
-import qiwi.model.input.BankInput;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,6 +9,7 @@ import java.util.Set;
 @Table(name = "BANKS")
 public class Bank extends AbstractEntity {
     @Column(name = "NAME")
+    @NotBlank(message = "Bank name must not be empty.")
     private String name;
 
     @OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -29,12 +29,6 @@ public class Bank extends AbstractEntity {
 
     public Bank(String name) {
         this.name = name;
-    }
-
-    public Bank(BankInput input) {
-        if (!input.getName().isEmpty()) {
-            this.name = input.getName();
-        }
     }
 
     public Bank(Set<Client> clients) {

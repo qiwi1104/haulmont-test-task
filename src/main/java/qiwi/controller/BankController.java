@@ -3,176 +3,113 @@ package qiwi.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import qiwi.dao.impl.BankDAO;
-import qiwi.dao.impl.ClientDAO;
-import qiwi.dao.impl.CreditDAO;
+import org.springframework.web.bind.support.SessionStatus;
 import qiwi.model.Bank;
 import qiwi.model.Client;
-import qiwi.model.input.BankInput;
-import qiwi.model.input.ClientInput;
+import qiwi.model.Credit;
+import qiwi.model.CreditOffer;
+import qiwi.service.BankService;
+import qiwi.service.CreditService;
 import qiwi.util.StringUtil;
-import qiwi.util.Validator;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @Controller
+@SessionAttributes(types = {UUID.class, String.class},
+        names = {"bankId", "passport"})
 @RequestMapping("/banks")
 public class BankController {
     @Autowired
-    private BankDAO bankDAO;
+    private BankService bankService;
     @Autowired
-    private ClientDAO clientDAO;
-    @Autowired
-    private CreditDAO creditDAO;
-
-    private void setUpView(Model model, ClientInput clientInput, BankInput bankInput) {
-        model.addAttribute("banks", bankDAO.findAll());
-        model.addAttribute("clientInput", clientInput);
-        model.addAttribute("bankInput", bankInput);
-        model.addAttribute("stringUtil", new StringUtil());
-    }
-
-    private void setUpViewAndAddAttribute(String attribute, Model model, ClientInput clientInput, BankInput bankInput) {
-        setUpView(model, clientInput, bankInput);
-        model.addAttribute(attribute, "");
-    }
+    private CreditService creditService;
 
     @PostMapping("/add")
-    public String add(@ModelAttribute BankInput input, Model model) {
-        if (input.getName() == null || input.getName().isEmpty()) {
-            setUpViewAndAddAttribute("emptyFieldsBankMessage", model, new ClientInput(), input);
-            return "banks";
-        }
-
-        Bank bank = new Bank(input);
-        if (bankDAO.existsByName(bank.getName())) {
-            setUpViewAndAddAttribute("alreadyExistsBankMessage", model, new ClientInput(), input);
-            return "banks";
-        }
-
-        bankDAO.add(bank);
-
-        return "redirect:/banks/";
+    public String add(@ModelAttribute("bank") @Valid Bank bank, BindingResult result, Model model) {
+        return bankService.add(bank, result, model)
+                ? "redirect:/banks/"
+                : "bank/banks";
     }
 
-    @PostMapping("/edit/{id}")
-    public String edit(@ModelAttribute BankInput input, Model model) {
-        boolean hasErrors = false;
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable UUID id, Model model) {
+        model.addAttribute("bank", bankService.getBankById(id));
 
-        if (input.hasEmptyFields()) {
-            setUpViewAndAddAttribute("emptyFieldsBankEditMessage", model, new ClientInput(), input);
-            hasErrors = true;
-        }
-
-        Bank bank = null;
-
-        if (!input.getName().isEmpty()) {
-            bank = bankDAO.getBankByName(input.getName());
-
-            if (bank == null) {
-                setUpViewAndAddAttribute("nonExistentBankEditMessage", model, new ClientInput(), input);
-                return "banks";
-            }
-        }
-
-        if (bankDAO.getBankByName(input.getNewName()) != null) {
-            setUpViewAndAddAttribute("alreadyExistsBankNameMessage", model, new ClientInput(), input);
-            hasErrors = true;
-        }
-
-        if (hasErrors) {
-            return "banks";
-        }
-
-        bank.setName(input.getNewName());
-        bankDAO.add(bank);
-
-        return "redirect:/banks/";
+        return "bank/bank-edit";
     }
 
-    @PostMapping("/addClient")
-    public String addClient(@ModelAttribute ClientInput input, Model model) {
-        boolean hasErrors = false;
+    @PostMapping("/edit")
+    public String edit(@ModelAttribute("bank") @Valid Bank bank, BindingResult result) {
+        return bankService.edit(bank, result)
+                ? "redirect:/banks/"
+                : "bank/bank-edit";
+    }
 
-        if (!input.getPassport().isEmpty()) {
-            if (!Validator.Bank.isPassportValid(input)) {
-                setUpViewAndAddAttribute("invalidPassportBankMessage", model, input, new BankInput());
-                hasErrors = true;
-            }
-        }
+    @GetMapping("/add-client/{id}")
+    public String addClient(@PathVariable UUID id, Model model) {
+        model.addAttribute("bankId", id);
+        model.addAttribute("client", new Client());
 
-        if (input.isEmptyPassportOrBank()) {
-            setUpViewAndAddAttribute("emptyFieldsAddClientBankMessage", model, input, new BankInput());
-            hasErrors = true;
-        } else {
-            if (hasErrors) {
-                return "banks";
-            }
+        return "bank/add-client";
+    }
 
-            if (!clientDAO.existsByPassport(input.getPassport())) {
-                setUpViewAndAddAttribute("nonExistentClientMessage", model, input, new BankInput());
-            }
+    @PostMapping("/add-client")
+    public String addClient(@Valid Client client, BindingResult result,
+                            @SessionAttribute("bankId") UUID id, SessionStatus status) {
+        return bankService.addClient(client, result, id, status)
+                ? "redirect:/banks/"
+                : "bank/add-client";
+    }
 
-            if (bankDAO.existsByName(input.getBank())) {
-                Client client = new Client(input);
+    @GetMapping("/add-credit-offer/{id}/{passport}")
+    public String addCreditOffer(@PathVariable UUID id, @PathVariable String passport, Model model) {
+        model.addAttribute("bankId", id);
+        model.addAttribute("passport", passport);
+        model.addAttribute("months", 0);
 
-                if (clientDAO.existsByPassport(client.getPassport())) {
-                    if (bankDAO.existsClientByBankName(input.getBank(), client)) {
-                        setUpViewAndAddAttribute("alreadyExistsClientMessage", model, input, new BankInput());
-                        hasErrors = true;
-                    } else {
-                        client = clientDAO.getClientByPassport(client.getPassport());
-                        Bank bank = bankDAO.getBankByName(input.getBank());
-                        bank.addClient(client);
-                        bankDAO.add(bank);
+        model.addAttribute("bank", bankService.getBankById(id));
+        model.addAttribute("credit", new Credit());
+        model.addAttribute("creditOffer", new CreditOffer());
+        model.addAttribute("stringUtil", new StringUtil());
 
-                        return "redirect:/banks/";
-                    }
-                } else {
-                    setUpViewAndAddAttribute("nonExistentClientMessage", model, input, new BankInput());
-                    hasErrors = true;
-                }
-            } else {
-                setUpViewAndAddAttribute("nonExistentBankMessage", model, input, new BankInput());
-                hasErrors = true;
-            }
-        }
+        return "bank/add-credit-offer";
+    }
 
-        if (hasErrors) {
-            return "banks";
-        }
+    @PostMapping("/add-credit-offer")
+    public String addCreditOffer(@ModelAttribute("creditOffer") @Valid CreditOffer creditOffer, BindingResult result,
+                                 @ModelAttribute("months") Integer months,
+                                 @SessionAttribute("bankId") UUID id, @SessionAttribute("passport") String passport,
+                                 Model model, SessionStatus status) {
 
-        Client client = clientDAO.getClientByPassport(input.getPassport());
-        Bank bank = bankDAO.getBankByName(input.getBank());
-
-        bank.addClient(client);
-        bankDAO.add(bank);
-
-        return "redirect:/banks/";
+        return bankService.addCreditOffer(creditOffer, result, months, id, passport, model, status)
+                ? "redirect:/banks/"
+                : "bank/add-credit-offer";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable UUID id) {
-        bankDAO.deleteById(id);
+        bankService.deleteById(id);
         return "redirect:/banks/";
     }
 
-    @GetMapping("/deleteClient/{id}")
-    public String deleteClient(@PathVariable UUID id) {
-        bankDAO.deleteClientById(id);
+    @GetMapping("/delete-client/{bankId}/{id}")
+    public String deleteClient(@PathVariable UUID bankId, @PathVariable UUID id) {
+        bankService.deleteClientById(bankId, id);
         return "redirect:/banks/";
     }
 
-    @GetMapping("/deleteCredit/{id}")
+    @GetMapping("/delete-credit/{id}")
     public String deleteCredit(@PathVariable UUID id) {
-        creditDAO.deleteById(id);
+        creditService.deleteById(id);
         return "redirect:/banks/";
     }
 
     @GetMapping("/")
     public String showAllBanks(Model model) {
-        setUpView(model, new ClientInput(), new BankInput());
-        return "banks";
+        bankService.showAllBanks(model);
+        return "bank/banks";
     }
 }

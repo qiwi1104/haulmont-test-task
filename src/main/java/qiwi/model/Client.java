@@ -1,7 +1,5 @@
 package qiwi.model;
 
-import qiwi.model.input.ClientInput;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -37,27 +35,6 @@ public class Client extends AbstractEntity {
         this.phone = phone;
         this.mail = mail;
         this.passport = passport;
-    }
-
-    public Client(ClientInput input) {
-        if (input.getFirstName() != null) {
-            this.firstName = input.getFirstName();
-        }
-        if (input.getMiddleName() != null) {
-            this.middleName = input.getMiddleName();
-        }
-        if (input.getLastName() != null) {
-            this.lastName = input.getLastName();
-        }
-        if (input.getPhone() != null) {
-            this.phone = input.getPhone();
-        }
-        if (input.getMail() != null) {
-            this.mail = input.getMail();
-        }
-        if (input.getPassport() != null) {
-            this.passport = input.getPassport();
-        }
     }
 
     public void addCreditOffer(CreditOffer creditOffer) {

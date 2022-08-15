@@ -1,7 +1,5 @@
 package qiwi.model;
 
-import qiwi.model.input.CreditInput;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -38,17 +36,6 @@ public class Credit extends AbstractEntity {
         this.bank = bank;
     }
 
-    public Credit(CreditInput input) {
-        this.limit = BigDecimal.valueOf(Double.parseDouble(input.getLimit())).setScale(5, RoundingMode.HALF_UP);
-        this.interest = BigDecimal.valueOf(Double.parseDouble(input.getInterest())).setScale(5, RoundingMode.HALF_UP);
-    }
-
-    public Credit(Bank bank, CreditInput input) {
-        this.limit = BigDecimal.valueOf(Double.parseDouble(input.getLimit())).setScale(5, RoundingMode.HALF_UP);
-        this.interest = BigDecimal.valueOf(Double.parseDouble(input.getInterest())).setScale(5, RoundingMode.HALF_UP);
-        this.bank = bank;
-    }
-
     public BigDecimal getLimit() {
         return limit;
     }
@@ -71,6 +58,10 @@ public class Credit extends AbstractEntity {
 
     public void setInterest(BigDecimal interest) {
         this.interest = interest.setScale(5, RoundingMode.HALF_UP);
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
     }
 
     @Override
