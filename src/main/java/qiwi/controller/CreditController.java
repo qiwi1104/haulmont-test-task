@@ -6,11 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
-import qiwi.dao.impl.BankDAO;
-import qiwi.dao.impl.CreditDAO;
 import qiwi.model.Bank;
 import qiwi.model.Credit;
 import qiwi.model.CreditOffer;
+import qiwi.service.BankService;
+import qiwi.service.CreditService;
 import qiwi.util.CreditValidator;
 import qiwi.util.StringUtil;
 
@@ -22,9 +22,9 @@ import java.util.UUID;
 @RequestMapping("/credits")
 public class CreditController {
     @Autowired
-    private CreditDAO creditDAO;
+    private CreditService creditDAO;
     @Autowired
-    private BankDAO bankDAO;
+    private BankService bankDAO;
 
     private void setUpModel(Model model) {
         model.addAttribute("credits", creditDAO.findAll());

@@ -70,7 +70,7 @@
                                 add credit offer
                             </a>
                         </td>
-                        <td><a th:href="@{'/banks/delete-client/{id}'(id=${client.id})}">delete</a></td>
+                        <td><a th:href="@{'/banks/delete-client/{bankId}/{id}'(id=${client.id}, bankId=${bank.id})}">delete</a></td>
                     </tr>
                 </table>
             </td>
