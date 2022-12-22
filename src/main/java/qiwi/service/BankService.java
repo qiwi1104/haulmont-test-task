@@ -66,7 +66,7 @@ public class BankService {
     }
 
     public boolean addClient(Client client, BindingResult result,
-                            UUID id, SessionStatus status) {
+                             UUID id, SessionStatus status) {
         if (result.hasErrors()) {
             return false;
         }
@@ -92,11 +92,12 @@ public class BankService {
     }
 
     public boolean addCreditOffer(CreditOffer creditOffer, BindingResult result,
-                                 Integer months, UUID id, String passport,
-                                 Model model, SessionStatus status) {
+                                  Integer months, Model model) {
 
         CreditOfferValidator validator = new CreditOfferValidator();
         validator.validate(creditOffer, result, months);
+
+        UUID id = UUID.fromString(model.getAttribute("bankId").toString());
 
         if (result.hasErrors()) {
             setUpModel(model);
@@ -107,7 +108,7 @@ public class BankService {
 
         creditOffer.calculatePayments(months);
 
-        creditOffer.setClient(clientService.getClientByPassport(passport));
+        creditOffer.setClient(clientService.getClientByPassport(model.getAttribute("passport").toString()));
         creditOffer.setBank(getBankById(id));
 
         if (creditOfferService.exists(creditOffer)) {
@@ -120,8 +121,6 @@ public class BankService {
         }
 
         creditOfferService.add(creditOffer);
-
-        status.setComplete();
 
         return true;
     }

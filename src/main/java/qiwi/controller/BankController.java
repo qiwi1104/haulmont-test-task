@@ -80,11 +80,9 @@ public class BankController {
 
     @PostMapping("/add-credit-offer")
     public String addCreditOffer(@ModelAttribute("creditOffer") @Valid CreditOffer creditOffer, BindingResult result,
-                                 @ModelAttribute("months") Integer months,
-                                 @SessionAttribute("bankId") UUID id, @SessionAttribute("passport") String passport,
-                                 Model model, SessionStatus status) {
+                                 @ModelAttribute("months") Integer months, Model model) {
 
-        return bankService.addCreditOffer(creditOffer, result, months, id, passport, model, status)
+        return bankService.addCreditOffer(creditOffer, result, months, model)
                 ? "redirect:/banks/"
                 : "bank/add-credit-offer";
     }
